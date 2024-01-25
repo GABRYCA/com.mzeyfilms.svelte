@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css?family=Comfortaa');
+
+body {
+    font-family: 'Comfortaa', serif !important;
+}
+
+.slideshow {
+    height: 200px !important;
+    margin: 0 auto !important;
+    position: relative !important;
+    transform: translate3d(0, 0, 0) !important;
+    display: flex !important;
+    width: 100% !important;
+    overflow: hidden !important;
+}
+
+.scorri {
+    height: 100% !important;
+    transform: translate3d(0, 0, 0) !important;
+    display: flex !important;
+    animation: muoviSlideshow 40s linear infinite !important;
+}
+
+.scorri > img {
+    height: 200px !important;
+    width: auto !important;
+}
+
+.btn:hover {
+    background-color: #ffae5e !important;
+}
+
+.custom-link {
+    color: #ffae5e !important;
+    text-decoration: none !important;
+    transition-duration: 0.1s !important;
+}
+
+.fa-envelope, .fa-facebook-square, .fa-instagram, .fa-tiktok {
+    transition-duration: 0.1s !important;
+}
+
+.fab:hover, .fas:hover, .email:hover{
+    color: #ffae5e !important;
+}
+
+.navbar-custom {
+    background-color: #ff9d3c !important;
+}
+
+@keyframes muoviSlideshow {
+    0% {
+        transform: translateX(0%) !important;
+    }
+    100% {
+        transform: translateX(-100%) !important;
+    }
+}
+
+.immagine {
+    transition: transform .3s !important;
+}
+
+.immagine:hover {
+    transform: scale(1.04) !important;
+}
+
+.border-orange {
+    border: 3px solid #ffae5e !important;
+}
+
+.hidden {
+    opacity: 0;
+    transition: all 0.5s !important;
+}
+
+.show {
+    opacity: 1 !important;
+}

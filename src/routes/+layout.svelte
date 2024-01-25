@@ -31,6 +31,7 @@
 
     // Automatically update footer year
     const currentYear = new Date().getFullYear();
+    const email = "manuel.zaffiro03@gmail.com"
 </script>
 
 <nav class="navbar navbar-expand-lg navbar-dark mb-1 ps-auto ps-md-2 bg-black bg-opacity-50 rounded-bottom-3">
@@ -90,7 +91,7 @@
     </div>
     <div class="col-12 col-md-4 text-center pb-2 mt-3 mt-md-0">
         <p class="h5 text-white mt-2">Contacts:</p>
-        <p class="h5 text-white"><a class="link-secondary text-decoration-none" href="mailto:manuel.zaffiro03@gmail.com" data-bs-toggle="tooltip" data-bs-placement="top" title="Send me an email">Email</a></p>
+        <p class="h5 text-white"><a class="link-secondary text-decoration-none" href="mailto:{email}" data-bs-toggle="tooltip" data-bs-placement="top" title="Send me an email">Email</a></p>
     </div>
     <div class="col-12 col-md-4 text-center pb-2 mt-2 mt-md-0">
         <p class="h5 text-white mt-2">© Copyright:</p>

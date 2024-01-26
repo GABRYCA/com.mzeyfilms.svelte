@@ -62,37 +62,35 @@
                                 <div class="col-12 col-md-8">
                                     <input class="form-control form-control-lg" type="text" id="folderName" name="folderName" placeholder="Nome cartella" required />
                                 </div>
-                                <div class="col-12 col-md-4">
-                                    <button class="btn btn-lg btn-success w-100 mt-2 mt-md-auto" type="submit"><i class="fa fa-plus"></i> Crea</button>
+                                <div class="col-12 col-md-4 ps-auto ps-md-0">
+                                    <button class="btn btn-lg btn-success w-100 mt-1 mt-md-auto" type="submit"><i class="fa fa-plus"></i> Crea</button>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
                 <hr class="text-light">
-                <div class="row">
-                    <div class="row justify-content-center align-items-center text-center">
-                        <div class="col">
-                            <form method="post" use:enhance action="?/renameFolder">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <label class="form-label" for="folder">Seleziona cartella:</label>
-                                        <select class="form-select mb-2" aria-label="Seleziona cartella" name="folderName" required>
-                                            {#each folders as folder (folder)}
-                                                <option value={folder}>{folder}</option>
-                                            {/each}
-                                        </select>
-                                    </div>
-                                    <div class="col-12 col-md-8">
-                                        <label class="form-label" for="newFolderName">Nuovo nome:</label>
-                                        <input class="form-control form-control-lg" type="text" id="newFolderName" name="newFolderName" placeholder="Nuovo nome cartella" required />
-                                    </div>
-                                    <div class="col-12 col-md-4">
-                                        <button class="btn btn-lg btn-primary w-100 mt-2 mt-md-4" type="submit"><i class="fa fa-pencil"></i> Rinomina</button>
-                                    </div>
+                <div class="row justify-content-center align-items-center text-center">
+                    <div class="col">
+                        <form method="post" use:enhance action="?/renameFolder">
+                            <div class="row">
+                                <div class="col-12">
+                                    <label class="form-label" for="folder">Seleziona cartella:</label>
+                                    <select class="form-select mb-2" aria-label="Seleziona cartella" name="folderName" required>
+                                        {#each folders as folder (folder)}
+                                            <option value={folder}>{folder}</option>
+                                        {/each}
+                                    </select>
                                 </div>
-                            </form>
-                        </div>
+                                <div class="col-12 col-md-8">
+                                    <label class="form-label" for="newFolderName">Nuovo nome:</label>
+                                    <input class="form-control form-control-lg" type="text" id="newFolderName" name="newFolderName" placeholder="Nuovo nome cartella" required />
+                                </div>
+                                <div class="col-12 col-md-4 text-center ps-auto ps-md-0">
+                                    <button class="btn btn-lg btn-primary w-100 h-100 mt-2 mt-md-auto" type="submit"><i class="fa fa-pencil"></i> Rinomina</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
                 <hr class="text-light">
@@ -108,8 +106,8 @@
                                         {/each}
                                     </select>
                                 </div>
-                                <div class="col-12 col-md-4 mt-auto mt-md-4">
-                                    <button class="btn btn-lg btn-danger w-100 mt-2 mt-md-auto" type="submit"><i class="fa fa-trash"></i> Cancella</button>
+                                <div class="col-12 col-md-4 mt-auto mt-md-4 ps-auto ps-md-0">
+                                    <button class="btn btn-lg btn-danger w-100" type="submit"><i class="fa fa-trash"></i> Cancella</button>
                                 </div>
                             </div>
                         </form>

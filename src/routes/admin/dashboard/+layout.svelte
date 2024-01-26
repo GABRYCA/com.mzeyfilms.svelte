@@ -19,7 +19,7 @@
             <i class="fas fa-image"></i>
             <span class="ms-2">Foto</span>
         </a>
-        <a class="navbar-link p-2 px-3 text-decoration-none" href="/admin/logout">
+        <a class="navbar-link p-2 px-3 text-decoration-none" data-sveltekit-preload-data="tap" href="/admin/logout">
             <i class="fas fa-sign-out-alt"></i>
             <span class="ms-2">Logout</span>
         </a>

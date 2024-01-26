@@ -57,6 +57,18 @@ export const actions = {
 
         // Check if webp, if yes, save it already
         if (image.type === 'image/webp') {
+
+            // Check if file aleady exists, if yes return error
+            try {
+                await fs.access(`static/photos/${folder.name}/${image.name}`);
+                return {
+                    status: 400,
+                    body: {
+                        message: 'Image already exists'
+                    }
+                }
+            } catch (e) {}
+
             writeFileSync(`static/photos/${folder.name}/${image.name}`, Buffer.from(await image.arrayBuffer()));
 
             return {
@@ -66,6 +78,17 @@ export const actions = {
                 }
             }
         }
+
+        // Check if file already exists, if yes return error
+        try {
+            await fs.access(`static/photos/${folder.name}/${image.name}.webp`);
+            return {
+                status: 400,
+                body: {
+                    message: 'Image already exists'
+                }
+            }
+        } catch (e) {}
 
         // Convert image
         let imageBuffer = Buffer.from(await image.arrayBuffer());

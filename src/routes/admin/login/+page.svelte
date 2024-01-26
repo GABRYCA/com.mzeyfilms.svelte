@@ -23,7 +23,7 @@
     }
 </script>
 
-<div class="container-fluid pt-5 pb-5 bg-light text-center" id="mainDiv">
+<div class="container-fluid pt-5 pb-5 text-center">
     <div class="container-sm">
         <div class="row justify-content-center">
             <div class="col-12 col-lg-6">
@@ -52,7 +52,5 @@
 </div>
 
 <style>
-    #mainDiv {
-        background: linear-gradient(0deg, rgba(192, 0, 255, 0.6) 0%, rgba(0, 23, 255, 0.6) 100%) !important;
-    }
+
 </style>

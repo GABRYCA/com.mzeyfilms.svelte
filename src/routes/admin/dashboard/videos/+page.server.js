@@ -25,7 +25,7 @@ export async function load() {
 }
 
 export const actions = {
-    default: async ({ cookies, request }) => {
+    upload: async ({ cookies, request }) => {
         const formData = Object.fromEntries(await request.formData());
 
         const sessionId = cookies.get('session_id');
@@ -59,6 +59,94 @@ export const actions = {
             status: 200,
             body: {
                 message: 'Video saved'
+            }
+        }
+    },
+    rename: async ({ cookies, request }) => {
+        const formData = Object.fromEntries(await request.formData());
+
+        const sessionId = cookies.get('session_id');
+        const currentUser = await getUserById(sessionId);
+
+        const isAuthenticated = currentUser && currentUser.id;
+
+        if (!isAuthenticated) {
+            return {
+                status: 401,
+                body: {
+                    message: 'Unauthorized'
+                }
+            }
+        }
+
+        const oldName = formData.oldName;
+        const newName = formData.newName;
+
+        try {
+            await fs.rename(`static/videos/${oldName}`, `static/videos/${newName}`);
+        } catch (e) {
+            return {
+                status: 400,
+                body: {
+                    message: 'Invalid video'
+                }
+            }
+        }
+
+        return {
+            status: 200,
+            body: {
+                message: 'Video renamed'
+            }
+        }
+    },
+    delete: async ({ cookies, request }) => {
+        const formData = Object.fromEntries(await request.formData());
+
+        const sessionId = cookies.get('session_id');
+        const currentUser = await getUserById(sessionId);
+
+        const isAuthenticated = currentUser && currentUser.id;
+
+        if (!isAuthenticated) {
+            return {
+                status: 401,
+                body: {
+                    message: 'Unauthorized'
+                }
+            }
+        }
+
+        const name = formData.name;
+
+        // Check if video exists
+        try {
+            await fs.access(`static/videos/${name}`);
+        } catch (e) {
+            return {
+                status: 400,
+                body: {
+                    message: 'Invalid video'
+                }
+            }
+        }
+
+        try {
+            // Move video to 'old' folder
+            await fs.rename(`static/videos/${name}`, `static/videos/old/${name}`);
+        } catch (e) {
+            return {
+                status: 400,
+                body: {
+                    message: 'Invalid video'
+                }
+            }
+        }
+
+        return {
+            status: 200,
+            body: {
+                message: 'Video deleted'
             }
         }
     }

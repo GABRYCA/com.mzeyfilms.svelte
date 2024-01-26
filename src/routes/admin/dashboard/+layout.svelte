@@ -1,6 +1,19 @@
 <script>
     import { onMount } from 'svelte';
     import { page } from "$app/stores";
+    import { SvelteToast } from '@zerodevx/svelte-toast';
+
+    const options = {
+        duration: 3000,
+        theme: {
+            '--toastBackground': '#212121',
+            '--toastColor': '#fff',
+            '--toastBarBackground': '#2196f3',
+            '--toastBtnContent': '❌',
+            '--toastBorderRadius': '0.5rem',
+            '--toastBoxShadow': '0 4px 6px -1px rgba(0,0,0,0.2), 0 2px 4px -1px rgba(0,0,0,0.1)'
+        }
+    }
 
     onMount(() => {
         document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach((element) => {
@@ -25,6 +38,8 @@
         </a>
     </div>
 </nav>
+
+<SvelteToast {options} />
 
 <slot></slot>
 

@@ -27,7 +27,7 @@
             <p class="h3">Carica:</p>
             <div class="row justify-content-center text-center">
                 <div class="col">
-                    <form method="post" use:enhance enctype="multipart/form-data">
+                    <form method="post" use:enhance enctype="multipart/form-data" action="?/upload">
                         <div class="row">
                             <div class="col-12 col-md-8">
                                 <input class="form-control form-control-lg" type="file" id="file" name="video" accept="video/mp4" required />
@@ -44,11 +44,17 @@
     <hr class="text-light">
     <div class="row justify-content-evenly align-items-center text-center">
 
-            <!-- Sezione video -->
-            {#each videos as video (video)}
-                <div class="col-auto d-flex justify-content-center align-items-center mt-3">
-                    <AdminVideo src={video}/>
-                </div>
-            {/each}
+        {#if videos.length === 0}
+            <div class="col-auto mt-3">
+                <p class="h3">Nessun video caricato</p>
+            </div>
+        {/if}
+
+        <!-- Sezione video -->
+        {#each videos as video (video)}
+            <div class="col-auto d-flex justify-content-center align-items-center mt-3">
+                <AdminVideo src={video}/>
+            </div>
+        {/each}
     </div>
 </div>

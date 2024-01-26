@@ -2,6 +2,7 @@
     import {onMount} from "svelte";
     import AdminVideo from "$lib/components/AdminVideo.svelte";
     import { enhance } from '$app/forms';
+    export let data;
 
     onMount(() => {
         document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach((element) => {
@@ -9,7 +10,7 @@
         });
     });
 
-    const titles = ['sas', 'ses', 'sos', 'sis']; // TODO
+    $: videos = data.body.videos;
 
 </script>
 
@@ -44,9 +45,9 @@
     <div class="row justify-content-evenly align-items-center text-center">
 
             <!-- Sezione video -->
-            {#each titles as title (title)}
+            {#each videos as video (video)}
                 <div class="col-auto d-flex justify-content-center align-items-center mt-3">
-                    <AdminVideo title={title}/>
+                    <AdminVideo src={video}/>
                 </div>
             {/each}
     </div>

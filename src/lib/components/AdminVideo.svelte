@@ -1,29 +1,32 @@
 <script>
     export let src;
-    export let title;
-    let newTitle = title;
+    let videoName = src.split('\\').pop();
+    let newVideoName = videoName;
 
     function renameVideo() {
-        title = newTitle;
-        // Implement the rename video logic here
+        videoName = newVideoName;
+        // Change the SRC of the video to the new name
+        console.log('src prima: ' + src);
+        src = src.replace(src.split('\\').pop(), videoName);
+        // Implement the rename video logic here for backend
     }
 
     function deleteVideo() {
-        let confirmDelete = window.confirm("Sei sicuro di voler cancellare questo video? (Titolo: " + title + ")");
+        let confirmDelete = window.confirm("Sei sicuro di voler cancellare questo video? \n" + videoName);
         if (!confirmDelete) {
             return;
         }
-        console.log('Deleting video with title: ' + title); // REMINDER: use SRC to DELETE the video!
-        // Implement the delete video logic here
+        console.log('Deleting video: ' + videoName); // REMINDER: use SRC to DELETE the video!
+        // Implement the delete video logic here for backend
     }
 </script>
 
 <div class="card" style="width: 18rem;">
     <video class="card-img-top" src="{src}" controls></video>
     <div class="card-body text-center">
-        <h5 class="card-title">{title}</h5>
-        <input type="text" bind:value={newTitle} class="form-control" placeholder="Nuovo titolo">
-        <button class="btn btn-warning mt-2" on:click={renameVideo}>
+        <h5 class="card-title">{videoName}</h5>
+        <input type="text" bind:value={newVideoName} class="form-control" placeholder="Nuovo titolo">
+        <button class="btn btn-warning mt-2" on:click={() => renameVideo()}>
             <i class="fa fa-check"></i> Rinomina
         </button>
         <button class="btn btn-danger mt-2" on:click={deleteVideo}>

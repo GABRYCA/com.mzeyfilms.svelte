@@ -34,7 +34,7 @@
     const email = "manuel.zaffiro03@gmail.com"
 </script>
 
-<nav class="navbar navbar-expand-lg navbar-dark mb-1 ps-auto ps-md-2 bg-black bg-opacity-50 rounded-bottom-3">
+<nav class="navbar navbar-expand-lg navbar-dark text-center mb-1 ps-auto ps-md-2 bg-black bg-opacity-50 rounded-bottom-3">
     <div class="container-fluid pt-2">
         <a class="navbar-brand" href="/"><p class="h1 fw-bold" id="logoTitle">MZEYFILMS</p></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

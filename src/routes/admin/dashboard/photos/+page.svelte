@@ -1,0 +1,63 @@
+<script>
+    import {onMount} from "svelte";
+    import { enhance } from '$app/forms';
+    import AdminPhoto from "$lib/components/AdminPhoto.svelte";
+    export let data;
+
+    onMount(() => {
+        document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach((element) => {
+            new bootstrap.Tooltip(element);
+        });
+    });
+
+    const titles = ['sas', 'ses', 'sos', 'sis']; // TODO
+    const folders = data.body.folders;
+</script>
+
+<div class="container-fluid mt-3 pt-4 pb-4 bg-light bg-opacity-10 rounded-3">
+    <div class="row">
+        <div class="col text-center">
+            <p class="h1">Foto:</p>
+        </div>
+    </div>
+    <hr class="text-light">
+    <div class="row bg-light bg-opacity-25 pt-3 pb-3 mx-2 rounded-4">
+        <!-- Area form upload selezione file video -->
+        <div class="col-12 text-center">
+            <p class="h3">Carica:</p>
+            <div class="row justify-content-center text-center">
+                <div class="col">
+                    <form method="post" use:enhance enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-12">
+                                <label class="form-label" for="folder">Seleziona cartella:</label>
+                                <!-- Select folder -->
+                                <select class="form-select mb-2" aria-label="Seleziona cartella" name="folder" required>
+                                    {#each folders as folder (folder)}
+                                        <option value={folder}>{folder}</option>
+                                    {/each}
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-8">
+                                <input class="form-control form-control-lg" type="file" id="file" name="image" accept="image/*" required />
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <button class="btn btn-lg btn-success w-100 mt-2 mt-md-auto" type="submit">Upload</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr class="text-light">
+    <div class="row justify-content-evenly align-items-center text-center">
+
+        <!-- Sezione foto -->
+        {#each titles as title (title)}
+            <div class="col-auto d-flex justify-content-center align-items-center mt-3">
+                <AdminPhoto title={title}/>
+            </div>
+        {/each}
+    </div>
+</div>

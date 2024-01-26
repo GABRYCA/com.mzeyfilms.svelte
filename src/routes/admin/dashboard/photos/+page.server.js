@@ -25,7 +25,7 @@ export async function load(){
 }
 
 export const actions = {
-    default: async ({ cookies, request }) => {
+    upload: async ({ cookies, request }) => {
         const formData = Object.fromEntries(await request.formData());
 
         const sessionId = cookies.get('session_id');
@@ -51,6 +51,18 @@ export const actions = {
                 status: 400,
                 body: {
                     message: 'Invalid image'
+                }
+            }
+        }
+
+        // Check if folder exists
+        try {
+            await fs.access(`static/photos/${folder.name}`);
+        } catch (e) {
+            return {
+                status: 400,
+                body: {
+                    message: 'Invalid folder'
                 }
             }
         }
@@ -100,6 +112,159 @@ export const actions = {
             status: 200,
             body: {
                 message: 'Video saved'
+            }
+        }
+    },
+    create: async ({ cookies, request }) => {
+        const formData = Object.fromEntries(await request.formData());
+
+        const sessionId = cookies.get('session_id');
+        const currentUser = await getUserById(sessionId);
+
+        const isAuthenticated = currentUser && currentUser.id;
+
+        if (!isAuthenticated) {
+            return {
+                status: 401,
+                body: {
+                    message: 'Unauthorized'
+                }
+            }
+        }
+
+        const folderName = formData.folderName;
+
+        // Check if folder already exists, if yes return error
+        try {
+            await fs.access(`static/photos/${folderName}`);
+            return {
+                status: 400,
+                body: {
+                    message: 'Folder already exists'
+                }
+            }
+        } catch (e) {}
+
+        // Create folder
+        await fs.mkdir(`static/photos/${folderName}`);
+
+        return {
+            status: 200,
+            body: {
+                message: 'Folder created'
+            }
+        }
+    },
+    renameFolder: async ({ cookies, request }) => {
+        const formData = Object.fromEntries(await request.formData());
+
+        const sessionId = cookies.get('session_id');
+        const currentUser = await getUserById(sessionId);
+
+        const isAuthenticated = currentUser && currentUser.id;
+
+        if (!isAuthenticated) {
+            return {
+                status: 401,
+                body: {
+                    message: 'Unauthorized'
+                }
+            }
+        }
+
+        const oldFolderName = formData.folderName;
+        const newFolderName = formData.newFolderName;
+
+        // Check if folder already exists, if yes return error
+        try {
+            await fs.access(`static/photos/${newFolderName}`);
+            return {
+                status: 400,
+                body: {
+                    message: 'Folder already exists'
+                }
+            }
+        } catch (e) {}
+
+        // Check if folder exists, if not return error
+        try {
+            await fs.access(`static/photos/${oldFolderName}`);
+        } catch (e) {
+            return {
+                status: 400,
+                body: {
+                    message: 'Folder does not exist'
+                }
+            }
+        }
+
+        // Rename folder
+        await fs.rename(`static/photos/${oldFolderName}`, `static/photos/${newFolderName}`);
+
+        return {
+            status: 200,
+            body: {
+                message: 'Folder renamed'
+            }
+        }
+    },
+    deleteFolder: async ({ cookies, request }) => {
+        const formData = Object.fromEntries(await request.formData());
+
+        const sessionId = cookies.get('session_id');
+        const currentUser = await getUserById(sessionId);
+
+        const isAuthenticated = currentUser && currentUser.id;
+
+        if (!isAuthenticated) {
+            return {
+                status: 401,
+                body: {
+                    message: 'Unauthorized'
+                }
+            }
+        }
+
+        const folderName = formData.folderName;
+
+        // Check if folder exists, if not return error
+        try {
+            await fs.access(`static/photos/${folderName}`);
+        } catch (e) {
+            return {
+                status: 400,
+                body: {
+                    message: 'Folder does not exist'
+                }
+            }
+        }
+
+        // Check if folder contains files, if yes, move the folder inside the 'old' folder, and it it exists there too, make a second one with a number
+        const pathFolder = path.resolve('static/', 'photos', folderName);
+        const files = await fs.readdir(pathFolder);
+        if (files.length > 0) {
+            const pathOldFolder = path.resolve('static/', 'photos', 'old', folderName);
+            try {
+                await fs.access(pathOldFolder);
+                const folders = await fs.readdir(path.resolve('static/', 'photos', 'old'));
+                const index = folders.indexOf(folderName);
+                if (index > -1) {
+                    folders.splice(index, 1);
+                }
+                await fs.mkdir(path.resolve('static/', 'photos', 'old', `${folderName} (${folders.length})`));
+                await fs.rename(pathFolder, path.resolve('static/', 'photos', 'old', `${folderName} (${folders.length})`, folderName));
+            } catch (e) {
+                await fs.mkdir(path.resolve('static/', 'photos', 'old', folderName));
+                await fs.rename(pathFolder, path.resolve('static/', 'photos', 'old', folderName, folderName));
+            }
+        } else {
+            await fs.rm(pathFolder, { recursive: true });
+        }
+
+        return {
+            status: 200,
+            body: {
+                message: 'Folder deleted'
             }
         }
     }

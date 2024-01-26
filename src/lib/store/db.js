@@ -15,6 +15,12 @@ export const getUserById = async (id) => {
     return Promise.resolve(existingUser);
 };
 
+export const isAuthenticated = async (id) => {
+    const existingUser = find({ id: id });
+    if (!existingUser) return Promise.resolve(false);
+    return Promise.resolve(true);
+}
+
 export const createSession = (username,password) => {
     const session = {
         id: uuidv4(),

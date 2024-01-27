@@ -5,7 +5,8 @@
 
     export let src;
     let videoName = src.split('\\').pop();
-    let newVideoName = videoName;
+    let newVideoName = videoName.split('.').slice(0, -1).join('.');
+    let title = newVideoName;
 
     async function renameVideo() {
 
@@ -13,6 +14,12 @@
         // Change the SRC of the video to the new name
         //src = src.replace(src.split('\\').pop(), videoName);
         // Implement the rename video logic here for backend
+
+        // Check if newVideoName is missing .mp4 extension, if yes add it
+        if (!newVideoName.endsWith('.mp4')) {
+            newVideoName += '.mp4';
+        }
+
         const data = new FormData();
         data.append('oldName', videoName);
         data.append('newName', newVideoName); // Adding newName after changing it
@@ -31,7 +38,10 @@
                     '--toastProgressAfterBackground': '#28a745',
                     '--toastColor': '#fff'
                 }
-            })
+            });
+
+            // Remove the .mp4 extension from the newVideoName
+            newVideoName = newVideoName.split('.').slice(0, -1).join('.');
         } else {
             toast.push("Errore durante la rinomina del video", {
                 theme: {
@@ -40,7 +50,7 @@
                     '--toastProgressAfterBackground': '#dc3545',
                     '--toastColor': '#fff'
                 }
-            })
+            });
         }
     }
 
@@ -84,7 +94,7 @@
 <div class="card" style="width: 18rem;">
     <video class="card-img-top" src="{src}" controls preload="metadata"></video>
     <div class="card-body text-center">
-        <h5 class="card-title">{videoName}</h5>
+        <h5 class="card-title">{title}</h5>
         <input type="text" bind:value={newVideoName} class="form-control" placeholder="Nuovo titolo">
         <button class="btn btn-warning mt-2" on:click={() => renameVideo()}>
             <i class="fa fa-check"></i> Rinomina

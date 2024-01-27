@@ -95,6 +95,6 @@
             </select>
         </form>
         <hr>
-        <button class="btn btn-danger mt-2 w-100" on:click={deleteImage}>Delete</button>
+        <button class="btn btn-danger mt-2 w-100" on:click={deleteImage}>Cancella</button>
     </div>
 </div>

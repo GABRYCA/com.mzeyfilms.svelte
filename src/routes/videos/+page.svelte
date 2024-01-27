@@ -1,0 +1,46 @@
+<script>
+    import {onMount} from "svelte";
+    import UserVideo from "../../lib/components/UserVideo.svelte";
+    export let data;
+
+    onMount(() => {
+        document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach((element) => {
+            new bootstrap.Tooltip(element);
+        });
+    });
+
+    const videos = data.body.videos;
+
+    // Remove video extension and make object array of videos with src and title
+    const videoArray = videos.map((video) => {
+        const videoTitle = video.split('\\').pop().split('.').slice(0, -1).join('.');
+        return {
+            src: video,
+            title: videoTitle
+        }
+    });
+</script>
+
+<div class="container-xxl">
+    <div class="row text-center justify-content-center px-2 pt-2 pt-2">
+        <div class="col pt-4 pb-3 bg-light bg-opacity-10 rounded-4">
+            <p class="h1">Videos:</p>
+        </div>
+    </div>
+    <hr class="text-light">
+    <!-- Video Galllery -->
+    <div class="row text-center justify-content-center px-2 pb-2">
+        <div class="col pt-2 pb-2 bg-light bg-opacity-10 rounded-4">
+            {#each videoArray as video, index (video.src)}
+                <div class="row">
+                    <div class="col">
+                        <UserVideo src={video.src} title={video.title}/>
+                    </div>
+                </div>
+                {#if index !== videoArray.length - 1}
+                    <hr>
+                {/if}
+            {/each}
+        </div>
+    </div>
+</div>

@@ -9,7 +9,8 @@ export async function load(){
     const pathFolders = path.resolve('static/', 'photos');
 
     // Read folders names
-    const folders = await fs.readdir(pathFolders);
+    let folders = await fs.readdir(pathFolders);
+    let foldersWithImages = [];
 
     // Remove from folder array the folder with name 'old'
     const index = folders.indexOf('old');
@@ -17,9 +18,23 @@ export async function load(){
         folders.splice(index, 1);
     }
 
+    // Get src of each image and group them by folder in the foldersWithImages array object
+    for (let i = 0; i < folders.length; i++) {
+        const pathFolder = path.resolve('static/', 'photos', folders[i]);
+        const images = await fs.readdir(pathFolder);
+        for (let j = 0; j < images.length; j++) {
+            images[j] = '\\photos\\' + folders[i] + '\\' + images[j];
+        }
+        foldersWithImages.push({
+            name: folders[i],
+            images: images
+        });
+    }
+
     return {
         body: {
-            folders: folders
+            folders: folders,
+            content: foldersWithImages
         }
     }
 }
@@ -45,6 +60,8 @@ export const actions = {
         const folder = formData.folder;
         const image = formData.image;
 
+        console.log(image)
+
         // Check type of image, can be any extension, but only images
         if (!image || !image.type.includes('image')) {
             return {
@@ -57,7 +74,7 @@ export const actions = {
 
         // Check if folder exists
         try {
-            await fs.access(`static/photos/${folder.name}`);
+            await fs.access(`static/photos/${folder}`);
         } catch (e) {
             return {
                 status: 400,
@@ -72,7 +89,7 @@ export const actions = {
 
             // Check if file aleady exists, if yes return error
             try {
-                await fs.access(`static/photos/${folder.name}/${image.name}`);
+                await fs.access(`static/photos/${folder}/${image.name}`);
                 return {
                     status: 400,
                     body: {
@@ -81,7 +98,7 @@ export const actions = {
                 }
             } catch (e) {}
 
-            writeFileSync(`static/photos/${folder.name}/${image.name}`, Buffer.from(await image.arrayBuffer()));
+            writeFileSync(`static/photos/${folder}/${image.name}`, Buffer.from(await image.arrayBuffer()));
 
             return {
                 status: 200,
@@ -93,7 +110,7 @@ export const actions = {
 
         // Check if file already exists, if yes return error
         try {
-            await fs.access(`static/photos/${folder.name}/${image.name}.webp`);
+            await fs.access(`static/photos/${folder}/${image.name}.webp`);
             return {
                 status: 400,
                 body: {
@@ -265,6 +282,131 @@ export const actions = {
             status: 200,
             body: {
                 message: 'Folder deleted'
+            }
+        }
+    },
+    move: async ({ cookies, request }) => {
+        const formData = Object.fromEntries(await request.formData());
+
+        const sessionId = cookies.get('session_id');
+        const currentUser = await getUserById(sessionId);
+
+        const isAuthenticated = currentUser && currentUser.id;
+
+        if (!isAuthenticated) {
+            return {
+                status: 401,
+                body: {
+                    message: 'Unauthorized'
+                }
+            }
+        }
+
+        const folderName = formData.newFolder;
+        const oldFolderName = formData.oldFolder;
+        const image = formData.imageName;
+
+        // Check if folder exists, if not return error
+        try {
+            await fs.access(`static/photos/${folderName}`);
+        } catch (e) {
+            return {
+                status: 400,
+                body: {
+                    message: 'Folder does not exist'
+                }
+            }
+        }
+
+        // Check if image exists, if not return error
+        try {
+            await fs.access(`static/photos/${oldFolderName}/${image}`);
+        } catch (e) {
+            return {
+                status: 400,
+                body: {
+                    message: 'Image does not exist'
+                }
+            }
+        }
+
+        // Move image
+        await fs.rename(`static/photos/${oldFolderName}/${image}`, `static/photos/${folderName}/${image}`);
+
+        return {
+            status: 200,
+            body: {
+                message: 'Image moved'
+            }
+        }
+    },
+    delete: async ({ cookies, request }) => {
+        const formData = Object.fromEntries(await request.formData());
+
+        const sessionId = cookies.get('session_id');
+        const currentUser = await getUserById(sessionId);
+
+        const isAuthenticated = currentUser && currentUser.id;
+
+        if (!isAuthenticated) {
+            return {
+                status: 401,
+                body: {
+                    message: 'Unauthorized'
+                }
+            }
+        }
+
+        const folderName = formData.folder;
+        const image = formData.imageName;
+
+        // Check if folder exists, if not return error
+        try {
+            await fs.access(`static/photos/${folderName}`);
+        } catch (e) {
+            return {
+                status: 400,
+                body: {
+                    message: 'Folder does not exist'
+                }
+            }
+        }
+
+        // Check if image exists, if not return error
+        try {
+            await fs.access(`static/photos/${folderName}/${image}`);
+        } catch (e) {
+            return {
+                status: 400,
+                body: {
+                    message: 'Image does not exist'
+                }
+            }
+        }
+
+        // Check if 'old'/folderName folder exists, if not create it
+        try {
+            await fs.access(`static/photos/old/${folderName}`);
+        } catch (e) {
+            await fs.mkdir(`static/photos/old/${folderName}`);
+        }
+
+        // Move image to 'old' folder, including subfolders
+        try {
+            await fs.rename(`static/photos/${folderName}/${image}`, `static/photos/old/${folderName}/${image}`);
+        } catch (e) {
+            return {
+                status: 400,
+                body: {
+                    message: 'Error deleting photo'
+                }
+            }
+        }
+
+        return {
+            status: 200,
+            body: {
+                message: 'Image deleted'
             }
         }
     }

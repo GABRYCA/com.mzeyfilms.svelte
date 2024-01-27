@@ -131,6 +131,13 @@ export const actions = {
             }
         }
 
+        // Check if 'old' folder exists, if not create it
+        try {
+            await fs.access(`static/videos/old`);
+        } catch (e) {
+            await fs.mkdir(`static/videos/old`);
+        }
+
         try {
             // Move video to 'old' folder
             await fs.rename(`static/videos/${name}`, `static/videos/old/${name}`);
@@ -138,7 +145,7 @@ export const actions = {
             return {
                 status: 400,
                 body: {
-                    message: 'Invalid video'
+                    message: 'Error deleting video'
                 }
             }
         }

@@ -1,7 +1,7 @@
 <script>
     import {onMount} from "svelte";
-    import logoHome from "$lib/img/home_bg.webp";
-    import noLightInDeepness from "$lib/img/MVI_7133-optimized.webp";
+    import logoHome from "$lib/img/home_bg.webp?enhanced";
+    import noLightInDeepness from "$lib/img/MVI_7133-optimized.webp?enhanced";
 
     onMount(() => {
         document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach((element) => {
@@ -17,7 +17,7 @@
 <div class="container-fluid bg-black bg-opacity-75">
     <div class="row justify-content-center" data-aos="fade-up">
         <div class="col text-center px-0 pickgradient">
-            <img src={logoHome} class="img-fluid shadow" alt="Logo" id="front-image">
+            <enhanced:img src={logoHome} class="img-fluid shadow" alt="Logo" id="front-image" />
         </div>
     </div>
 
@@ -33,8 +33,8 @@
         </div>
         <div class="col-12 col-md-8 px-0 gradient-overlay text-center h-100">
             <div class="gradient-overlay">
-                <img class="img-fluid shadow rounded-5 shadow" style="max-height: 50vh" src={noLightInDeepness}
-                     alt="no_light_in_deepness_by_mzeyfilms">
+                <enhanced:img class="img-fluid shadow rounded-5 shadow" id="noLightItem" src={noLightInDeepness}
+                     alt="no_light_in_deepness_by_mzeyfilms" />
             </div>
         </div>
     </div>
@@ -138,6 +138,14 @@
         top: 0;
         left: 0;
         z-index: 0;
+    }
+
+    #noLightItem {
+        max-height: 50vh;
+        max-width: 1200px;
+        width: 100%;
+        object-fit: cover;
+        margin: auto;
     }
 
     .pickgradient {

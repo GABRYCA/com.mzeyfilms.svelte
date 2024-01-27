@@ -1,7 +1,7 @@
 <script>
     import {onMount} from "svelte";
-    import AdminVideo from "$lib/components/AdminVideo.svelte";
     import { enhance } from '$app/forms';
+    import AdminVideo from "$lib/components/AdminVideo.svelte";
     export let data;
 
     onMount(() => {
@@ -46,7 +46,7 @@
 
         {#if videos.length === 0}
             <div class="col-auto mt-3">
-                <p class="h3">Nessun video caricato</p>
+                <p class="h3">Non hai ancora caricato video...</p>
             </div>
         {/if}
 

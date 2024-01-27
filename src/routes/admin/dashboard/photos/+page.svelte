@@ -10,11 +10,11 @@
         });
     });
 
-    const titles = ['sas', 'ses', 'sos', 'sis']; // TODO
     $: folders = data.body.folders;
+    $: content = data.body.content;
 </script>
 
-<div class="container-fluid mt-3 pt-4 pb-4 bg-light bg-opacity-10 rounded-3">
+<div class="container-fluid mt-3 mb-2 pt-4 pb-4 bg-light bg-opacity-10 rounded-3">
     <div class="row">
         <div class="col text-center">
             <p class="h1">Foto:</p>
@@ -56,6 +56,7 @@
             <button class="btn btn-warning" type="button" data-bs-toggle="collapse" data-bs-target="#createFolderForm" aria-expanded="false" aria-controls="createFolderForm"><i class="fa fa-folder"></i> Gestisci cartelle</button>
             <div class="collapse mt-2" id="createFolderForm">
                 <div class="row justify-content-center text-center">
+                    <hr class="text-light">
                     <div class="col">
                         <form method="post" use:enhance action="?/create">
                             <div class="row">
@@ -117,13 +118,41 @@
         </div>
     </div>
     <hr class="text-light">
-    <div class="row justify-content-evenly align-items-center text-center">
 
-        <!-- Sezione foto -->
-        {#each titles as title (title)}
-            <div class="col-auto d-flex justify-content-center align-items-center mt-3">
-                <AdminPhoto title={title}/>
+    <div class="row justify-content-evenly align-items-center text-center">
+        <div class="col">
+            <!-- Sezione foto -->
+            <div class="accordion" id="folderAccordion">
+                {#each content as folder (folder)}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading{folder.name}">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{folder.name}" aria-expanded="false" aria-controls="collapse{folder.name}">
+                                <span><i class="fa fa-folder"></i> {folder.name} <span class="{folder.images.length === 0 ? 'text-warning-emphasis' : 'text-primary-emphasis'}">{folder.images.length === 0 ? 'Vuota' : folder.images.length}</span></span>
+                            </button>
+                        </h2>
+                        <div id="collapse{folder.name}" class="accordion-collapse collapse" aria-labelledby="heading{folder.name}" data-bs-parent="#folderAccordion">
+                            <div class="accordion-body">
+                                <div class="row bg-light bg-opacity-10 justify-content-evenly align-items-center text-center mx-1 py-3 rounded-4">
+                                    <div class="col-12 text-center">
+                                        <p class="h3">{folder.name}</p>
+                                    </div>
+                                    {#if folder.images.length === 0}
+                                        <div class="col-12 text-center mt-2">
+                                            <p class="h5">Cartella vuota...</p>
+                                        </div>
+                                    {/if}
+                                    {#each folder.images as image (image)}
+                                        <div class="col-auto d-flex justify-content-center align-items-center mt-3">
+                                            <AdminPhoto src={image} folder={folder.name} folderList={folders}/>
+                                        </div>
+                                    {/each}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {/each}
             </div>
-        {/each}
+        </div>
     </div>
+
 </div>

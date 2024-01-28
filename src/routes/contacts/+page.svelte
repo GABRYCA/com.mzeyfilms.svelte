@@ -10,7 +10,7 @@
 </script>
 
 <!-- BODY -->
-<div class="container-fluid pb-5 px-5 bg-black bg-opacity-50 rounded-3">
+<div class="container-fluid pb-5 bg-black bg-opacity-50 rounded-3">
     <div class="container-xxl">
         <div class="row justify-content-center pt-5 pb-5 rounded-3">
             <div class="col-12">
@@ -70,6 +70,4 @@
     .custom-bg-gradient {
         background: linear-gradient(45deg, rgba(30, 0, 0, 0.98), rgba(0, 0, 30, 0.98));
     }
-
-
 </style>

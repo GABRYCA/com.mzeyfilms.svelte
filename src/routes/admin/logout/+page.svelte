@@ -1,7 +1,4 @@
 <script>
-    import {redirect} from "@sveltejs/kit";
-    import {onMount} from "svelte";
-
     export let data;
     let message = data.body.message;
 

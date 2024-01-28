@@ -1,6 +1,6 @@
 <script>
     import {onMount} from "svelte";
-    import UserVideo from "../../lib/components/UserVideo.svelte";
+    import UserVideo from "$lib/components/UserVideo.svelte";
     export let data;
 
     onMount(() => {
@@ -21,14 +21,14 @@
     });
 </script>
 
-<div class="container-xxl">
+<div class="container-xxl" data-aos="zoom-in" data-aos-duration="400">
     <div class="row text-center justify-content-center px-2 pt-2 pt-2">
         <div class="col pt-4 pb-3 bg-light bg-opacity-10 rounded-4">
             <p class="h1">Videos:</p>
         </div>
     </div>
     <hr class="text-light">
-    <!-- Video Galllery -->
+    <!-- Video Gallery -->
     <div class="row text-center justify-content-center px-2 pb-2">
         <div class="col pt-2 pb-2 bg-light bg-opacity-10 rounded-4">
             {#each videoArray as video, index (video.src)}
@@ -37,7 +37,7 @@
                         <UserVideo src={video.src} title={video.title}/>
                     </div>
                 </div>
-                {#if index !== videoArray.length - 1}
+                {#if index < videoArray.length - 1}
                     <hr>
                 {/if}
             {/each}

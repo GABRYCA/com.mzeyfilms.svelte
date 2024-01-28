@@ -1,10 +1,47 @@
 import { redirect } from '@sveltejs/kit';
 import { getUserById } from '$lib/store/db';
+import dirman from "fs";
+import path from "path";
 
 const unProtectedRoutes = ['/','/admin/login', '/about', '/contacts', '/photos', '/videos'];
 const adminProtectedRoutes = ['/admin']
 
+function missingFolders() {
+    // Check if 'static' directory exists
+    if (!dirman.existsSync('static')) {
+        // If it doesn't exist, create it
+        dirman.mkdirSync('static');
+        // Write in console created folder
+        console.log('Created folder: static');
+        // With also path to the folder
+        console.log(path.resolve('static/'));
+    }
+
+    if (!dirman.existsSync('static/videos')) {
+        // If it doesn't exist, create it
+        dirman.mkdirSync('static/videos');
+        dirman.mkdirSync('static/videos/old');
+        // Write in console created folder
+        console.log('Created folder: static/videos');
+        // With also path to the folder
+        console.log(path.resolve('static/', 'videos'));
+    }
+
+    if (!dirman.existsSync('static/photos')) {
+        // If it doesn't exist, create it
+        dirman.mkdirSync('static/photos');
+        dirman.mkdirSync('static/photos/old');
+        // Write in console created folder
+        console.log('Created folder: static/photos');
+        // With also path to the folder
+        console.log(path.resolve('static/', 'photos'));
+    }
+}
+
 export const handle = async ({ event, request, resolve }) => {
+
+    missingFolders();
+
     const sessionId = event.cookies.get('session_id');
     const currentUser = await getUserById(sessionId);
 

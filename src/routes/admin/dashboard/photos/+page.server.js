@@ -62,8 +62,6 @@ export const actions = {
         const folder = formData.folder;
         const image = formData.image;
 
-        console.log(image)
-
         // Check type of image, can be any extension, but only images
         if (!image || !image.type.includes('image')) {
             return {
@@ -133,6 +131,17 @@ export const actions = {
                 imageminWebp({quality: 75})
             ]
         });
+
+        console.log(finalImage);
+
+        let final = finalImage[0].destinationPath.replace(/\\/g, '/');
+        // If present, remove '' brackets from destinationPath
+        final = final.replace(/'/g, '');
+        console.log("destinationPath: " + finalImage[0].destinationPath);
+        console.log("Final: " + final);
+
+        // Rename finalImage to image.name
+        await fs.rename(finalImage[0].destinationPath, final);
 
         // Delete temporary image
         await fs.rm(tempPath);

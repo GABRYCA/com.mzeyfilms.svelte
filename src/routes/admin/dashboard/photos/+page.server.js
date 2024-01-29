@@ -1,8 +1,9 @@
 import path from 'path';
 import fs from 'fs/promises';
-import sharp from 'sharp';
 import {getUserById} from "$lib/store/db.js";
 import {writeFileSync} from "fs";
+import imagemin from 'imagemin';
+import imageminWebp from 'imagemin-webp';
 
 export async function load(){
 
@@ -120,11 +121,24 @@ export const actions = {
             }
         } catch (e) {}
 
-        // Convert image
-        let imageBuffer = Buffer.from(await image.arrayBuffer());
-        imageBuffer = await sharp(imageBuffer).toFormat('webp').toBuffer();
+        // Convert image (use finalImage as name)
+        // Save the image temporarily
+        const tempPath = `static/photos/${folder}/${image.name}`;
+        writeFileSync(tempPath, Buffer.from(await image.arrayBuffer()));
 
-        writeFileSync(`static/photos/${folder}/${image.name}.webp`, imageBuffer);
+        // Convert image to webp and save it
+        const finalImage = await imagemin([tempPath], {
+            destination: `static/photos/${folder}`,
+            plugins: [
+                imageminWebp({quality: 75})
+            ]
+        });
+
+        // Delete temporary image
+        await fs.rm(tempPath);
+
+
+        // writeFileSync(`static/photos/${folder}/${image.name}.webp`, finalImage);
 
         return {
             status: 200,

@@ -5,6 +5,8 @@ import path from "path";
 
 export async function load() {
 
+    const production = true;
+
     // Get a list of videos inside 'static/videos' folder, excluding the ones in the subfolder 'old'
     const pathFolders = path.resolve('static/', 'videos');
     const videos = await fs.readdir(pathFolders);
@@ -15,7 +17,11 @@ export async function load() {
 
     // Get static vite path of each video and save it into videos array
     for (let i = 0; i < videos.length; i++) {
-        videos[i] = '\\videos\\' + videos[i];
+        if (production){
+            videos[i] = '\\static\\videos\\' + videos[i];
+        } else {
+            videos[i] = '\\videos\\' + videos[i];
+        }
     }
 
     return {

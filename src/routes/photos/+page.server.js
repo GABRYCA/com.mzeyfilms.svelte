@@ -3,6 +3,8 @@ import fs from "fs/promises";
 
 export async function load(){
 
+    const production = true;
+
     // Get a list of folders inside 'static' folder
     const pathFolders = path.resolve('static/', 'photos');
 
@@ -21,7 +23,11 @@ export async function load(){
         const pathFolder = path.resolve('static/', 'photos', folders[i]);
         const images = await fs.readdir(pathFolder);
         for (let j = 0; j < images.length; j++) {
-            images[j] = '\\photos\\' + folders[i] + '\\' + images[j];
+            if (production){
+                images[j] = '\\static\\photos\\' + folders[i] + '\\' + images[j];
+            } else {
+                images[j] = '\\photos\\' + folders[i] + '\\' + images[j];
+            }
         }
         foldersWithImages.push({
             name: folders[i],

@@ -7,4 +7,9 @@ export default defineConfig({
 		enhancedImages(),
 		sveltekit()
 	],
+	server: {
+		fs: {
+			allow: ['../static'],
+		}
+	}
 });

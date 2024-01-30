@@ -31,6 +31,9 @@
     <!-- Video Gallery -->
     <div class="row text-center justify-content-center px-2 pb-2">
         <div class="col pt-2 pb-2 bg-light bg-opacity-10 rounded-4">
+            {#if videoArray.length === 0}
+                <p class="h3 my-auto py-2">Found no videos</p>
+            {/if}
             {#each videoArray as video, index (video.src)}
                 <div class="row">
                     <div class="col">

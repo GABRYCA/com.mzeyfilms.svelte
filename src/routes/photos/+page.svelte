@@ -24,7 +24,7 @@
             </div>
             <hr>
             <div class="row text-center justify-content-center px-2 pb-2">
-                <div class="col bg-light bg-opacity-10 pt-4 pb-3 rounded-4">
+                <div class="col bg-light bg-opacity-10 py-3 rounded-4">
                     {#each content as folder, index}
                         <div class="row text-center justify-content-center px-2">
                             <div class="col bg-light bg-opacity-10 pt-3 pb-3 rounded-4">

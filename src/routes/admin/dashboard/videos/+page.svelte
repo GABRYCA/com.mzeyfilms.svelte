@@ -18,12 +18,14 @@
 
         const formData = new FormData(event.target);
 
-        toast.push('Caricamento in corso, attendere...');
+        const toastId = toast.push('Caricamento in corso, attendere...');
 
         const response = await fetch('?/upload', {
             method: 'POST',
             body: formData
         });
+
+        toast.pop(toastId);
 
         const result = deserialize(await response.text());
         await invalidateAll();

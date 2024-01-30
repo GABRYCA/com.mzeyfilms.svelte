@@ -17,7 +17,9 @@
 
         const formData = new FormData(event.target);
 
-        const toastId = toast.push('Caricamento in corso, attendere...');
+        const toastId = toast.push('Caricamento in corso, attendere...', {
+            duration: 600000,
+        });
 
         const response = await fetch('?/upload', {
             method: 'POST',

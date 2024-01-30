@@ -65,10 +65,6 @@
     </div>
 </nav>
 
-<svelte:head>
-
-</svelte:head>
-
 <slot></slot>
 
 <div class="row pt-2 pb-2 mx-auto mt-1 justify-content-center align-items-center bg-black bg-opacity-50 rounded-top-3">

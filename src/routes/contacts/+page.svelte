@@ -9,6 +9,13 @@
     });
 </script>
 
+<svelte:head>
+    <!-- meta -->
+    <title>MZEYFILMS - Contacts</title>
+    <meta name="description"
+          content="MZEYFILMS, Filmmaker, Photographer, Aspirant Cinematographer, Always searching for new stories to tell. ">
+</svelte:head>
+
 <!-- BODY -->
 <div class="container-fluid pb-5 bg-black bg-opacity-50 rounded-3">
     <div class="container-xxl">

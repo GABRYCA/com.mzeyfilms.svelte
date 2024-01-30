@@ -114,9 +114,11 @@ export const actions = {
             }
         }
 
-        // Check if file already exists, if yes return error
+        // Check if file already exists, replacing the extension with webp
         try {
-            await fs.access(`static/photos/${folder}/${image.name}.webp`);
+            const name = image.name.split('.');
+            name.pop();
+            await fs.access(`static/photos/${folder}/${name}.webp`);
             return {
                 status: 400,
                 body: {
@@ -140,18 +142,19 @@ export const actions = {
 
         console.log(finalImage);
 
-        let final = finalImage[0].destinationPath.replace(/\\/g, '/');
+        /*let final = finalImage[0].destinationPath.replace(/\\/g, '/');
         // If present, remove '' brackets from destinationPath
         final = final.replace(/'/g, '');
         console.log("destinationPath: " + finalImage[0].destinationPath);
         console.log("Final: " + final);
 
         // Rename finalImage to image.name
-        await fs.rename(finalImage[0].destinationPath, final);
+        await fs.rename(finalImage[0].destinationPath, final);*/
 
-        // Delete temporary image
-        await fs.rm(tempPath);
-
+        // Delete temporary image after conversion, surrounded by try/catch
+        try {
+            await fs.rm(tempPath);
+        } catch (e) {}
 
         // writeFileSync(`static/photos/${folder}/${image.name}.webp`, finalImage);
 

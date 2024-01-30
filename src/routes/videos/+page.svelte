@@ -21,6 +21,13 @@
     });
 </script>
 
+<svelte:head>
+    <!-- meta -->
+    <title>MZEYFILMS - Videos</title>
+    <meta name="description"
+          content="MZEYFILMS, Filmmaker, Photographer, Aspirant Cinematographer, Always searching for new stories to tell. ">
+</svelte:head>
+
 <div class="container-xxl" data-aos="zoom-in" data-aos-duration="400">
     <div class="row text-center justify-content-center px-2 pt-2 pt-2">
         <div class="col pt-4 pb-3 bg-light bg-opacity-10 rounded-4">

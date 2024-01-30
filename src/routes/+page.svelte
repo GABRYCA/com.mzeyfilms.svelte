@@ -11,6 +11,10 @@
 </script>
 
 <svelte:head>
+    <!-- meta -->
+    <title>MZEYFILMS - Home</title>
+    <meta name="description"
+          content="MZEYFILMS, Filmmaker, Photographer, Aspirant Cinematographer, Always searching for new stories to tell. ">
 </svelte:head>
 
 <!-- BODY -->

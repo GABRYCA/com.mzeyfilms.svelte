@@ -7,6 +7,13 @@
     }
 </script>
 
+<svelte:head>
+    <!-- meta -->
+    <title>MZEYFILMS - Admin - Logout</title>
+    <meta name="description"
+          content="MZEYFILMS, Filmmaker, Photographer, Aspirant Cinematographer, Always searching for new stories to tell. ">
+</svelte:head>
+
 <div class="container">
     <div class="row text-center justify-content-center align-items-center" style="min-height: 78vh">
         <div class="col">

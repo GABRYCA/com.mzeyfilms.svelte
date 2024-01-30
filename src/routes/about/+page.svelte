@@ -8,6 +8,13 @@
     });
 </script>
 
+<svelte:head>
+    <!-- meta -->
+    <title>MZEYFILMS - About</title>
+    <meta name="description"
+          content="MZEYFILMS, Filmmaker, Photographer, Aspirant Cinematographer, Always searching for new stories to tell. ">
+</svelte:head>
+
 <!-- CONTENT -->
 <div class="container-fluid pb-5" id="mainDiv">
     <!-- Title -->

@@ -23,6 +23,13 @@
     }
 </script>
 
+<svelte:head>
+    <!-- meta -->
+    <title>MZEYFILMS - Admin - Login</title>
+    <meta name="description"
+          content="MZEYFILMS, Filmmaker, Photographer, Aspirant Cinematographer, Always searching for new stories to tell. ">
+</svelte:head>
+
 <div class="container-fluid pt-5 pb-5 text-center">
     <div class="container-sm">
         <div class="row justify-content-center">

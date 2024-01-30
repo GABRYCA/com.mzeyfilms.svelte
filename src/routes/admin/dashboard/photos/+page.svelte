@@ -1,7 +1,9 @@
 <script>
     import {onMount} from "svelte";
-    import { enhance } from '$app/forms';
+    import {deserialize, enhance} from '$app/forms';
     import AdminPhoto from "$lib/components/AdminPhoto.svelte";
+    import {toast} from "@zerodevx/svelte-toast";
+    import {invalidateAll} from "$app/navigation";
     export let data;
 
     onMount(() => {
@@ -10,9 +12,57 @@
         });
     });
 
+    async function handleUpload(event) {
+        event.preventDefault();
+
+        const formData = new FormData(event.target);
+
+        toast.push('Caricamento in corso, attendere...');
+
+        const response = await fetch('?/upload', {
+            method: 'POST',
+            body: formData
+        });
+
+        const result = deserialize(await response.text());
+        await invalidateAll();
+        if (result.type === 'success') {
+            if (result.data.status === 200){
+                toast.push('Upload completato con successo!', {
+                    theme: {
+                        '--toastBackground': '#4caf50'
+                    }
+                });
+            } else {
+                toast.push('⚠️' + result.data.body.message, {
+                    theme: {
+                        '--toastBackground': '#fff147',
+                        '--toastColor': '#000000'
+                    }
+                });
+            }
+        } else {
+            toast.push('Upload fallito', {
+                theme: {
+                    '--toastBackground': '#f44336'
+                }
+            });
+
+            // Pring in readable format
+            console.log(JSON.stringify(result, null, 2));
+        }
+    }
+
     $: folders = data.body.folders;
     $: content = data.body.content;
 </script>
+
+<svelte:head>
+    <!-- meta -->
+    <title>MZEYFILMS - Admin - Photos</title>
+    <meta name="description"
+          content="MZEYFILMS, Filmmaker, Photographer, Aspirant Cinematographer, Always searching for new stories to tell. ">
+</svelte:head>
 
 <div class="container-fluid mt-3 mb-2 pt-4 pb-4 bg-light bg-opacity-10 rounded-3">
     <div class="row">
@@ -27,7 +77,7 @@
             <p class="h3">Carica:</p>
             <div class="row justify-content-center text-center">
                 <div class="col">
-                    <form method="post" use:enhance enctype="multipart/form-data" action="?/upload">
+                    <form method="post" use:enhance enctype="multipart/form-data" action="?/upload" on:submit={handleUpload}>
                         <div class="row">
                             <div class="col-12">
                                 <label class="form-label" for="folder">Seleziona cartella:</label>

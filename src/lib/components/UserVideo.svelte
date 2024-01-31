@@ -9,7 +9,12 @@
             <p class="h3">{title}</p>
         </div>
     </div>
-    <div class="row text-center justify-content-center mt-2">
+    <div class="row text-center justify-content-center mt-2 mb-1">
+        <div class="col px-1">
+            <span class="text-muted">Click the <i class="fa-solid fa-play ms-1 text-secondary"></i> button to start the video</span>
+        </div>
+    </div>
+    <div class="row text-center justify-content-center">
         <div class="col px-1">
             <!-- Video -->
             <video class="card-img-top rounded-2" controls preload="none" src="{src}"></video>

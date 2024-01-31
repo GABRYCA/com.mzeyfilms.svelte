@@ -92,7 +92,7 @@
 </script>
 
 <div class="card" style="width: 18rem;">
-    <video class="card-img-top" src="{src}" controls preload="metadata"></video>
+    <video class="card-img-top" src="{src}" controls preload="none"></video>
     <div class="card-body text-center">
         <h5 class="card-title">{title}</h5>
         <input type="text" bind:value={newVideoName} class="form-control" placeholder="Nuovo titolo">

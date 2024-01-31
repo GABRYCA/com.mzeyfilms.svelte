@@ -8,6 +8,11 @@
     export let folderList;
     let imageName = src.split('\\').pop();
     let newFolder = folder;
+    let isLoading = true;
+
+    $: if (src) {
+        isLoading = false;
+    }
 
     async function changeFolder(event) {
         const data = new FormData();
@@ -82,7 +87,13 @@
 </script>
 
 <div class="card" style="width: 18rem;">
-    <img src="{src}" class="card-img-top" alt="{imageName}">
+    {#if isLoading}
+        <div class="spinner-border text-danger-emphasis align-self-center" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    {:else}
+        <img alt="{imageName}" class="card-img-top" loading="lazy" src="{src}">
+    {/if}
     <div class="card-body">
         <p class="card-title h5">{imageName}</p>
         <hr>

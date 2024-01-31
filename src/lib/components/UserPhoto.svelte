@@ -1,7 +1,10 @@
 <script>
     export let src;
-    $: isLoading = true;
+    let isLoading = true;
 
+    function handleImageLoad() {
+        isLoading = false;
+    }
 </script>
 
 <div class="col-12 col-md-6 mt-3 my-md-auto py-md-2">
@@ -9,9 +12,10 @@
         <div class="spinner-border text-danger-emphasis align-self-center" role="status">
             <span class="visually-hidden">Loading...</span>
         </div>
-    {:else}
-        <a href="{src}" target="_blank"><img src="{src}" loading="lazy" class="img-fluid rounded-4" alt="Gallery Content" on:load={() => isLoading = false}></a>
     {/if}
+    <a href="{src}" target="_blank">
+        <img src="{src}" loading="lazy" class="img-fluid rounded-4" alt="Gallery Content" on:load={handleImageLoad}>
+    </a>
 </div>
 
 <style>

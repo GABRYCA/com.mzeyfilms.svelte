@@ -12,7 +12,7 @@
     <div class="row text-center justify-content-center mt-2">
         <div class="col px-1">
             <!-- Video -->
-            <video class="card-img-top rounded-2" src="{src}" controls preload="metadata"></video>
+            <video class="card-img-top rounded-2" controls preload="none" src="{src}"></video>
         </div>
     </div>
 </div>

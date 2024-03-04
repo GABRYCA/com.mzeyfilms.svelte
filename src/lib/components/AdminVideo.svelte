@@ -40,7 +40,7 @@
                 }
             });
 
-            // Remove the .mp4 extension from the newVideoName
+            // Remove .mp4 extension from newVideoName
             newVideoName = newVideoName.split('.').slice(0, -1).join('.');
         } else {
             toast.push("Errore durante la rinomina del video", {
@@ -59,7 +59,7 @@
         if (!confirmDelete) {
             return;
         }
-        // Implement the delete video logic here for backend
+        // Implement delete video logic for backend
         const data = new FormData();
         data.append('name', videoName);
         const response = await fetch('?/delete', {

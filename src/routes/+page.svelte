@@ -54,21 +54,21 @@
             <p class="h4 pt-1">Filmmaker | Photographer | Aspirant Cinematographer<br>
                 Always searching for new stories to tell.</p>
 
-            <a href="contacts.html" class="btn btn-outline-light btn-lg rounded-5 mt-4 fw-bold" data-bs-toggle="tooltip"
+            <a href="/contacts" class="btn btn-outline-light btn-lg rounded-5 mt-4 fw-bold" data-bs-toggle="tooltip"
                data-bs-placement="top" title="Contact Me"><i class="fas fa-envelope"></i> Contact me</a>
             <div class="row justify-content-center">
                 <div class="col-4 text-end">
-                    <a href="videos.html" class="btn btn-outline-light btn-lg rounded-5 mt-4 fw-bold"
+                    <a href="/videos" class="btn btn-outline-light btn-lg rounded-5 mt-4 fw-bold"
                        data-bs-toggle="tooltip" data-bs-placement="top" title="Videos"><i class="fas fa-video"></i>
                         Videos</a>
                 </div>
                 <div class="col-4 text-start">
-                    <a href="photos.html" class="btn btn-outline-light btn-lg rounded-5 mt-4 fw-bold"
+                    <a href="/photos" class="btn btn-outline-light btn-lg rounded-5 mt-4 fw-bold"
                        data-bs-toggle="tooltip" data-bs-placement="top" title="Photos"><i class="fas fa-camera"></i>
                         Photos</a>
                 </div>
             </div>
-            <a href="about.html" class="btn btn-outline-light btn-lg rounded-5 mt-4 fw-bold" data-bs-toggle="tooltip"
+            <a href="/about" class="btn btn-outline-light btn-lg rounded-5 mt-4 fw-bold" data-bs-toggle="tooltip"
                data-bs-placement="top" title="About me"><i class="fas fa-user"></i> About me</a>
 
             <div class="container">

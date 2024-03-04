@@ -6,6 +6,5 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="aos" level="application" />
     <orderEntry type="library" name="@types/bootstrap" level="application" />
-    <orderEntry type="library" name="bootstrap" level="application" />
   </component>
 </module>

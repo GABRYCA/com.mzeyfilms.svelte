@@ -16,6 +16,13 @@
             new bootstrap.Tooltip(element);
         });
 
+        // Close any leftover bootstrap tooltip
+        document.querySelectorAll('.tooltip').forEach((element) => {
+            element.addEventListener('click', () => {
+                element.classList.remove('show');
+            });
+        });
+
         // Init AOS
         AOS.init({
             once: true,

@@ -15,6 +15,7 @@
     <title>MZEYFILMS - Home</title>
     <meta name="description"
           content="MZEYFILMS, Filmmaker, Photographer, Aspirant Cinematographer, Always searching for new stories to tell. ">
+    <link rel="canonical" href="https://mzeyfilms.com/"/>
 </svelte:head>
 
 <!-- BODY -->

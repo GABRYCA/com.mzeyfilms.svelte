@@ -22,6 +22,10 @@
     });
 </script>
 
+<svelte:head>
+    <meta name="robots" content="noindex">
+</svelte:head>
+
 <nav class="navbar navbar-expand navbar-light bg-light bg-opacity-25 mt-2 mb-2 mx-1 text-center rounded-4">
     <div class="container-fluid justify-content-evenly fs-5">
         <a class="navbar-link p-2 px-3 rounded-4 text-decoration-none { $page.url.pathname === '/admin/dashboard/videos' ? 'aperto border border-light border-opacity-25 bg-dark bg-opacity-10' : '' }" href="/admin/dashboard/videos">

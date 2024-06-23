@@ -6,6 +6,8 @@
             new bootstrap.Tooltip(element);
         });
     });
+
+    const age = new Date().getFullYear() - 2003;
 </script>
 
 <svelte:head>
@@ -29,7 +31,7 @@
              data-aos="fade-up" data-aos-duration="600" data-aos-delay="95" id="textAboutDiv">
             <!-- Text -->
             <p class="h3 text-center text-light" data-aos="fade-right">
-                Hi! I'm Manuel, a 20 years old who really wants to create and tell stories through a different,
+                Hi! I'm Manuel, a {age} years old who really wants to create and tell stories through a different,
                 dynamic and impactful visual style. Your stories will be safe with me, ready to be created and best
                 told.
             </p>

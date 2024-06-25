@@ -12,17 +12,17 @@
 		"@sveltejs/enhanced-img": "^0.3.0",
 		"@sveltejs/kit": "^2.5.17",
 		"@sveltejs/vite-plugin-svelte": "^3.1.1",
+		"@zerodevx/svelte-toast": "^0.9.5",
 		"aos": "^2.3.4",
 		"bootstrap": "^5.3.3",
 		"super-sitemap": "^0.14.14",
 		"svelte": "^4.2.18",
+		"uuid": "^10.0.0",
 		"vite": "^5.3.1"
 	},
 	"type": "module",
 	"dependencies": {
-		"@zerodevx/svelte-toast": "^0.9.5",
 		"pocketbase": "^0.21.3",
-		"sharp": "^0.33.4",
-		"uuid": "^10.0.0"
+		"sharp": "^0.33.4"
 	}
 }

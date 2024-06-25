@@ -3,6 +3,7 @@
     import UserPhoto from "$lib/components/UserPhoto.svelte";
 
     export let data;
+    const { content } = data;
 
     onMount(() => {
         document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach((element) => {
@@ -10,8 +11,6 @@
         });
     });
 
-    // Each content has a name, and an array "images" with string src of each image
-    const content = data.body.content;
 </script>
 
 <svelte:head>
@@ -32,7 +31,7 @@
             <hr>
             <div class="row text-center justify-content-center px-2 pb-2">
                 <div class="col bg-light bg-opacity-10 py-3 rounded-4">
-                    {#each content as folder, index}
+                    {#each content as folder, index (folder.id)}
                         <div class="row text-center justify-content-center px-2">
                             <div class="col bg-light bg-opacity-10 pt-3 pb-3 rounded-4">
                                 <button class="btn-custom bg-transparent w-100 rounded-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{index}">
@@ -41,15 +40,15 @@
                                 <div class="collapse" id="collapse{index}">
                                     <hr>
                                     <div class="row justify-content-center">
-                                        <!-- If there aren't images in folder -->
-                                        {#if folder.images.length === 0}
+                                        {#if !folder.expand || folder.expand.images_via_folder === 0}
                                             <div class="col mt-2">
                                                 <p class="h5">Empty folder</p>
                                             </div>
+                                        {:else}
+                                            {#each folder.expand.images_via_folder as image (image.id)}
+                                                <UserPhoto src={image} />
+                                            {/each}
                                         {/if}
-                                        {#each folder.images as image}
-                                            <UserPhoto src={image} />
-                                        {/each}
                                     </div>
                                 </div>
                             </div>

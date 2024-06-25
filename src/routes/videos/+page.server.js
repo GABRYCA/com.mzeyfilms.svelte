@@ -1,20 +1,15 @@
-import path from "path";
-import fs from "fs/promises";
+import { PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD } from '$env/static/private';
+import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
+import PocketBase from "pocketbase";
 
 export async function load() {
-    const production = true;
-    const pathFolders = path.resolve('static/', 'videos');
-    let videos = await fs.readdir(pathFolders);
-    const index = videos.indexOf('old');
-    if (index > -1) {
-        videos.splice(index, 1);
-    }
 
-    videos = videos.map(video => production ? `\\static\\videos\\${video}` : `\\videos\\${video}`);
+    const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
+    await pb.admins.authWithPassword(PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD);
+
+    const videos = await pb.collection('videos').getFullList();
 
     return {
-        body: {
-            videos: videos
-        }
+        videos: videos
     }
 }

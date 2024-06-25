@@ -6,6 +6,10 @@
     import {toast} from "@zerodevx/svelte-toast";
 
     export let data;
+    let { videos } = data;
+    $: ({videos} = data);
+
+    let isUploading = false;
 
     onMount(() => {
         document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach((element) => {
@@ -15,6 +19,12 @@
 
     async function handleUpload(event) {
         event.preventDefault();
+
+        if (isUploading) {
+            return;
+        }
+
+        isUploading = true;
 
         const formData = new FormData(event.target);
 
@@ -37,6 +47,8 @@
                     '--toastBackground': '#4caf50'
                 }
             });
+
+            event.target.reset();
         } else {
             toast.push('Upload fallito', {
                 theme: {
@@ -44,9 +56,10 @@
                 }
             });
         }
+
+        isUploading = false;
     }
 
-    $: videos = data.body.videos;
 </script>
 
 <svelte:head>
@@ -67,16 +80,20 @@
     <div class="row bg-light bg-opacity-25 pt-3 pb-3 mx-2 rounded-4">
         <!-- Area form upload selezione file video -->
         <div class="col-12 text-center">
-            <p class="h3">Carica:</p>
+            <p class="h3">Aggiungi <b>VIDEO</b>:</p>
             <div class="row justify-content-center text-center">
                 <div class="col">
-                    <form method="post" use:enhance enctype="multipart/form-data" action="?/upload" on:submit={handleUpload}>
+                    <form method="post" enctype="multipart/form-data" action="?/upload" on:submit|preventDefault={handleUpload}>
                         <div class="row">
-                            <div class="col-12 col-md-8">
-                                <input class="form-control form-control-lg" type="file" id="file" name="video" accept="video/mp4" required />
+                            <!-- Invece di file, chiedo in input nome "name" e url "url" -->
+                            <div class="col-12 col-md-4 mt-2">
+                                <input type="text" class="form-control" name="name" placeholder="Titolo" required>
+                            </div>
+                            <div class="col-12 col-md-4 mt-2">
+                                <input type="text" class="form-control" name="url" placeholder="URL" required>
                             </div>
                             <div class="col-12 col-md-4">
-                                <button class="btn btn-lg btn-success w-100 mt-2 mt-md-auto" type="submit">Upload</button>
+                                <button class="btn btn-lg btn-success w-100 mt-2 mt-md-auto" type="submit">Aggiungi</button>
                             </div>
                         </div>
                     </form>
@@ -86,18 +103,17 @@
     </div>
     <hr class="text-light">
     <div class="row justify-content-evenly align-items-center text-center">
-
-        {#if videos.length === 0}
+        {#if !videos || videos.length === 0}
             <div class="col-auto mt-3">
-                <p class="h3">Non hai ancora caricato video...</p>
+                <p class="h3">Non hai ancora aggiunto video...</p>
             </div>
+        {:else}
+            <!-- Sezione video -->
+            {#each videos as video (video)}
+                <div class="col-auto d-flex justify-content-center align-items-center mt-3">
+                    <AdminVideo src={video.url} videoName={video.name} />
+                </div>
+            {/each}
         {/if}
-
-        <!-- Sezione video -->
-        {#each videos as video (video)}
-            <div class="col-auto d-flex justify-content-center align-items-center mt-3">
-                <AdminVideo src={video}/>
-            </div>
-        {/each}
     </div>
 </div>

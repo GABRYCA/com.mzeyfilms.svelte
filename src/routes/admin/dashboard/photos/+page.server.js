@@ -1,49 +1,68 @@
-import path from 'path';
-import fs from 'fs/promises';
+import PocketBase from 'pocketbase';
+import sharp from 'sharp';
+import { PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD } from '$env/static/private';
+import { PUBLIC_POCKETBASE_URL, PUBLIC_POCKETBASE_URL_IMG_API } from '$env/static/public';
 import {getUserById} from "$lib/store/db.js";
-import {writeFileSync} from "fs";
-import imagemin from 'imagemin';
-import imageminWebp from 'imagemin-webp';
+
+const uploadImage = async (image, folder) => {
+
+    const imageSharp = sharp(await image.arrayBuffer());
+
+    const buffer = await imageSharp
+        .webp({ quality: 80 })
+        .toBuffer();
+
+    const random = Math.random().toString(36).substring(2, 15);
+    const newImageName = `${random}.webp`;
+
+    const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
+    await pb.admins.authWithPassword(PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD);
+
+    const file = new File([buffer], newImageName, { type: 'image/webp', lastModified: Date.now() });
+
+    const formData = new FormData();
+    formData.append('image', file);
+    formData.append('folder', folder);
+
+    const createdRecord = await pb.collection('images').create(formData);
+
+    const url = PUBLIC_POCKETBASE_URL_IMG_API + createdRecord.collectionId + '/' + createdRecord.id + '/' + createdRecord.image;
+
+    // Update created record with new url
+    const data = {
+        'url': url
+    }
+
+    await pb.collection('images').update(createdRecord.id, data);
+
+    pb.authStore.clear();
+
+    return PUBLIC_POCKETBASE_URL_IMG_API + createdRecord.collectionId + '/' + createdRecord.id + '/' + createdRecord.image;
+}
 
 export async function load(){
 
-    const production = true;
+    const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
+    await pb.admins.authWithPassword(PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD);
 
-    // Get a list of folders inside 'static' folder
-    const pathFolders = path.resolve('static/', 'photos');
+    const folders = await pb.collection('folders').getFullList();
+    const foldersWithImages = [];
 
-    // Read folders names
-    let folders = await fs.readdir(pathFolders);
-    let foldersWithImages = [];
-
-    // Remove from folder array the folder with name 'old'
-    const index = folders.indexOf('old');
-    if (index > -1) {
-        folders.splice(index, 1);
-    }
-
-    // Get src of each image and group them by folder in the foldersWithImages array object
     for (let i = 0; i < folders.length; i++) {
-        const pathFolder = path.resolve('static/', 'photos', folders[i]);
-        const images = await fs.readdir(pathFolder);
-        for (let j = 0; j < images.length; j++) {
-            if (production) {
-                images[j] = '\\static\\photos\\' + folders[i] + '\\' + images[j];
-            } else {
-                images[j] = '\\photos\\' + folders[i] + '\\' + images[j];
-            }
-        }
+        const images = await pb.collection('images').getFullList({
+            filter: 'folder = "' + folders[i].id + '"',
+        });
         foldersWithImages.push({
-            name: folders[i],
+            folder: folders[i],
             images: images
         });
     }
 
+    pb.authStore.clear();
+
     return {
-        body: {
-            folders: folders,
-            content: foldersWithImages
-        }
+        folders: folders,
+        content: foldersWithImages
     }
 }
 
@@ -65,7 +84,7 @@ export const actions = {
             }
         }
 
-        const folder = formData.folder;
+        let folder = formData.folder;
         const image = formData.image;
 
         // Check type of image, can be any extension, but only images
@@ -78,90 +97,48 @@ export const actions = {
             }
         }
 
-        // Check if folder exists
-        try {
-            await fs.access(`static/photos/${folder}`);
-        } catch (e) {
-            return {
-                status: 400,
-                body: {
-                    message: 'Invalid folder'
-                }
+        // Check if folder exists on pockethost, if not create it
+        const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
+        await pb.admins.authWithPassword(PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD);
+
+        const folderExists = await pb.collection('folders').getFullList({
+            filter: 'name = "' + folder + '"',
+        });
+
+        if (!folderExists || folderExists.length === 0){
+            const folderData = {
+                'name': folder
             }
-        }
 
-        // Check if webp, if yes, save it already
-        if (image.type === 'image/webp') {
+            const record = await pb.collection('folders').create(folderData);
 
-            // Check if file aleady exists, if yes return error
-            try {
-                await fs.access(`static/photos/${folder}/${image.name}`);
+            folder = record.id;
+
+            if (!record) {
                 return {
                     status: 400,
                     body: {
-                        message: 'Image already exists'
+                        message: 'Error creating folder'
                     }
                 }
-            } catch (e) {}
-
-            writeFileSync(`static/photos/${folder}/${image.name}`, Buffer.from(await image.arrayBuffer()));
-
-            return {
-                status: 200,
-                body: {
-                    message: 'Image saved'
-                }
             }
+        } else {
+            folder = folderExists.filter(f => f.name === folder)[0].id;
         }
 
-        // Check if file already exists, replacing the extension with webp
-        try {
-            const name = image.name.split('.');
-            name.pop();
-            await fs.access(`static/photos/${folder}/${name}.webp`);
-            return {
-                status: 400,
-                body: {
-                    message: 'Image already exists'
-                }
-            }
-        } catch (e) {}
+        pb.authStore.clear();
 
-        // Convert image (use finalImage as name)
-        // Save the image temporarily
-        const tempPath = `static/photos/${folder}/${image.name}`;
-        writeFileSync(tempPath, Buffer.from(await image.arrayBuffer()));
+        const finalURL = await uploadImage(image, folder);
 
-        // Convert image to webp and save it
-        const finalImage = await imagemin([tempPath], {
-            destination: `static/photos/${folder}`,
-            plugins: [
-                imageminWebp({quality: 75})
-            ]
-        });
-
-        console.log(finalImage);
-
-        /*let final = finalImage[0].destinationPath.replace(/\\/g, '/');
-        // If present, remove '' brackets from destinationPath
-        final = final.replace(/'/g, '');
-        console.log("destinationPath: " + finalImage[0].destinationPath);
-        console.log("Final: " + final);
-
-        // Rename finalImage to image.name
-        await fs.rename(finalImage[0].destinationPath, final);*/
-
-        // Delete temporary image after conversion, surrounded by try/catch
-        try {
-            await fs.rm(tempPath);
-        } catch (e) {}
-
-        // writeFileSync(`static/photos/${folder}/${image.name}.webp`, finalImage);
+        // If error or object, return it
+        if (typeof finalURL === 'object') {
+            return finalURL;
+        }
 
         return {
             status: 200,
             body: {
-                message: 'Video saved'
+                message: 'Photo saved'
             }
         }
     },
@@ -184,19 +161,37 @@ export const actions = {
 
         const folderName = formData.folderName;
 
-        // Check if folder already exists, if yes return error
-        try {
-            await fs.access(`static/photos/${folderName}`);
+        // Check if folder exists on pockethost, if not create it
+        const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
+        await pb.admins.authWithPassword(PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD);
+
+        const folderExists = await pb.collection('folders').getFullList({
+            filter: 'name = "' + folderName + '"',
+        });
+
+        if (!folderExists || folderExists.length === 0){
+            const folderData = {
+                'name': folderName
+            }
+
+            const record = await pb.collection('folders').create(folderData);
+
+            if (!record) {
+                return {
+                    status: 400,
+                    body: {
+                        message: 'Error creating folder'
+                    }
+                }
+            }
+        } else {
             return {
                 status: 400,
                 body: {
                     message: 'Folder already exists'
                 }
             }
-        } catch (e) {}
-
-        // Create folder
-        await fs.mkdir(`static/photos/${folderName}`);
+        }
 
         return {
             status: 200,
@@ -225,21 +220,15 @@ export const actions = {
         const oldFolderName = formData.folderName;
         const newFolderName = formData.newFolderName;
 
-        // Check if folder already exists, if yes return error
-        try {
-            await fs.access(`static/photos/${newFolderName}`);
-            return {
-                status: 400,
-                body: {
-                    message: 'Folder already exists'
-                }
-            }
-        } catch (e) {}
+        const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
+        await pb.admins.authWithPassword(PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD);
 
-        // Check if folder exists, if not return error
-        try {
-            await fs.access(`static/photos/${oldFolderName}`);
-        } catch (e) {
+        const folderExists = await pb.collection('folders').getFullList({
+            filter: 'name = "' + oldFolderName + '"',
+        });
+
+        // If folder doesn't exist, return error
+        if (!folderExists || folderExists.length === 0) {
             return {
                 status: 400,
                 body: {
@@ -248,8 +237,13 @@ export const actions = {
             }
         }
 
-        // Rename folder
-        await fs.rename(`static/photos/${oldFolderName}`, `static/photos/${newFolderName}`);
+        const folderData = {
+            'name': newFolderName
+        }
+
+        await pb.collection('folders').update(folderExists[0].id, folderData);
+
+        pb.authStore.clear();
 
         return {
             status: 200,
@@ -277,10 +271,15 @@ export const actions = {
 
         const folderName = formData.folderName;
 
-        // Check if folder exists, if not return error
-        try {
-            await fs.access(`static/photos/${folderName}`);
-        } catch (e) {
+        const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
+        await pb.admins.authWithPassword(PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD);
+
+        const folderExists = await pb.collection('folders').getFullList({
+            filter: 'name = "' + folderName + '"',
+        });
+
+        // If folder doesn't exist, return error
+        if (!folderExists || folderExists.length === 0) {
             return {
                 status: 400,
                 body: {
@@ -289,27 +288,9 @@ export const actions = {
             }
         }
 
-        // Check if folder contains files, if yes, move the folder inside the 'old' folder, and it it exists there too, make a second one with a number
-        const pathFolder = path.resolve('static/', 'photos', folderName);
-        const files = await fs.readdir(pathFolder);
-        if (files.length > 0) {
-            const pathOldFolder = path.resolve('static/', 'photos', 'old', folderName);
-            try {
-                await fs.access(pathOldFolder);
-                const folders = await fs.readdir(path.resolve('static/', 'photos', 'old'));
-                const index = folders.indexOf(folderName);
-                if (index > -1) {
-                    folders.splice(index, 1);
-                }
-                await fs.mkdir(path.resolve('static/', 'photos', 'old', `${folderName} (${folders.length})`));
-                await fs.rename(pathFolder, path.resolve('static/', 'photos', 'old', `${folderName} (${folders.length})`, folderName));
-            } catch (e) {
-                await fs.mkdir(path.resolve('static/', 'photos', 'old', folderName));
-                await fs.rename(pathFolder, path.resolve('static/', 'photos', 'old', folderName, folderName));
-            }
-        } else {
-            await fs.rm(pathFolder, { recursive: true });
-        }
+        await pb.collection('folders').delete(folderExists[0].id);
+
+        pb.authStore.clear();
 
         return {
             status: 200,
@@ -339,10 +320,15 @@ export const actions = {
         const oldFolderName = formData.oldFolder;
         const image = formData.imageName;
 
-        // Check if folder exists, if not return error
-        try {
-            await fs.access(`static/photos/${folderName}`);
-        } catch (e) {
+        // Check if folder exists on pockethost, if not create it
+        const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
+        await pb.admins.authWithPassword(PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD);
+
+        const folderExists = await pb.collection('folders').getFullList({
+            filter: 'name = "' + folderName + '" || name = "' + oldFolderName + '"',
+        });
+
+        if (!folderExists || folderExists.length === 0){
             return {
                 status: 400,
                 body: {
@@ -351,10 +337,11 @@ export const actions = {
             }
         }
 
-        // Check if image exists, if not return error
-        try {
-            await fs.access(`static/photos/${oldFolderName}/${image}`);
-        } catch (e) {
+        const imageExists = await pb.collection('images').getFullList({
+            filter: 'image = "' + image + '"',
+        });
+
+        if (!imageExists || imageExists.length === 0){
             return {
                 status: 400,
                 body: {
@@ -363,8 +350,15 @@ export const actions = {
             }
         }
 
-        // Move image
-        await fs.rename(`static/photos/${oldFolderName}/${image}`, `static/photos/${folderName}/${image}`);
+        const imageId = imageExists[0].id;
+
+        const data = {
+            'folder': folderExists.filter(f => f.name === folderName)[0].id
+        }
+
+        await pb.collection('images').update(imageId, data);
+
+        pb.authStore.clear();
 
         return {
             status: 200,
@@ -390,25 +384,17 @@ export const actions = {
             }
         }
 
-        const folderName = formData.folder;
         const image = formData.imageName;
 
-        // Check if folder exists, if not return error
-        try {
-            await fs.access(`static/photos/${folderName}`);
-        } catch (e) {
-            return {
-                status: 400,
-                body: {
-                    message: 'Folder does not exist'
-                }
-            }
-        }
+        // Check if image exists
+        const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
+        await pb.admins.authWithPassword(PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD);
 
-        // Check if image exists, if not return error
-        try {
-            await fs.access(`static/photos/${folderName}/${image}`);
-        } catch (e) {
+        const imageExists = await pb.collection('images').getFullList({
+            filter: 'image = "' + image + '"',
+        });
+
+        if (!imageExists || imageExists.length === 0){
             return {
                 status: 400,
                 body: {
@@ -417,24 +403,9 @@ export const actions = {
             }
         }
 
-        // Check if 'old'/folderName folder exists, if not create it
-        try {
-            await fs.access(`static/photos/old/${folderName}`);
-        } catch (e) {
-            await fs.mkdir(`static/photos/old/${folderName}`);
-        }
+        await pb.collection('images').delete(imageExists[0].id);
 
-        // Move image to 'old' folder, including subfolders
-        try {
-            await fs.rename(`static/photos/${folderName}/${image}`, `static/photos/old/${folderName}/${image}`);
-        } catch (e) {
-            return {
-                status: 400,
-                body: {
-                    message: 'Error deleting photo'
-                }
-            }
-        }
+        pb.authStore.clear();
 
         return {
             status: 200,

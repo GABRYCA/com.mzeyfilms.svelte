@@ -6,7 +6,7 @@
     export let src;
     export let folder;
     export let folderList;
-    let imageName = src.split('\\').pop();
+    export let imageName;
     let newFolder = folder;
     let isLoading = true;
 
@@ -54,7 +54,6 @@
             return;
         }
         const data = new FormData();
-        data.append('folder', folder);
         data.append('imageName', imageName);
         const response = await fetch('?/delete', {
             method: 'POST',
@@ -99,8 +98,8 @@
         <form>
             <label for="folder">Cambia cartella:</label>
             <select bind:value={newFolder} class="form-control" on:change={changeFolder}>
-                {#each folderList as folderName (folderName)}
-                    <option value={folderName}>{folderName}</option>
+                {#each folderList as folder (folder.id)}
+                    <option value={folder.name}>{folder.name}</option>
                 {/each}
             </select>
         </form>

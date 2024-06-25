@@ -4,25 +4,26 @@
     import {toast} from "@zerodevx/svelte-toast";
 
     export let src;
-    let videoName = src.split('\\').pop();
-    let newVideoName = videoName.split('.').slice(0, -1).join('.');
+    export let videoName;
+    let newVideoName = videoName;
     let title = newVideoName;
+    // To get id, split at / and get the last element
+    const videoId = src.split('/').pop();
+
+    let isRenaming = false;
+    let isDeleting = false;
 
     async function renameVideo() {
 
-        // videoName = newVideoName;
-        // Change the SRC of the video to the new name
-        //src = src.replace(src.split('\\').pop(), videoName);
-        // Implement the rename video logic here for backend
-
-        // Check if newVideoName is missing .mp4 extension, if yes add it
-        if (!newVideoName.endsWith('.mp4')) {
-            newVideoName += '.mp4';
+        if (isRenaming) {
+            return;
         }
+
+        isRenaming = true;
 
         const data = new FormData();
         data.append('oldName', videoName);
-        data.append('newName', newVideoName); // Adding newName after changing it
+        data.append('newName', newVideoName);
         const response = await fetch('?/rename', {
             method: 'POST',
             body: data
@@ -40,8 +41,6 @@
                 }
             });
 
-            // Remove .mp4 extension from newVideoName
-            newVideoName = newVideoName.split('.').slice(0, -1).join('.');
         } else {
             toast.push("Errore durante la rinomina del video", {
                 theme: {
@@ -52,13 +51,23 @@
                 }
             });
         }
+
+        isRenaming = false;
     }
 
     async function deleteVideo() {
+
+        if (isDeleting) {
+            return;
+        }
+
         let confirmDelete = window.confirm("Sei sicuro di voler cancellare questo video? \n" + videoName);
         if (!confirmDelete) {
             return;
         }
+
+        isDeleting = true;
+
         // Implement delete video logic for backend
         const data = new FormData();
         data.append('name', videoName);
@@ -88,11 +97,15 @@
                 }
             })
         }
+
+        isDeleting = false;
     }
 </script>
 
 <div class="card" style="width: 18rem;">
-    <video class="card-img-top" src="{src}" controls preload="none"></video>
+    <div class="embed-responsive embed-responsive-16by9">
+        <iframe class="embed-responsive-item w-100" src={"https://www.youtube.com/embed/" + videoId} title={title} allowfullscreen></iframe>
+    </div>
     <div class="card-body text-center">
         <h5 class="card-title">{title}</h5>
         <input type="text" bind:value={newVideoName} class="form-control" placeholder="Nuovo titolo">

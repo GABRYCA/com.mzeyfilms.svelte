@@ -1,33 +1,16 @@
 import {getUserById} from "$lib/store/db.js";
-import fs from 'fs/promises';
-import { writeFileSync } from 'fs';
-import path from "path";
+import { PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD } from '$env/static/private';
+import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
+import PocketBase from "pocketbase";
 
 export async function load() {
 
-    const production = true;
-
-    // Get a list of videos inside 'static/videos' folder, excluding the ones in the subfolder 'old'
-    const pathFolders = path.resolve('static/', 'videos');
-    const videos = await fs.readdir(pathFolders);
-    const index = videos.indexOf('old');
-    if (index > -1) {
-        videos.splice(index, 1);
-    }
-
-    // Get static vite path of each video and save it into videos array
-    for (let i = 0; i < videos.length; i++) {
-        if (production){
-            videos[i] = '\\static\\videos\\' + videos[i];
-        } else {
-            videos[i] = '\\videos\\' + videos[i];
-        }
-    }
+    const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
+    await pb.admins.authWithPassword(PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD);
+    const videos = await pb.collection('videos').getFullList();
 
     return {
-        body: {
-            videos: videos
-        }
+        videos: videos
     }
 }
 
@@ -49,23 +32,37 @@ export const actions = {
             }
         }
 
-        const video = formData.video;
+        const name = formData.name;
+        const url = formData.url;
 
-        if (!video || video.type !== 'video/mp4') {
+        // Check if video exists
+        const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
+        await pb.admins.authWithPassword(PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD);
+
+        const video = await pb.collection('videos').getFullList({
+            filter: 'name = "' + name + '"',
+        });
+
+        if (video && video.length > 0) {
             return {
                 status: 400,
                 body: {
-                    message: 'Invalid video'
+                    message: 'Video already exists'
                 }
             }
         }
 
-        writeFileSync(`static/videos/${video.name}`, Buffer.from(await video.arrayBuffer()));
+        const data = {
+            name: name,
+            url: url
+        };
+
+        await pb.collection('videos').create(data);
 
         return {
             status: 200,
             body: {
-                message: 'Video saved'
+                message: 'Video added successfully'
             }
         }
     },
@@ -89,21 +86,33 @@ export const actions = {
         const oldName = formData.oldName;
         const newName = formData.newName;
 
-        try {
-            await fs.rename(`static/videos/${oldName}`, `static/videos/${newName}`);
-        } catch (e) {
+        // Check if video exists
+        const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
+        await pb.admins.authWithPassword(PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD);
+
+        const video = await pb.collection('videos').getFullList({
+            filter: 'name = "' + oldName + '"',
+        });
+
+        if (!video || video.length === 0) {
             return {
                 status: 400,
                 body: {
-                    message: 'Invalid video'
+                    message: 'Video not found'
                 }
             }
         }
 
+        const data = {
+            name: newName,
+        };
+
+        await pb.collection('videos').update(video[0].id, data);
+
         return {
             status: 200,
             body: {
-                message: 'Video renamed'
+                message: 'Video renamed successfully'
             }
         }
     },
@@ -127,9 +136,14 @@ export const actions = {
         const name = formData.name;
 
         // Check if video exists
-        try {
-            await fs.access(`static/videos/${name}`);
-        } catch (e) {
+        const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
+        await pb.admins.authWithPassword(PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD);
+
+        const video = await pb.collection('videos').getFullList({
+            filter: 'name = "' + name + '"',
+        });
+
+        if (!video || video.length === 0) {
             return {
                 status: 400,
                 body: {
@@ -138,29 +152,12 @@ export const actions = {
             }
         }
 
-        // Check if 'old' folder exists, if not create it
-        try {
-            await fs.access(`static/videos/old`);
-        } catch (e) {
-            await fs.mkdir(`static/videos/old`);
-        }
-
-        try {
-            // Move video to 'old' folder
-            await fs.rename(`static/videos/${name}`, `static/videos/old/${name}`);
-        } catch (e) {
-            return {
-                status: 400,
-                body: {
-                    message: 'Error deleting video'
-                }
-            }
-        }
+        await pb.collection('videos').delete(video[0].id);
 
         return {
             status: 200,
             body: {
-                message: 'Video deleted'
+                message: 'Video deleted successfully'
             }
         }
     }

@@ -13,8 +13,8 @@
             <span class="visually-hidden">Loading...</span>
         </div>
     {/if}
-    <a href="{src}" target="_blank">
-        <img src="{src}" loading="lazy" class="img-fluid rounded-4" alt="Gallery Content" on:load={handleImageLoad}>
+    <a href="{src.url}" target="_blank">
+        <img src="{src.url}" loading="lazy" class="img-fluid rounded-4" alt="Gallery Content" on:load={handleImageLoad}>
     </a>
 </div>
 

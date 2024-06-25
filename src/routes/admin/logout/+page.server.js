@@ -1,27 +1,18 @@
-import * as db from '$lib/store/db';
-import {deleteSession} from "$lib/store/db";
 import {redirect} from "@sveltejs/kit";
 
 export const load = async ({ cookies }) => {
     // Get user if found and return cookies, if not redirect to login
-    const currentUser = await db.getUserById(cookies.get('session_id'));
+    const sessionId = cookies.get('session_id');
 
-    if (!currentUser) {
-        return {
-            status: 404,
-            body: {
-                error: 'User not logged in...'
-            }
-        };
+    if (sessionId && global.sessions && global.sessions[sessionId]) {
+        // delete session
+        delete global.sessions[sessionId];
     }
 
-    deleteSession(currentUser.id);
-    throw redirect(303, '/admin/login');
+    cookies.set('session_id', '', {
+        path: '/',
+        expires: new Date(0),
+    });
 
-    /*return {
-        status: 200,
-        body: {
-            message: 'Successfully logged out! Redirecting to login...'
-        }
-    };*/
+    redirect(303, '/admin/login');
 }

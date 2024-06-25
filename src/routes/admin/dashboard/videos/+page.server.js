@@ -1,4 +1,3 @@
-import {getUserById} from "$lib/store/db.js";
 import { PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD } from '$env/static/private';
 import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
 import PocketBase from "pocketbase";

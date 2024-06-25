@@ -2,7 +2,6 @@ import PocketBase from 'pocketbase';
 import sharp from 'sharp';
 import { PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD } from '$env/static/private';
 import { PUBLIC_POCKETBASE_URL, PUBLIC_POCKETBASE_URL_IMG_API } from '$env/static/public';
-import {getUserById} from "$lib/store/db.js";
 
 const uploadImage = async (image, folder) => {
 

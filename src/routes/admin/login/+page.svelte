@@ -1,6 +1,7 @@
 <script>
     import { page } from '$app/stores';
     import {onMount} from "svelte";
+    import {browser} from "$app/environment";
 
     onMount(() => {
         document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach((element) => {

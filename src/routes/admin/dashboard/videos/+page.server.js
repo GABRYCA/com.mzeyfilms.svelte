@@ -14,22 +14,8 @@ export async function load() {
 }
 
 export const actions = {
-    upload: async ({ cookies, request }) => {
+    upload: async ({ request }) => {
         const formData = Object.fromEntries(await request.formData());
-
-        const sessionId = cookies.get('session_id');
-        const currentUser = await getUserById(sessionId);
-
-        const isAuthenticated = currentUser && currentUser.id;
-
-        if (!isAuthenticated) {
-            return {
-                status: 401,
-                body: {
-                    message: 'Unauthorized'
-                }
-            }
-        }
 
         const name = formData.name;
         const url = formData.url;
@@ -65,22 +51,8 @@ export const actions = {
             }
         }
     },
-    rename: async ({ cookies, request }) => {
+    rename: async ({ request }) => {
         const formData = Object.fromEntries(await request.formData());
-
-        const sessionId = cookies.get('session_id');
-        const currentUser = await getUserById(sessionId);
-
-        const isAuthenticated = currentUser && currentUser.id;
-
-        if (!isAuthenticated) {
-            return {
-                status: 401,
-                body: {
-                    message: 'Unauthorized'
-                }
-            }
-        }
 
         const oldName = formData.oldName;
         const newName = formData.newName;
@@ -115,22 +87,8 @@ export const actions = {
             }
         }
     },
-    delete: async ({ cookies, request }) => {
+    delete: async ({ request }) => {
         const formData = Object.fromEntries(await request.formData());
-
-        const sessionId = cookies.get('session_id');
-        const currentUser = await getUserById(sessionId);
-
-        const isAuthenticated = currentUser && currentUser.id;
-
-        if (!isAuthenticated) {
-            return {
-                status: 401,
-                body: {
-                    message: 'Unauthorized'
-                }
-            }
-        }
 
         const name = formData.name;
 

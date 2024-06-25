@@ -66,22 +66,8 @@ export async function load(){
 }
 
 export const actions = {
-    upload: async ({ cookies, request }) => {
+    upload: async ({ request }) => {
         const formData = Object.fromEntries(await request.formData());
-
-        const sessionId = cookies.get('session_id');
-        const currentUser = await getUserById(sessionId);
-
-        const isAuthenticated = currentUser && currentUser.id;
-
-        if (!isAuthenticated) {
-            return {
-                status: 401,
-                body: {
-                    message: 'Unauthorized'
-                }
-            }
-        }
 
         let folder = formData.folder;
         const image = formData.image;
@@ -141,22 +127,8 @@ export const actions = {
             }
         }
     },
-    create: async ({ cookies, request }) => {
+    create: async ({ request }) => {
         const formData = Object.fromEntries(await request.formData());
-
-        const sessionId = cookies.get('session_id');
-        const currentUser = await getUserById(sessionId);
-
-        const isAuthenticated = currentUser && currentUser.id;
-
-        if (!isAuthenticated) {
-            return {
-                status: 401,
-                body: {
-                    message: 'Unauthorized'
-                }
-            }
-        }
 
         const folderName = formData.folderName;
 
@@ -199,22 +171,8 @@ export const actions = {
             }
         }
     },
-    renameFolder: async ({ cookies, request }) => {
+    renameFolder: async ({ request }) => {
         const formData = Object.fromEntries(await request.formData());
-
-        const sessionId = cookies.get('session_id');
-        const currentUser = await getUserById(sessionId);
-
-        const isAuthenticated = currentUser && currentUser.id;
-
-        if (!isAuthenticated) {
-            return {
-                status: 401,
-                body: {
-                    message: 'Unauthorized'
-                }
-            }
-        }
 
         const oldFolderName = formData.folderName;
         const newFolderName = formData.newFolderName;
@@ -251,22 +209,8 @@ export const actions = {
             }
         }
     },
-    deleteFolder: async ({ cookies, request }) => {
+    deleteFolder: async ({ request }) => {
         const formData = Object.fromEntries(await request.formData());
-
-        const sessionId = cookies.get('session_id');
-        const currentUser = await getUserById(sessionId);
-
-        const isAuthenticated = currentUser && currentUser.id;
-
-        if (!isAuthenticated) {
-            return {
-                status: 401,
-                body: {
-                    message: 'Unauthorized'
-                }
-            }
-        }
 
         const folderName = formData.folderName;
 
@@ -298,22 +242,8 @@ export const actions = {
             }
         }
     },
-    move: async ({ cookies, request }) => {
+    move: async ({ request }) => {
         const formData = Object.fromEntries(await request.formData());
-
-        const sessionId = cookies.get('session_id');
-        const currentUser = await getUserById(sessionId);
-
-        const isAuthenticated = currentUser && currentUser.id;
-
-        if (!isAuthenticated) {
-            return {
-                status: 401,
-                body: {
-                    message: 'Unauthorized'
-                }
-            }
-        }
 
         const folderName = formData.newFolder;
         const oldFolderName = formData.oldFolder;
@@ -366,22 +296,8 @@ export const actions = {
             }
         }
     },
-    delete: async ({ cookies, request }) => {
+    delete: async ({ request }) => {
         const formData = Object.fromEntries(await request.formData());
-
-        const sessionId = cookies.get('session_id');
-        const currentUser = await getUserById(sessionId);
-
-        const isAuthenticated = currentUser && currentUser.id;
-
-        if (!isAuthenticated) {
-            return {
-                status: 401,
-                body: {
-                    message: 'Unauthorized'
-                }
-            }
-        }
 
         const image = formData.imageName;
 

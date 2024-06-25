@@ -27,7 +27,8 @@ body {
 }
 
 .btn:hover {
-    background-color: #ffae5e !important;
+    color: #ffffff !important;
+    background-color: #a83613 !important;
 }
 
 .custom-link {

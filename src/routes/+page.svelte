@@ -2,6 +2,7 @@
     import {onMount} from "svelte";
     import logoHome from "$lib/img/home_bg.webp?enhanced";
     import noLightInDeepness from "$lib/img/MVI_7133-optimized.webp?enhanced";
+    import naughtyLaundry from "$lib/img/naughty_laundry.webp?enhanced";
 
     onMount(() => {
         document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach((element) => {
@@ -26,20 +27,24 @@
         </div>
     </div>
 
-    <div class="row h-100 bg-black" data-aos="fade-in" data-aos-duration="1000">
-        <div class="col-12 col-md-4 d-flex align-items-center justify-content-center my-auto">
-            <div>
+    <div class="row h-100 bg-black justify-content-around" data-aos="fade-in" data-aos-duration="1000">
+        <div class="col-12 col-md-5 px-0 my-auto gradient-overlay text-center h-100">
+            <!--<div>
                 <a class="text-decoration-none" href="https://youtu.be/kjOIvL3PduI?si=n9vPTBDQjV9B7la5" target="_blank"
                    data-bs-toggle="tooltip" data-bs-placement="top" title="View Short">
                     <h1 class="text-center text-white pt-5 pb-3">MZEYFILMS</h1>
                     <p class="text-center text-white mb-5 mb-md-0">No Light In Deepness</p>
                 </a>
+            </div>-->
+            <div class="gradient-overlay">
+                <enhanced:img class="img-fluid rounded-5 shadow" src={naughtyLaundry}
+                              alt="naughty laundry by mzeyfilms"/>
             </div>
         </div>
-        <div class="col-12 col-md-8 px-0 gradient-overlay text-center h-100">
+        <div class="col-12 col-md-6 my-auto px-0 gradient-overlay text-center h-100">
             <div class="gradient-overlay">
-                <enhanced:img class="img-fluid shadow rounded-5 shadow" id="noLightItem" src={noLightInDeepness}
-                     alt="no_light_in_deepness_by_mzeyfilms" />
+                <enhanced:img class="img-fluid rounded-5" src={noLightInDeepness}
+                     alt="no light in deepness by mzeyfilms" />
             </div>
         </div>
     </div>
@@ -47,7 +52,6 @@
 
     <div class="row pt-5 pb-5 justify-content-center" id="centrale">
 
-        <!-- Hacky way to make background darker with cool effect -->
         <div class="col-12" id="contenutoCentrale"></div>
 
         <div class="col-sm-8 text-center text-white" data-aos="zoom-in" data-aos-delay="100">
@@ -56,22 +60,27 @@
                 Always searching for new stories to tell.</p>
 
             <a href="/contacts" class="btn btn-outline-light btn-lg rounded-5 mt-4 fw-bold" data-bs-toggle="tooltip"
-               data-bs-placement="top" title="Contact Me"><i class="fas fa-envelope"></i> Contact me</a>
+               data-bs-placement="top" title="Contact Me">
+                <i class="fas fa-envelope"></i> Contact me
+            </a>
             <div class="row justify-content-center">
                 <div class="col-4 text-end">
-                    <a href="/videos" class="btn btn-outline-light btn-lg rounded-5 mt-4 fw-bold"
-                       data-bs-toggle="tooltip" data-bs-placement="top" title="Videos"><i class="fas fa-video"></i>
-                        Videos</a>
+                    <a href="/videos" class="btn btn-outline-light btn-lg rounded-5 mt-4 pt-2 fw-bold"
+                       data-bs-toggle="tooltip" data-bs-placement="top" title="Videos">
+                        <i class="fas fa-video"></i> Videos
+                    </a>
                 </div>
                 <div class="col-4 text-start">
                     <a href="/photos" class="btn btn-outline-light btn-lg rounded-5 mt-4 fw-bold"
-                       data-bs-toggle="tooltip" data-bs-placement="top" title="Photos"><i class="fas fa-camera"></i>
-                        Photos</a>
+                       data-bs-toggle="tooltip" data-bs-placement="top" title="Photos">
+                        <i class="fas fa-camera"></i> Photos
+                    </a>
                 </div>
             </div>
             <a href="/about" class="btn btn-outline-light btn-lg rounded-5 mt-4 fw-bold" data-bs-toggle="tooltip"
-               data-bs-placement="top" title="About me"><i class="fas fa-user"></i> About me</a>
-
+               data-bs-placement="top" title="About me">
+                <i class="fas fa-user"></i> About me
+            </a>
             <div class="container">
                 <div class="row mt-5 justify-content-center">
                     <div class="col-4">
@@ -145,13 +154,21 @@
         z-index: 0;
     }
 
-    #noLightItem {
+    /*#noLightItem {
         max-height: 50vh;
         max-width: 1200px;
         width: 100%;
         object-fit: cover;
         margin: auto;
     }
+
+    #noLightItem2 {
+        max-height: 50vh;
+        max-width: 1200px;
+        width: 100%;
+        object-fit: cover;
+        margin: auto;
+    }*/
 
     .pickgradient {
         position: relative;

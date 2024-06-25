@@ -9,8 +9,6 @@
         });
     });
 
-    let username = '';
-    let password = '';
     let message = '';
     let status = 0;
     let isLoggingIn = false;

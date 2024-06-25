@@ -1,6 +1,6 @@
 import {PRIVATE_LOGIN_USERNAME, PRIVATE_LOGIN_PASSWORD} from '$env/static/private';
 import { v4 as uuidv4 } from 'uuid';
-import { redirect} from "@sveltejs/kit";
+import { redirect } from "@sveltejs/kit";
 
 export const load = async ({cookies}) => {
     const sessionId = cookies.get('session_id');
@@ -11,7 +11,7 @@ export const load = async ({cookies}) => {
 }
 
 export const actions = {
-    default: async ({cookies, request}) => {
+    login: async ({cookies, request}) => {
 
         const formData = Object.fromEntries(await request.formData());
         const username = formData.username;
@@ -20,7 +20,7 @@ export const actions = {
             return {
                 status: 401,
                 body: {
-                    message: 'Unauthorized'
+                    message: 'Unauthorized ' + username + ' ' + password
                 }
             }
         }

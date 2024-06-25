@@ -26,8 +26,9 @@
             <p class="h3 rounded-bottom pt-2" data-aos="fade-up"><i class="fas fa-user-astronaut custom-fa-gradient"></i> About me:</p>
         </div>
     </div>
+    <!-- Content -->
     <div class="row justify-content-center mt-3 mt-md-3 mt-lg-4 p-2">
-        <div class="col-auto col-md-11 col-xxl-7 shadow border border-2 border-light border-opacity-25 rounded-3 p-4"
+        <div class="col-auto col-md-11 col-xxl-7 rounded-4 p-4"
              data-aos="fade-up" data-aos-duration="600" data-aos-delay="95" id="textAboutDiv">
             <!-- Text -->
             <p class="h3 text-center text-light" data-aos="fade-right">

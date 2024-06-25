@@ -28,7 +28,7 @@ body {
 
 .btn:hover {
     color: #ffffff !important;
-    background-color: #a83613 !important;
+    background-color: #bc2e03 !important;
 }
 
 .custom-link {
@@ -42,7 +42,7 @@ body {
 }
 
 .fab:hover, .fas:hover, .email:hover{
-    color: #ffae5e !important;
+    color: #ff521e !important;
 }
 
 .navbar-custom {

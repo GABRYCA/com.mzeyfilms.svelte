@@ -29,7 +29,7 @@
 
         <!-- Email -->
         <div class="col-12">
-            <div class="row align-items-center pb-2 pt-4 pb-md-4 pt-md-4 mb-3 mb-md-5 shadow bg-light bg-opacity-10 border border-2 border-light border-opacity-10 rounded-3" data-aos="zoom-in">
+            <div class="row align-items-center pb-2 pt-4 pb-md-4 pt-md-4 mb-3 mb-md-5 bg-light bg-opacity-10 rounded-3" data-aos="zoom-in">
                 <div class="col-12 col-md-8 justify-content-center" data-aos="fade-in" data-aos-delay="250">
                     <p class="h3 text-white text-center mt-2 my-md-auto">You can reach me by <a class="link-light" href="mailto:{email}" data-bs-toggle="tooltip" data-bs-placement="top" title="Send me an email">Email</a>.</p>
                 </div>
@@ -41,7 +41,7 @@
             </div>
         </div>
 
-        <div class="row align-items-center mt-1 mb-md-5 pt-3 pb-4 py-md-4 pb-md-5 shadow bg-light bg-opacity-10 border border-2 border-light border-opacity-10 rounded-3">
+        <div class="row align-items-center mt-1 mb-md-5 pt-3 pb-4 py-md-4 pb-md-5 bg-light bg-opacity-10 rounded-3">
             <div class="col">
                 <p class="h2 text-white text-center mt-2 mb-3 mb-md-4" data-aos="fade-in" data-aos-delay="400">Or Socials: </p>
                 <!-- Social Icons -->
@@ -73,7 +73,7 @@
 </div>
 
 <style>
-    .custom-bg-gradient {
+    /*.custom-bg-gradient {
         background: linear-gradient(45deg, rgba(30, 0, 0, 0.98), rgba(0, 0, 30, 0.98));
-    }
+    }*/
 </style>

@@ -17,11 +17,11 @@ export const actions = {
         const username = formData.username;
         const password = formData.password;
         if (username !== PRIVATE_LOGIN_USERNAME || password !== PRIVATE_LOGIN_PASSWORD) {
-            console.log('Unauthorized');
+            /*console.log('Unauthorized');
             console.log('password', password);
             console.log('PRIVATE_LOGIN_PASSWORD', PRIVATE_LOGIN_PASSWORD);
             console.log('username', username);
-            console.log('PRIVATE_LOGIN_USERNAME', PRIVATE_LOGIN_USERNAME);
+            console.log('PRIVATE_LOGIN_USERNAME', PRIVATE_LOGIN_USERNAME);*/
             return {
                 status: 401,
                 body: {

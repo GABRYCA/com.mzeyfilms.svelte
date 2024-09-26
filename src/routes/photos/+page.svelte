@@ -52,8 +52,11 @@
                                 </div>
                             </div>
                         </div>
-                        {#if index < content.length - 1}
+                        <!--{#if index < content.length - 1}
                             <hr>
+                        {/if}-->
+                        {#if index < content.length - 1}
+                        <div class="row my-2"></div>
                         {/if}
                     {/each}
                 </div>

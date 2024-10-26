@@ -125,13 +125,7 @@
 </div>
 
 <style>
-
-    :global(.row, slot, nav, footer, .container, .container-fluid){
-        font-family: 'Comfortaa', serif !important;
-    }
-
     #logoTitle {
         text-shadow: 3px 3px #a83613;
     }
-
 </style>

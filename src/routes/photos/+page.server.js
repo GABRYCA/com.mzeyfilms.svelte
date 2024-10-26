@@ -13,6 +13,8 @@ export async function load() {
     });
 
     return {
-        content: foldersWithImages
+        content: foldersWithImages,
+        title: 'MZEYFILMS - Photos',
+        description: 'MZEFILMS Photos. Give a look to my beautiful shots.',
     }
 }

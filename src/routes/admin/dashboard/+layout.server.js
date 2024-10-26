@@ -5,6 +5,12 @@ export const load = async ({ cookies }) => {
     const sessionId = cookies.get('session_id');
 
     if (!(sessionId && global.sessions && global.sessions[sessionId])) {
-        redirect(303, '/admin/login')
+        return redirect(303, '/admin/login')
+    }
+
+    return {
+        title: 'MZEYFILMS - Admin - Dashboard',
+        description: 'MZEFILMS Admin Dashboard. Manage your videos, photos, and more.',
+        index: false
     }
 }

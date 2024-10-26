@@ -14,5 +14,5 @@ export const load = async ({ cookies }) => {
         expires: new Date(0),
     });
 
-    redirect(303, '/admin/login');
+    return redirect(303, '/admin/login');
 }

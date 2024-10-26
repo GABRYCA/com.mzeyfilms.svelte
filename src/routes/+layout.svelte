@@ -3,6 +3,7 @@
     import AOS from "aos";
     import "$lib/css/style.css";
     import { page } from "$app/stores";
+    import Seo from "sk-seo";
 
     onMount(() => {
         // Close navbar
@@ -40,6 +41,19 @@
     const currentYear = new Date().getFullYear();
     const email = "manuel.zaffiro03@gmail.com"
 </script>
+
+<Seo
+    title={$page.data.title ?? "MZEYFILMS - Official"}
+    author={$page.data.author ?? "MZEYFILMS"}
+    name={$page.data.name ?? "MZEYFILMS"}
+    imageURL={$page.data.imageURL ?? "https://mzeyfilms.com/favicon.webp"}
+    logo={$page.data.logo ?? "https://mzeyfilms.com/favicon.webp"}
+    description={$page.data.description ?? "MZEYFILMS, Filmmaker, Photographer, Aspirant Cinematographer, Always searching for new stories to tell."}
+    schemaOrg={true}
+    twitter={true}
+    canonical={$page.data.canonical ?? $page.url.origin}
+    index={$page.data.index ?? true}
+/>
 
 <nav class="navbar navbar-expand-lg navbar-dark text-center mb-1 ps-auto ps-md-2 bg-black bg-opacity-50 rounded-bottom-3">
     <div class="container-fluid pt-2 mx-1">
@@ -79,16 +93,16 @@
         <div class="row justify-content-center">
             <p class="h5 text-white mt-2">Social:</p>
             <div class="col-3">
-                <a href="https://m.youtube.com/channel/UCx0Ih65Y_TU86li7eWuM4_g" target="_blank"><i class="fab fa-youtube mx-4 fa-2x link-light pt-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Watch my videos"></i></a>
+                <a href="https://m.youtube.com/channel/UCx0Ih65Y_TU86li7eWuM4_g" target="_blank" aria-label="Youtube"><i class="fab fa-youtube mx-4 fa-2x link-light pt-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Watch my videos"></i></a>
             </div>
             <div class="col-3">
-                <a href="https://www.instagram.com/mzeyfilms/" target="_blank"><i class="fab fa-instagram mx-4 fa-2x link-light pt-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Follow me on Instagram"></i></a>
+                <a href="https://www.instagram.com/mzeyfilms/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram mx-4 fa-2x link-light pt-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Follow me on Instagram"></i></a>
             </div>
             <div class="col-3">
-                <a href="https://open.spotify.com/show/22Nsi7J93FcN6kICu6hEaS" target="_blank"><i class="fab fa-spotify mx-4 fa-2x link-light pt-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Listen to my podcast"></i></a>
+                <a href="https://open.spotify.com/show/22Nsi7J93FcN6kICu6hEaS" target="_blank" aria-label="Spotify"><i class="fab fa-spotify mx-4 fa-2x link-light pt-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Listen to my podcast"></i></a>
             </div>
             <div class="col-3">
-                <a href="https://music.amazon.it/podcasts/1b46e8c5-0b6a-4882-b634-8d18ef578804/tachipistorie" target="_blank"><i class="fab fa-amazon mx-4 fa-2x link-light pt-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Also available on Amazon"></i></a>
+                <a href="https://music.amazon.it/podcasts/1b46e8c5-0b6a-4882-b634-8d18ef578804/tachipistorie" target="_blank" aria-label="Amazon Music Podcast"><i class="fab fa-amazon mx-4 fa-2x link-light pt-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Also available on Amazon"></i></a>
             </div>
         </div>
     </div>
@@ -114,3 +128,4 @@
     }
 
 </style>
+}

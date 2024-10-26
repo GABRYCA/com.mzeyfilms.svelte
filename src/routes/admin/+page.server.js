@@ -5,9 +5,8 @@ export const load = async ({ cookies }) => {
     const sessionId = cookies.get('session_id');
 
     if (sessionId && global.sessions && global.sessions[sessionId]) {
-        redirect(303, '/admin/dashboard');
-        return;
+        return redirect(303, '/admin/dashboard');
+    } else {
+        return redirect(303, '/admin/login')
     }
-
-    redirect(303, '/admin/login')
 }

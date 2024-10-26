@@ -13,13 +13,6 @@
 
 </script>
 
-<svelte:head>
-    <!-- meta -->
-    <title>MZEYFILMS - Photos</title>
-    <meta name="description"
-          content="MZEYFILMS, Filmmaker, Photographer, Aspirant Cinematographer, Always searching for new stories to tell. ">
-</svelte:head>
-
 <div class="container-xxl" data-aos="zoom-in" data-aos-duration="400">
     <div class="row align-items-center" style="min-height: 78vh">
         <div class="col">

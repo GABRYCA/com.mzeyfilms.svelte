@@ -10,20 +10,13 @@
     const age = new Date().getFullYear() - 2003;
 </script>
 
-<svelte:head>
-    <!-- meta -->
-    <title>MZEYFILMS - About</title>
-    <meta name="description"
-          content="MZEYFILMS, Filmmaker, Photographer, Aspirant Cinematographer, Always searching for new stories to tell. ">
-</svelte:head>
-
 <!-- CONTENT -->
 <div class="container-fluid pb-3 pb-md-5" id="mainDiv">
     <!-- Title -->
     <div class="row bg-dark bg-opacity-25 mb-md-5 pt-5 pb-4 text-center text-white rounded-bottom-4">
         <div class="col">
-            <p class="h1 mb-0" data-aos="fade-up"><i class="fas fa-film custom-fa-gradient"></i> MZEYFILMS: </p>
-            <p class="h3 rounded-bottom pt-2" data-aos="fade-up"><i class="fas fa-user-astronaut custom-fa-gradient"></i> About me:</p>
+            <p class="h1 mb-0" data-aos="fade-up"><i class="fas fa-film custom-fa-gradient-about"></i> MZEYFILMS: </p>
+            <p class="h3 rounded-bottom pt-2" data-aos="fade-up"><i class="fas fa-user-astronaut custom-fa-gradient-about"></i> About me:</p>
         </div>
     </div>
     <!-- Content -->
@@ -46,23 +39,25 @@
             <div class="row justify-content-evenly text-center px-2 px-md-5 gy-3">
                 <div class="col-12 col-md-5 bg-light bg-opacity-10 rounded-4 pt-4 pb-3">
                     <a href="https://m.youtube.com/channel/UCx0Ih65Y_TU86li7eWuM4_g"
-                       class="btn btn-lg btn-outline-light m-2 fs-2" data-bs-toggle="tooltip" data-bs-placement="top"
-                       title="Watch my videos"><i class="fab fa-youtube custom-fa-gradient"></i> Youtube</a>
+                       class="btn btn-lg border-0 m-2 fs-2" data-bs-toggle="tooltip" data-bs-placement="top"
+                       title="Watch my videos"><i class="fab fa-youtube custom-fa-gradient-about"></i> Youtube</a>
                 </div>
                 <div class="col-12 col-md-5 bg-light bg-opacity-10 rounded-4 pt-4 pb-3">
-                    <a href="https://www.instagram.com/mzeyfilms/" class="btn btn-lg btn-outline-light m-2 fs-2"
+                    <a href="https://www.instagram.com/mzeyfilms/"
+                       class="btn btn-lg border-0 m-2 fs-2"
                        data-bs-toggle="tooltip" data-bs-placement="top" title="Follow me on Instagram"><i
-                            class="fab fa-instagram custom-fa-gradient"></i> Instagram</a>
+                            class="fab fa-instagram custom-fa-gradient-about"></i> Instagram</a>
                 </div>
                 <div class="col-12 col-md-5 bg-light bg-opacity-10 rounded-4 pt-4 pb-3">
-                    <a href="https://open.spotify.com/show/22Nsi7J93FcN6kICu6hEaS" class="btn btn-lg btn-outline-light m-2 fs-2"
+                    <a href="https://open.spotify.com/show/22Nsi7J93FcN6kICu6hEaS"
+                       class="btn btn-lg border-0 m-2 fs-2"
                        data-bs-toggle="tooltip" data-bs-placement="top" title="Listen to my podcast"><i
-                            class="fab fa-spotify custom-fa-gradient"></i> Spotify</a>
+                            class="fab fa-spotify custom-fa-gradient-about"></i> Spotify</a>
                 </div>
                 <div class="col-12 col-md-5 bg-light bg-opacity-10 rounded-4 pt-4 pb-3">
                     <a href="https://music.amazon.it/podcasts/1b46e8c5-0b6a-4882-b634-8d18ef578804/tachipistorie"
-                       class="btn btn-lg btn-outline-light m-2 fs-2" data-bs-toggle="tooltip" data-bs-placement="top"
-                       title="Also available on Amazon"><i class="fab fa-amazon custom-fa-gradient"></i> Amazon</a>
+                       class="btn btn-lg border-0 m-2 fs-2" data-bs-toggle="tooltip" data-bs-placement="top"
+                       title="Also available on Amazon"><i class="fab fa-amazon custom-fa-gradient-about"></i> Amazon</a>
                 </div>
             </div>
         </div>
@@ -83,6 +78,7 @@
         transition: all 0.5s ease;
     }
 
+    /*
     .link-container a {
         transition: all 0.5s ease;
     }
@@ -90,5 +86,9 @@
     .link-container a:hover {
         transform: scale(1.1);
     }
+    */
 
+    .btn {
+        box-shadow: 0 0 10px 0 rgba(188, 0, 0, 0.2);
+    }
 </style>

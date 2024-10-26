@@ -11,14 +11,6 @@
     });
 </script>
 
-<svelte:head>
-    <!-- meta -->
-    <title>MZEYFILMS - Home</title>
-    <meta name="description"
-          content="MZEYFILMS, Filmmaker, Photographer, Aspirant Cinematographer, Always searching for new stories to tell. ">
-    <link rel="canonical" href="https://mzeyfilms.com/"/>
-</svelte:head>
-
 <!-- BODY -->
 <div class="container-fluid bg-black bg-opacity-75">
     <div class="row justify-content-center" data-aos="fade-up">
@@ -84,7 +76,7 @@
             <div class="container">
                 <div class="row mt-5 justify-content-center">
                     <div class="col-4">
-                        <a href="https://www.instagram.com/mzeyfilms/" target="_blank">
+                        <a href="https://www.instagram.com/mzeyfilms/" target="_blank" aria-label="Instagram">
                                 <span class="fa-stack fa-2x text-light text-opacity-25" data-bs-toggle="tooltip"
                                       data-bs-placement="top" title="Instagram">
                                     <i class="fas fa-circle fa-stack-2x"></i>
@@ -93,7 +85,7 @@
                         </a>
                     </div>
                     <div class="col-4">
-                        <a href="https://m.youtube.com/channel/UCx0Ih65Y_TU86li7eWuM4_g" target="_blank">
+                        <a href="https://m.youtube.com/channel/UCx0Ih65Y_TU86li7eWuM4_g" target="_blank" aria-label="Youtube">
                                 <span class="fa-stack fa-2x text-light text-opacity-25" data-bs-toggle="tooltip"
                                       data-bs-placement="top" title="Youtube">
                                     <i class="fas fa-circle fa-stack-2x"></i>
@@ -108,7 +100,7 @@
                     <!-- Spotify and Amazon Music Icons -->
                     <div class="row mt-4 justify-content-center">
                         <div class="col-3 px-0">
-                            <a href="https://open.spotify.com/show/22Nsi7J93FcN6kICu6hEaS" target="_blank">
+                            <a href="https://open.spotify.com/show/22Nsi7J93FcN6kICu6hEaS" target="_blank" aria-label="Spotify">
                                         <span class="fa-stack fa-2x text-light text-opacity-25" data-bs-toggle="tooltip"
                                               data-bs-placement="top" title="Spotify">
                                             <i class="fas fa-circle fa-stack-2x"></i>
@@ -118,7 +110,7 @@
                         </div>
                         <div class="col-3 px-0">
                             <a href="https://music.amazon.it/podcasts/1b46e8c5-0b6a-4882-b634-8d18ef578804/tachipistorie"
-                               target="_blank">
+                               target="_blank" aria-label="Amazon Music Podcast">
                                         <span class="fa-stack fa-2x text-light text-opacity-25" data-bs-toggle="tooltip"
                                               data-bs-placement="top" title="Amazon Podcast">
                                             <i class="fas fa-circle fa-stack-2x"></i>

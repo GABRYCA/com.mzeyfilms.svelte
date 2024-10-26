@@ -93,6 +93,13 @@ body {
     transform: scale(1.15);
 }
 
+.custom-fa-gradient-about {
+    background: linear-gradient(45deg, rgba(255, 203, 203, 0.98), rgba(255, 94, 94, 0.98));
+    transition: all 0.25s ease-in-out;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
 .btn-custom {
     transition: all 0.25s ease-in-out;
 }

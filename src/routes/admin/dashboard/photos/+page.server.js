@@ -61,7 +61,10 @@ export async function load(){
 
     return {
         folders: folders,
-        content: foldersWithImages
+        content: foldersWithImages,
+        title: 'MZEYFILMS - Admin - Photos',
+        description: 'MZEFILMS Admin Photos. Manage your photos.',
+        index: false
     }
 }
 

@@ -9,7 +9,10 @@ export async function load() {
     const videos = await pb.collection('videos').getFullList();
 
     return {
-        videos: videos
+        videos: videos,
+        title: 'MZEYFILMS - Admin - Videos',
+        description: 'MZEFILMS Admin Videos. Manage your videos.',
+        index: false
     }
 }
 

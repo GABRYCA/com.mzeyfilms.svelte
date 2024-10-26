@@ -135,14 +135,6 @@
     }
 </script>
 
-<svelte:head>
-    <!-- meta -->
-    <title>MZEYFILMS - Admin - Photos</title>
-    <meta name="description"
-          content="MZEYFILMS, Filmmaker, Photographer, Aspirant Cinematographer, Always searching for new stories to tell. ">
-    <meta name="robots" content="noindex">
-</svelte:head>
-
 <div class="container-fluid mt-3 mb-2 pt-4 pb-4 bg-light bg-opacity-10 rounded-3">
     <div class="row">
         <div class="col text-center">

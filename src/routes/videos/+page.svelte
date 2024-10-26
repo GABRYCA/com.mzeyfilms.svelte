@@ -11,13 +11,6 @@
     });
 </script>
 
-<svelte:head>
-    <!-- meta -->
-    <title>MZEYFILMS - Videos</title>
-    <meta name="description"
-          content="MZEYFILMS, Filmmaker, Photographer, Aspirant Cinematographer, Always searching for new stories to tell. ">
-</svelte:head>
-
 <div class="container-xxl" data-aos="zoom-in" data-aos-duration="400">
     <div class="row align-items-center" style="min-height: 78vh">
         <div class="col">
@@ -33,7 +26,7 @@
                         <p class="h3 my-auto py-2">No videos found</p>
                     {:else}
                         {#each videos as video, index (video.id)}
-                            <div class="row">
+                            <div class="row" data-aos="zoom-in">
                                 <div class="col">
                                     <UserVideo src={video.url} title={video.name} />
                                 </div>

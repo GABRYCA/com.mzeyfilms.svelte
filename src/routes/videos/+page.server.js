@@ -10,6 +10,8 @@ export async function load() {
     const videos = await pb.collection('videos').getFullList();
 
     return {
-        videos: videos
+        videos: videos,
+        title: 'MZEYFILMS - Videos',
+        description: 'MZEFILMS Videos. Watch my latest featured videos.',
     }
 }

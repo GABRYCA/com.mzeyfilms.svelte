@@ -1,11 +1,3 @@
-<svelte:head>
-    <!-- meta -->
-    <title>MZEYFILMS - Admin - Dashboard</title>
-    <meta name="description"
-          content="MZEYFILMS, Filmmaker, Photographer, Aspirant Cinematographer, Always searching for new stories to tell. ">
-    <meta name="robots" content="noindex">
-</svelte:head>
-
 <div class="container-fluid">
     <div class="row justify-content-center align-items-center mt-4 mb-4" style="min-height: 56vh">
         <div class="col text-center">

@@ -1,6 +1,6 @@
 <script>
-    export let src;
-    let isLoading = true;
+    let { src } = $props();
+    let isLoading = $state(true);
 
     function handleImageLoad() {
         isLoading = false;
@@ -14,7 +14,7 @@
         </div>
     {/if}
     <a href="{src.url}" target="_blank">
-        <img src="{src.url}" loading="lazy" class="img-fluid rounded-4" alt="Gallery Content" on:load={handleImageLoad}>
+        <img src="{src.url}" loading="lazy" class="img-fluid rounded-4" alt="Gallery Content" onload={handleImageLoad}>
     </a>
 </div>
 

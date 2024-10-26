@@ -3,10 +3,9 @@
     import {invalidateAll} from "$app/navigation";
     import {toast} from "@zerodevx/svelte-toast";
 
-    export let src;
-    export let videoName;
-    let newVideoName = videoName;
-    let title = newVideoName;
+    let { src, videoName } = $props();
+    let newVideoName = $state(videoName);
+    let title = $state(videoName);
     // To get id, split at / and get the last element
     const videoId = src.split('/').pop();
 
@@ -109,10 +108,10 @@
     <div class="card-body text-center">
         <h5 class="card-title">{title}</h5>
         <input type="text" bind:value={newVideoName} class="form-control" placeholder="Nuovo titolo">
-        <button class="btn btn-warning mt-2" on:click={() => renameVideo()}>
+        <button class="btn btn-warning mt-2" onclick={() => renameVideo()}>
             <i class="fa fa-check"></i> Rinomina
         </button>
-        <button class="btn btn-danger mt-2" on:click={deleteVideo}>
+        <button class="btn btn-danger mt-2" onclick={deleteVideo}>
             <i class="fa fa-trash"></i> Cancella
         </button>
     </div>

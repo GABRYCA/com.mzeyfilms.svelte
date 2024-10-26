@@ -2,7 +2,7 @@
     import {onMount} from "svelte";
     import UserPhoto from "$lib/components/UserPhoto.svelte";
 
-    export let data;
+    let { data } = $props();
     const { content } = data;
 
     onMount(() => {

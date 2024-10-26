@@ -3,12 +3,14 @@
     import {invalidateAll} from "$app/navigation";
     import {toast} from "@zerodevx/svelte-toast";
 
-    export let src;
-    export let folder;
-    export let folderList;
-    export let imageName;
-    let newFolder = folder;
-    let isLoading = true;
+    let {
+        src,
+        folder,
+        folderList,
+        imageName
+    } = $props();
+    let newFolder = $state(folder);
+    let isLoading = $state(true);
 
     function handleImageLoad() {
         isLoading = false;
@@ -91,19 +93,19 @@
             <span class="visually-hidden">Loading...</span>
         </div>
     {/if}
-    <img alt="{imageName}" class="card-img-top" loading="lazy" src="{src}" on:load={handleImageLoad}>
+    <img alt="{imageName}" class="card-img-top" loading="lazy" src="{src}" onload={handleImageLoad}>
     <div class="card-body">
         <p class="card-title h5">{imageName}</p>
         <hr>
         <form>
             <label for="folder">Cambia cartella:</label>
-            <select bind:value={newFolder} class="form-control" on:change={changeFolder}>
+            <select bind:value={newFolder} class="form-control" onchange={changeFolder}>
                 {#each folderList as folder (folder.id)}
                     <option value={folder.name}>{folder.name}</option>
                 {/each}
             </select>
         </form>
         <hr>
-        <button class="btn btn-danger mt-2 w-100" on:click={deleteImage}>Cancella</button>
+        <button class="btn btn-danger mt-2 w-100" onclick={deleteImage}>Cancella</button>
     </div>
 </div>

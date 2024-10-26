@@ -1,6 +1,5 @@
 <script>
-    export let src;
-    export let title;
+    let { src, title } = $props();
 
     const videoId = src.split('/').pop();
 </script>

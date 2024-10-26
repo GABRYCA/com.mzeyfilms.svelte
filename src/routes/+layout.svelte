@@ -4,6 +4,13 @@
     import "$lib/css/style.css";
     import { page } from "$app/stores";
     import Seo from "sk-seo";
+    /**
+     * @typedef {Object} Props
+     * @property {import('svelte').Snippet} [children]
+     */
+
+    /** @type {Props} */
+    let { children } = $props();
 
     onMount(() => {
         // Close navbar
@@ -86,7 +93,7 @@
     </div>
 </nav>
 
-<slot></slot>
+{@render children?.()}
 
 <div class="row pt-2 pb-2 mx-auto mt-1 justify-content-center align-items-center bg-black bg-opacity-50 rounded-top-3">
     <div class="col-12 col-md-4 text-white text-center pb-2">
@@ -128,4 +135,3 @@
     }
 
 </style>
-}

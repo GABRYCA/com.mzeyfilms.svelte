@@ -1,7 +1,7 @@
 <script>
     import {onMount} from "svelte";
     import UserVideo from "$lib/components/UserVideo.svelte";
-    export let data;
+    let { data } = $props();
     const { videos } = data;
 
     onMount(() => {

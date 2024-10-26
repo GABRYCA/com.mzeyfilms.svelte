@@ -2,6 +2,13 @@
     import { onMount } from 'svelte';
     import { page } from "$app/stores";
     import { SvelteToast } from '@zerodevx/svelte-toast';
+    /**
+     * @typedef {Object} Props
+     * @property {import('svelte').Snippet} [children]
+     */
+
+    /** @type {Props} */
+    let { children } = $props();
 
     const options = {
         duration: 3000,
@@ -41,7 +48,7 @@
 
 <SvelteToast {options} />
 
-<slot></slot>
+{@render children?.()}
 
 <style>
     .navbar-link {

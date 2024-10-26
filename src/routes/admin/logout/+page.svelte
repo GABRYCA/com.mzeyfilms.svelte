@@ -1,5 +1,5 @@
 <script>
-    export let data;
+    let { data } = $props();
     let message = data.body.message;
 
     if (!(data.status === 200 || data.status === 404)) {

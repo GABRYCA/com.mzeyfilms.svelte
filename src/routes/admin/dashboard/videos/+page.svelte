@@ -1,13 +1,15 @@
 <script>
     import {onMount} from "svelte";
-    import {deserialize, enhance} from '$app/forms';
+    import {deserialize} from '$app/forms';
     import AdminVideo from "$lib/components/AdminVideo.svelte";
     import {invalidateAll} from "$app/navigation";
     import {toast} from "@zerodevx/svelte-toast";
 
-    export let data;
-    let { videos } = data;
-    $: ({videos} = data);
+    let { data } = $props();
+    let { videos } = $state(data);
+    $effect(() => {
+        ({ videos } = data);
+    });
 
     let isUploading = false;
 
@@ -75,7 +77,7 @@
             <p class="h3">Aggiungi <b>VIDEO</b>:</p>
             <div class="row justify-content-center text-center">
                 <div class="col">
-                    <form method="post" enctype="multipart/form-data" action="?/upload" on:submit|preventDefault={handleUpload}>
+                    <form method="post" enctype="multipart/form-data" action="?/upload" onsubmit={() => handleUpload}>
                         <div class="row">
                             <!-- Invece di file, chiedo in input nome "name" e url "url" -->
                             <div class="col-12 col-md-4 mt-2">

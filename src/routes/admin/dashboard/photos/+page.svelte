@@ -151,7 +151,7 @@
             <!-- Caricamento singolo -->
             <div class="row justify-content-center text-center">
                 <div class="col">
-                    <form method="post" enctype="multipart/form-data" action="?/upload" onsubmit={() => (handleUpload)}>
+                    <form method="post" enctype="multipart/form-data" action="?/upload" onsubmit={handleUpload}>
                         <div class="row">
                             <div class="col-12">
                                 <label class="form-label" for="folder">Cartella di destinazione:</label>
@@ -178,7 +178,7 @@
             <p class="text-muted">Carica tutte le immagini da una cartella del tuo dispositivo</p>
             <div class="row justify-content-center text-center">
                 <div class="col">
-                    <form method="post" enctype="multipart/form-data" action="?/upload" onsubmit={() => handleBulkUpload}>
+                    <form method="post" enctype="multipart/form-data" action="?/upload" onsubmit={handleBulkUpload}>
                         <div class="row">
                             <div class="col-12">
                                 <label class="form-label" for="folder">Cartella di destinazione:</label>

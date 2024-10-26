@@ -77,7 +77,7 @@
             <p class="h3">Aggiungi <b>VIDEO</b>:</p>
             <div class="row justify-content-center text-center">
                 <div class="col">
-                    <form method="post" enctype="multipart/form-data" action="?/upload" onsubmit={() => handleUpload}>
+                    <form method="post" enctype="multipart/form-data" action="?/upload" onsubmit={handleUpload}>
                         <div class="row">
                             <!-- Invece di file, chiedo in input nome "name" e url "url" -->
                             <div class="col-12 col-md-4 mt-2">

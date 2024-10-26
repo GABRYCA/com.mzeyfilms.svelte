@@ -108,7 +108,7 @@
     <div class="card-body text-center">
         <h5 class="card-title">{title}</h5>
         <input type="text" bind:value={newVideoName} class="form-control" placeholder="Nuovo titolo">
-        <button class="btn btn-warning mt-2" onclick={() => renameVideo()}>
+        <button class="btn btn-warning mt-2" onclick={renameVideo}>
             <i class="fa fa-check"></i> Rinomina
         </button>
         <button class="btn btn-danger mt-2" onclick={deleteVideo}>

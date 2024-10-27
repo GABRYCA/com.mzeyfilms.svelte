@@ -1,7 +1,7 @@
-/*@import url('https://fonts.googleapis.com/css?family=Comfortaa');*/
+@import url('https://fonts.googleapis.com/css?family=Comfortaa');
 
 body {
-    font-family: "Moderniz", sans-serif !important;
+    font-family: "", courier !important;
 }
 
 .slideshow {

@@ -24,7 +24,7 @@
         <div class="col-12">
             <div class="row align-items-center pb-2 pt-4 pb-md-4 pt-md-4 mb-3 mb-md-5 bg-light bg-opacity-10 rounded-3" data-aos="zoom-in">
                 <div class="col-12 col-md-8 justify-content-center" data-aos="fade-in" data-aos-delay="250">
-                    <p class="h3 text-white text-center mt-2 my-md-auto">You can reach me by <a class="link-light" href="mailto:{email}" data-bs-toggle="tooltip" data-bs-placement="top" title="Send me an email">Email</a>.</p>
+                    <p class="h4 text-white text-center mt-2 my-md-auto">You can reach me by <a class="link-light" href="mailto:{email}" data-bs-toggle="tooltip" data-bs-placement="top" title="Send me an email">Email</a>.</p>
                 </div>
                 <div class="col-12 col-md-4 text-center justify-content-center" data-aos="slide-right" data-aos-delay="200">
                     <a href="mailto:{email}" aria-label="Email">
@@ -36,7 +36,7 @@
 
         <div class="row align-items-center mt-1 mb-md-5 pt-3 pb-4 py-md-4 pb-md-5 bg-light bg-opacity-10 rounded-3">
             <div class="col">
-                <p class="h2 text-white text-center mt-2 mb-3 mb-md-4" data-aos="fade-in" data-aos-delay="400">Or Socials: </p>
+                <p class="h4 text-white text-center mt-2 mb-3 mb-md-4 mb-md-4" data-aos="fade-in" data-aos-delay="400">Or Socials: </p>
                 <!-- Social Icons -->
                 <div class="row align-items-center justify-content-center justify-content-md-around text-center">
                     <div class="col-5 col-md-2 mb-4 mb-md-0 px-0" data-aos="fade-down" data-aos-delay="450">

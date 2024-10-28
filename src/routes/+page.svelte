@@ -13,66 +13,43 @@
 
 <!-- BODY -->
 <div class="container-fluid bg-black bg-opacity-75">
+    <!-- MZEY Cover -->
     <div class="row justify-content-center" data-aos="fade-up">
         <div class="col text-center px-0 pickgradient">
             <enhanced:img src={logoHome} class="img-fluid shadow" alt="Logo" id="front-image" />
         </div>
     </div>
 
-    <div class="row h-100 bg-black justify-content-around" data-aos="fade-in" data-aos-duration="1000">
-        <div class="col-12 col-md-5 px-0 my-auto gradient-overlay text-center h-100">
-            <!--<div>
-                <a class="text-decoration-none" href="https://youtu.be/kjOIvL3PduI?si=n9vPTBDQjV9B7la5" target="_blank"
-                   data-bs-toggle="tooltip" data-bs-placement="top" title="View Short">
-                    <h1 class="text-center text-white pt-5 pb-3">MZEYFILMS</h1>
-                    <p class="text-center text-white mb-5 mb-md-0">No Light In Deepness</p>
-                </a>
-            </div>-->
-            <div class="gradient-overlay">
-                <enhanced:img class="img-fluid rounded-5 shadow" src={naughtyLaundry}
-                              alt="naughty laundry by mzeyfilms"/>
-            </div>
-        </div>
-        <div class="col-12 col-md-6 my-auto px-0 gradient-overlay text-center h-100">
-            <div class="gradient-overlay">
-                <enhanced:img class="img-fluid rounded-5" src={noLightInDeepness}
-                     alt="no light in deepness by mzeyfilms" />
-            </div>
-        </div>
-    </div>
-
-
-    <div class="row pt-5 pb-5 justify-content-center" id="centrale">
-
+    <!-- Links to sections -->
+    <div class="row py-5 justify-content-center align-items-center" id="centrale">
         <div class="col-12" id="contenutoCentrale"></div>
 
-        <div class="col-sm-8 text-center text-white" data-aos="zoom-in" data-aos-delay="100">
-            <p class="h1 fw-bold">MZEYFILMS</p>
-            <p class="h4 pt-1">Filmmaker | Photographer | Aspirant Cinematographer<br>
-                Always searching for new stories to tell.</p>
-
-            <a href="/contacts" class="btn btn-outline-light btn-lg rounded-5 mt-4 fw-bold" data-bs-toggle="tooltip"
-               data-bs-placement="top" title="Contact Me">
-                <i class="fas fa-envelope"></i> Contact me
-            </a>
-            <div class="row justify-content-center">
-                <div class="col-4 text-end">
-                    <a href="/videos" class="btn btn-outline-light btn-lg rounded-5 mt-4 pt-2 fw-bold"
+        <div class="col-12 text-center" data-aos="zoom-in" data-aos-delay="100">
+            <div class="row justify-content-center align-items-center">
+                <div class="col-auto">
+                    <a href="/videos" class="btn btn-homepage rounded-5 pt-2 fw-bold"
                        data-bs-toggle="tooltip" data-bs-placement="top" title="Videos">
-                        <i class="fas fa-video"></i> Videos
+                        <i class="fas fa-video"></i> <br>Videos
                     </a>
                 </div>
-                <div class="col-4 text-start">
-                    <a href="/photos" class="btn btn-outline-light btn-lg rounded-5 mt-4 fw-bold"
+                <div class="col-auto px-0 mx-sm-5">
+                    <a href="/photos" class="btn btn-homepage rounded-5 fw-bold"
                        data-bs-toggle="tooltip" data-bs-placement="top" title="Photos">
-                        <i class="fas fa-camera"></i> Photos
+                        <i class="fas fa-camera"></i> <br>Photos
+                    </a>
+                </div>
+                <div class="col-auto">
+                    <a href="/contacts" class="btn btn-homepage rounded-5 fw-bold" data-bs-toggle="tooltip"
+                       data-bs-placement="top" title="Contact Me">
+                        <i class="fas fa-envelope"></i> <br>Contacts
                     </a>
                 </div>
             </div>
-            <a href="/about" class="btn btn-outline-light btn-lg rounded-5 mt-4 fw-bold" data-bs-toggle="tooltip"
+            <!--<a href="/about" class="btn btn-outline-light btn-lg rounded-5 mt-4 fw-bold" data-bs-toggle="tooltip"
                data-bs-placement="top" title="About me">
                 <i class="fas fa-user"></i> About me
-            </a>
+            </a>-->
+            <!--
             <div class="container">
                 <div class="row mt-5 justify-content-center">
                     <div class="col-4">
@@ -97,7 +74,6 @@
                 <hr class="text-white">
                 <section data-aos="fade-up">
                     <p class="h2 fw-bold pt-3">Podcast:</p>
-                    <!-- Spotify and Amazon Music Icons -->
                     <div class="row mt-4 justify-content-center">
                         <div class="col-3 px-0">
                             <a href="https://open.spotify.com/show/22Nsi7J93FcN6kICu6hEaS" target="_blank" aria-label="Spotify">
@@ -121,6 +97,29 @@
                     </div>
                 </section>
             </div>
+            -->
+        </div>
+    </div>
+
+    <div class="row h-100 bg-black justify-content-around" data-aos="fade-in" data-aos-duration="1000">
+        <div class="col-12 col-md-5 px-0 my-auto gradient-overlay text-center h-100">
+            <!--<div>
+                <a class="text-decoration-none" href="https://youtu.be/kjOIvL3PduI?si=n9vPTBDQjV9B7la5" target="_blank"
+                   data-bs-toggle="tooltip" data-bs-placement="top" title="View Short">
+                    <h1 class="text-center text-white pt-5 pb-3">MZEYFILMS</h1>
+                    <p class="text-center text-white mb-5 mb-md-0">No Light In Deepness</p>
+                </a>
+            </div>-->
+            <div class="gradient-overlay">
+                <enhanced:img class="img-fluid rounded-5 shadow" src={naughtyLaundry}
+                              alt="naughty laundry by mzeyfilms"/>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 my-auto px-0 gradient-overlay text-center h-100">
+            <div class="gradient-overlay">
+                <enhanced:img class="img-fluid rounded-5" src={noLightInDeepness}
+                     alt="no light in deepness by mzeyfilms" />
+            </div>
         </div>
     </div>
 </div>
@@ -132,6 +131,7 @@
         background-position: 50% 10%;
         background-repeat: no-repeat;
         position: relative;
+        min-height: 50vh;
     }
 
     #contenutoCentrale {
@@ -161,6 +161,25 @@
         object-fit: cover;
         margin: auto;
     }*/
+
+    .btn-homepage {
+        box-shadow: 0 0 0.5rem 0.1rem rgba(182, 0, 0, 0.4);
+        color: #ff5555;
+        background-color: rgba(182, 0, 0, 0.25);
+        backdrop-filter: blur(8px);
+    }
+
+    .btn-homepage:hover {
+        box-shadow: 0 0 1rem 0.1rem rgba(182, 0, 0, 0.4);
+        color: #ff5555 !important;
+        background-color: rgba(182, 0, 0, 0.4) !important;
+    }
+
+    @media (max-width: 991px) {
+        .btn-homepage {
+            font-size: 0.8rem;
+        }
+    }
 
     .pickgradient {
         position: relative;

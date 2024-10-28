@@ -13,10 +13,10 @@
 <!-- CONTENT -->
 <div class="container-fluid pb-3 pb-md-5" id="mainDiv">
     <!-- Title -->
-    <div class="row bg-dark bg-opacity-25 mb-md-5 pt-5 pb-4 text-center text-white rounded-bottom-4">
+    <div class="row title-container mb-md-5 pt-5 pb-4 text-center text-white rounded-bottom-4">
         <div class="col">
-            <p class="h1 mb-0" data-aos="fade-up"><i class="fas fa-film custom-fa-gradient-about"></i> MZEYFILMS: </p>
-            <p class="h3 rounded-bottom pt-2" data-aos="fade-up"><i class="fas fa-user-astronaut custom-fa-gradient-about"></i> About me:</p>
+            <!--<p class="h1 mb-0" data-aos="fade-up"><i class="fas fa-film custom-fa-gradient-about"></i> MZEYFILMS: </p>-->
+            <p class="h3 rounded-bottom pb-2" data-aos="fade-up"><!--<i class="fas fa-user-astronaut custom-fa-gradient-about"></i>--> About me:</p>
         </div>
     </div>
     <!-- Content -->
@@ -24,15 +24,18 @@
         <div class="col-auto col-md-11 col-xxl-7 rounded-4 p-4"
              data-aos="fade-up" data-aos-duration="600" data-aos-delay="95" id="textAboutDiv">
             <!-- Text -->
-            <p class="h3 text-center text-light" data-aos="fade-right">
+            <p class="h4 text-center text-light mt-3 mb-4" data-aos="fade-right">
+                <!--
                 Hi! I'm Manuel, a {age} years old who really wants to create and tell stories through a different,
                 dynamic and impactful visual style. Your stories will be safe with me, ready to be created and best
                 told.
+                -->
+                Always searching for new stories to tell.
             </p>
             <hr class="text-light">
             <div class="row mt-4 mb-3">
                 <div class="col-12 text-center">
-                    <p class="h4 text-light" data-aos="fade-left">Check out my work and follow me on:</p>
+                    <p class="h4 text-light" data-aos="fade-left">Follow me on:</p>
                 </div>
             </div>
             <!-- Links -->
@@ -78,6 +81,10 @@
         transition: all 0.5s ease;
     }
 
+    .title-container {
+        background-color: rgba(30, 0, 0, 0.3);
+    }
+
     /*
     .link-container a {
         transition: all 0.5s ease;
@@ -90,5 +97,6 @@
 
     .btn {
         box-shadow: 0 0 10px 0 rgba(188, 0, 0, 0.2);
+        font-size: 1.55rem !important;
     }
 </style>

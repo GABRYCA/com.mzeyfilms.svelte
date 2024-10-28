@@ -17,7 +17,7 @@
     <div class="row align-items-center" style="min-height: 78vh">
         <div class="col">
             <div class="row text-center justify-content-center px-2 pt-2 mb-3">
-                <div class="col bg-light bg-opacity-10 pt-4 pb-3 rounded-4">
+                <div class="col bg-light bg-opacity-10 pt-4 pb-2 rounded-4">
                     <p class="h1">Photos</p>
                 </div>
             </div>
@@ -26,8 +26,8 @@
                     {#each content as folder, index (folder.id)}
                         <div class="row text-center justify-content-center px-2">
                             <div class="col bg-light bg-opacity-10 pt-3 pb-3 rounded-4">
-                                <button class="btn-custom bg-transparent w-100 rounded-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{index}">
-                                    <span class="h3">{folder.name} <i class="fas fa-chevron-down"></i></span>
+                                <button class="btn-custom bg-transparent w-100 rounded-3 pt-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{index}">
+                                    <span class="h5">{folder.name} <i class="fas fa-chevron-down"></i></span>
                                 </button>
                                 <div class="collapse" id="collapse{index}">
                                     <hr>

@@ -101,7 +101,7 @@
                     <a class="text-decoration-none navbar-title-link py-0" href="/">
                         <p class="navbar-title mb-0">MZEYFILMS</p>
                         <p class="navbar-subtitle mb-0 text-muted">
-                            Filmmaker | Photographer | Aspirant <br>Cinematographer
+                            Director | Photographer | Aspirant <br>Cinematographer
                         </p>
                     </a>
                 </div>

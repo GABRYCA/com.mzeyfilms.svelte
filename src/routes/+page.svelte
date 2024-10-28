@@ -12,7 +12,7 @@
 </script>
 
 <!-- BODY -->
-<div class="container-fluid bg-black bg-opacity-75">
+<div class="container-fluid bg-opacity-75">
     <!-- MZEY Cover -->
     <div class="row justify-content-center" data-aos="fade-up">
         <div class="col text-center px-0 pickgradient">
@@ -20,8 +20,53 @@
         </div>
     </div>
 
+    <!-- Awards -->
+    <div class="row h-100 bg-black justify-content-around" id="awards" data-aos="fade-in" data-aos-duration="1000">
+        <div class="col-12 col-md-5 px-0 my-auto gradient-overlay text-center h-100">
+            <!--<div>
+                <a class="text-decoration-none" href="https://youtu.be/kjOIvL3PduI?si=n9vPTBDQjV9B7la5" target="_blank"
+                   data-bs-toggle="tooltip" data-bs-placement="top" title="View Short">
+                    <h1 class="text-center text-white pt-5 pb-3">MZEYFILMS</h1>
+                    <p class="text-center text-white mb-5 mb-md-0">No Light In Deepness</p>
+                </a>
+            </div>-->
+            <div class="gradient-overlay">
+                <enhanced:img class="img-fluid rounded-5 shadow" src={naughtyLaundry}
+                              alt="naughty laundry by mzeyfilms"/>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 my-auto px-0 gradient-overlay text-center h-100">
+            <div class="gradient-overlay">
+                <enhanced:img class="img-fluid rounded-5" src={noLightInDeepness}
+                              alt="no light in deepness by mzeyfilms" />
+            </div>
+        </div>
+    </div>
+
+    <!-- Contacts -->
+    <div class="row justify-content-center align-items-center" id="contacts">
+        <div class="col-auto">
+            <a href="/videos" class="btn btn-homepage rounded-5 pt-2 fw-bold"
+               data-bs-toggle="tooltip" data-bs-placement="top" title="Videos">
+                <i class="fas fa-video"></i> <br>Videos
+            </a>
+        </div>
+        <div class="col-auto px-0 mx-sm-5">
+            <a href="/photos" class="btn btn-homepage rounded-5 fw-bold"
+               data-bs-toggle="tooltip" data-bs-placement="top" title="Photos">
+                <i class="fas fa-camera"></i> <br>Photos
+            </a>
+        </div>
+        <div class="col-auto">
+            <a href="/contacts" class="btn btn-homepage rounded-5 fw-bold" data-bs-toggle="tooltip"
+               data-bs-placement="top" title="Contact Me">
+                <i class="fas fa-envelope"></i> <br>Contacts
+            </a>
+        </div>
+    </div>
+
     <!-- Links to sections -->
-    <div class="row py-5 justify-content-center align-items-center" id="centrale">
+    <!--<div class="row py-5 justify-content-center align-items-center" id="centrale">
         <div class="col-12" id="contenutoCentrale"></div>
 
         <div class="col-12 text-center" data-aos="zoom-in" data-aos-delay="100">
@@ -44,7 +89,7 @@
                         <i class="fas fa-envelope"></i> <br>Contacts
                     </a>
                 </div>
-            </div>
+            </div>-->
             <!--<a href="/about" class="btn btn-outline-light btn-lg rounded-5 mt-4 fw-bold" data-bs-toggle="tooltip"
                data-bs-placement="top" title="About me">
                 <i class="fas fa-user"></i> About me
@@ -98,34 +143,12 @@
                 </section>
             </div>
             -->
-        </div>
-    </div>
-
-    <div class="row h-100 bg-black justify-content-around" data-aos="fade-in" data-aos-duration="1000">
-        <div class="col-12 col-md-5 px-0 my-auto gradient-overlay text-center h-100">
-            <!--<div>
-                <a class="text-decoration-none" href="https://youtu.be/kjOIvL3PduI?si=n9vPTBDQjV9B7la5" target="_blank"
-                   data-bs-toggle="tooltip" data-bs-placement="top" title="View Short">
-                    <h1 class="text-center text-white pt-5 pb-3">MZEYFILMS</h1>
-                    <p class="text-center text-white mb-5 mb-md-0">No Light In Deepness</p>
-                </a>
-            </div>-->
-            <div class="gradient-overlay">
-                <enhanced:img class="img-fluid rounded-5 shadow" src={naughtyLaundry}
-                              alt="naughty laundry by mzeyfilms"/>
-            </div>
-        </div>
-        <div class="col-12 col-md-6 my-auto px-0 gradient-overlay text-center h-100">
-            <div class="gradient-overlay">
-                <enhanced:img class="img-fluid rounded-5" src={noLightInDeepness}
-                     alt="no light in deepness by mzeyfilms" />
-            </div>
-        </div>
-    </div>
+        <!--</div>
+    </div>-->
 </div>
 
 <style>
-    #centrale {
+    /*#centrale {
         background-image: url($lib/img/Video_Moto_31-optimized.webp);
         background-size: cover;
         background-position: 50% 10%;
@@ -144,7 +167,7 @@
         top: 0;
         left: 0;
         z-index: 0;
-    }
+    }*/
 
     /*#noLightItem {
         max-height: 50vh;
@@ -162,6 +185,15 @@
         margin: auto;
     }*/
 
+    #awards {
+        /* box shadow only on the bottom */
+        box-shadow: 0 0 3rem 0 rgba(0, 0, 0, 1);
+    }
+
+    #contacts {
+        min-height: 20vh;
+    }
+
     .btn-homepage {
         box-shadow: 0 0 0.5rem 0.1rem rgba(182, 0, 0, 0.4);
         color: #ff5555;
@@ -178,6 +210,10 @@
     @media (max-width: 991px) {
         .btn-homepage {
             font-size: 0.8rem;
+        }
+
+        #contacts {
+            min-height: 25vh;
         }
     }
 

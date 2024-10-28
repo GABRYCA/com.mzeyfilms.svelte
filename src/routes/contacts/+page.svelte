@@ -10,7 +10,7 @@
 </script>
 
 <!-- BODY -->
-<div class="container-fluid pb-3 pb-md-5 bg-black bg-opacity-50 rounded-3" style="min-height: 78vh">
+<div class="container-fluid pb-3 pb-md-5 rounded-3" style="min-height: 78vh">
     <div class="container-xxl">
 
         <!-- Contacts Text -->

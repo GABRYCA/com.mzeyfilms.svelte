@@ -11,7 +11,7 @@
 </script>
 
 <!-- CONTENT -->
-<div class="container-fluid pb-3 pb-md-5" id="mainDiv">
+<div class="container-fluid pb-3 pb-md-5" id="mainDiv" style="min-height: 77vh">
     <!-- Title -->
     <div class="row title-container mb-md-5 pt-5 pb-4 text-center rounded-bottom-4">
         <div class="col">

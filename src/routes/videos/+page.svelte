@@ -41,3 +41,9 @@
         </div>
     </div>
 </div>
+
+<style>
+    p {
+        color: #ff5555 !important;
+    }
+</style>

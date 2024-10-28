@@ -24,7 +24,7 @@
         <div class="col-12">
             <div class="row align-items-center pb-2 pt-4 pb-md-4 pt-md-4 mb-3 mb-md-5 bg-light bg-opacity-10 rounded-3" data-aos="zoom-in">
                 <div class="col-12 col-md-8 justify-content-center" data-aos="fade-in" data-aos-delay="250">
-                    <p class="h4 text-white text-center mt-2 my-md-auto">You can reach me by <a class="link-light" href="mailto:{email}" data-bs-toggle="tooltip" data-bs-placement="top" title="Send me an email">Email</a>.</p>
+                    <p class="h4 text-white text-center mt-2 my-md-auto">You can reach me by <a href="mailto:{email}" data-bs-toggle="tooltip" data-bs-placement="top" title="Send me an email">Email</a>.</p>
                 </div>
                 <div class="col-12 col-md-4 text-center justify-content-center" data-aos="slide-right" data-aos-delay="200">
                     <a href="mailto:{email}" aria-label="Email">
@@ -69,4 +69,12 @@
     /*.custom-bg-gradient {
         background: linear-gradient(45deg, rgba(30, 0, 0, 0.98), rgba(0, 0, 30, 0.98));
     }*/
+
+    p, a {
+        color: #ff5555 !important;
+    }
+
+    a:hover {
+        color: #da4747 !important;
+    }
 </style>

@@ -62,6 +62,10 @@
     .btn-custom {
         border: none;
     }
+
+    p, span {
+        color: #ff5555 !important;
+    }
 </style>
 
 

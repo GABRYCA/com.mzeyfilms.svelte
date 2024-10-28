@@ -35,4 +35,8 @@
             height: 30vh;
         }
     }
+
+    p {
+        color: #ff5555 !important;
+    }
 </style>

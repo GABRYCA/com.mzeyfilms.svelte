@@ -43,8 +43,8 @@
         </div>
     </div>
 
-    <!-- Contacts -->
-    <div class="row justify-content-center align-items-center" id="contacts">
+    <!-- Info -->
+    <div class="row justify-content-center align-items-center" id="info">
         <div class="col-auto">
             <a href="/videos" class="btn btn-homepage rounded-5 pt-2 fw-bold"
                data-bs-toggle="tooltip" data-bs-placement="top" title="Videos">
@@ -190,8 +190,8 @@
         box-shadow: 0 0 3rem 0 rgba(0, 0, 0, 1);
     }
 
-    #contacts {
-        min-height: 20vh;
+    #info {
+        min-height: 35vh;
     }
 
     .btn-homepage {
@@ -212,8 +212,8 @@
             font-size: 0.8rem;
         }
 
-        #contacts {
-            min-height: 25vh;
+        #info {
+            min-height: 30vh;
         }
     }
 

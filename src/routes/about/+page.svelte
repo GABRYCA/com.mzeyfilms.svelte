@@ -41,7 +41,7 @@
             </div>
             <!-- Links -->
             <div class="row justify-content-evenly text-center px-2 px-md-5 gy-3">
-                <div class="col-12 col-md-5 bg-light bg-opacity-10 rounded-4 pt-4 pb-3" data-aos="zoom-in" data-aos-delay="150">
+                <div class="col-12 col-md-5 bg-light bg-opacity-10 rounded-4 pt-4 pb-3" style="backdrop-filter: 8px" data-aos="zoom-in" data-aos-delay="150">
                     <a href="https://m.youtube.com/channel/UCx0Ih65Y_TU86li7eWuM4_g"
                        class="btn btn-lg border-0 m-2 fs-2 pb-1" data-bs-toggle="tooltip" data-bs-placement="top"
                        title="Watch my videos"><i class="fab fa-youtube custom-fa-gradient-about"></i> Youtube</a>
@@ -98,7 +98,6 @@
     */
 
     .btn {
-        box-shadow: 0 0 10px 0 rgba(188, 0, 0, 0.2);
         font-size: 1.55rem !important;
         color: #ff5555 !important;
     }

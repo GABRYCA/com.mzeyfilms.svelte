@@ -14,8 +14,8 @@
     <div class="container-xxl">
 
         <!-- Contacts Text -->
-        <div class="row justify-content-center pt-md-5 pb-3">
-            <div class="col-12 bg-light bg-opacity-10 rounded-4 pt-4 pb-2"  data-aos="zoom-in">
+        <div class="row justify-content-center pt-2 pt-md-5 pb-3">
+            <div class="col bg-light bg-opacity-10 rounded-4 pt-4 pb-2" data-aos="zoom-in">
                 <p class="h1 text-white text-center">Contacts:</p>
             </div>
         </div>
@@ -36,7 +36,7 @@
 
         <div class="row align-items-center mt-1 mb-md-5 pt-3 pb-4 py-md-4 pb-md-5 bg-light bg-opacity-10 rounded-3" data-aos="zoom-in">
             <div class="col">
-                <p class="h4 text-white text-center mt-2 mb-3 mb-md-4 mb-md-4" data-aos="fade-in" data-aos-delay="400">Or Socials: </p>
+                <p class="h4 text-white text-center mt-4 mb-5" data-aos="fade-in" data-aos-delay="400">Or Socials: </p>
                 <!-- Social Icons -->
                 <div class="row align-items-center justify-content-center justify-content-md-around text-center">
                     <div class="col-5 col-md-2 mb-4 mb-md-0 px-0" data-aos="fade-down" data-aos-delay="450">

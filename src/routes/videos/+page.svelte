@@ -15,7 +15,7 @@
     <div class="row align-items-center" style="min-height: 78vh">
         <div class="col">
             <div class="row text-center justify-content-center px-2 pt-2 pt-2 mb-3">
-                <div class="col pt-4 pb-3 bg-light bg-opacity-10 rounded-4">
+                <div class="col pt-4 pb-2 bg-light bg-opacity-10 rounded-4">
                     <p class="h1">Videos:</p>
                 </div>
             </div>

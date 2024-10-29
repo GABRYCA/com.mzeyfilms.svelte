@@ -26,8 +26,8 @@
                     {#each content as folder, index (folder.id)}
                         <div class="row text-center justify-content-center px-2">
                             <div class="col bg-light bg-opacity-10 pt-3 pb-3 rounded-4">
-                                <button class="btn-custom bg-transparent w-100 rounded-3 pt-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{index}">
-                                    <span class="h5">{folder.name} <i class="fas fa-chevron-down"></i></span>
+                                <button class="btn btn-folder w-100 rounded-3 pt-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{index}">
+                                    {folder.name} <i class="fas fa-chevron-down"></i>
                                 </button>
                                 <div class="collapse" id="collapse{index}">
                                     <hr>
@@ -49,7 +49,7 @@
                             <hr>
                         {/if}-->
                         {#if index < content.length - 1}
-                        <div class="row my-2"></div>
+                            <div class="row my-2"></div>
                         {/if}
                     {/each}
                 </div>
@@ -59,8 +59,15 @@
 </div>
 
 <style>
-    .btn-custom {
+    .btn-folder {
         border: none;
+        color: #ff5555 !important;
+        font-size: 1.2rem;
+    }
+
+    .btn-folder:hover {
+        background-color: transparent !important;
+        color: white !important;
     }
 
     p, span {

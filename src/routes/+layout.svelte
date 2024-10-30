@@ -137,10 +137,10 @@
                 <p class="h5 mt-2">Social:</p>
             </div>
             <div class="col-auto px-0">
-                <a class="footer-icon" href="https://www.instagram.com/mzeyfilms/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram mx-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Follow me on Instagram"></i></a>
+                <a class="footer-icon" href="https://m.youtube.com/channel/UCx0Ih65Y_TU86li7eWuM4_g" target="_blank" aria-label="Youtube"><i class="fab fa-youtube mx-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Watch my videos"></i></a>
             </div>
             <div class="col-auto px-0">
-                <a class="footer-icon" href="https://m.youtube.com/channel/UCx0Ih65Y_TU86li7eWuM4_g" target="_blank" aria-label="Youtube"><i class="fab fa-youtube mx-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Watch my videos"></i></a>
+                <a class="footer-icon" href="https://www.instagram.com/mzeyfilms/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram mx-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Follow me on Instagram"></i></a>
             </div>
             <div class="col-auto px-0">
                 <a class="footer-icon" href="https://open.spotify.com/show/22Nsi7J93FcN6kICu6hEaS" target="_blank" aria-label="Spotify"><i class="fab fa-spotify mx-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Listen to my podcast"></i></a>

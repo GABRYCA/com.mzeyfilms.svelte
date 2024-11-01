@@ -25,7 +25,7 @@
                 <div class="col bg-light bg-opacity-10 py-3 rounded-4">
                     {#each content as folder, index (folder.id)}
                         <div class="row text-center justify-content-center px-2">
-                            <div class="col bg-light bg-opacity-10 pt-3 pb-3 rounded-4">
+                            <div class="col bg-custom pt-3 pb-3 rounded-4">
                                 <button class="btn btn-folder w-100 rounded-3 pt-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{index}">
                                     {folder.name} <i class="fas fa-chevron-down"></i>
                                 </button>
@@ -59,6 +59,11 @@
 </div>
 
 <style>
+    .bg-custom {
+        background-color: rgba(115, 0, 0, 0.25);
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+    }
+
     .btn-folder {
         border: none;
         color: #ff5555 !important;

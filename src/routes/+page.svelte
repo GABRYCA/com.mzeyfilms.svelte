@@ -44,9 +44,12 @@
     </div>
 
     <!-- Info -->
-    <div class="row justify-content-center align-items-center" id="info">
+    <div class="row justify-content-center mt-4" id="info" data-aos="slide-up" data-aos-duration="700">
+        <div class="col-12 text-center my-auto">
+            <p class="h2">Discover me</p>
+        </div>
         <div class="col-auto">
-            <a href="/videos" class="btn btn-homepage rounded-5 pt-2 fw-bold"
+            <a href="/videos" class="btn btn-homepage rounded-5 fw-bold"
                data-bs-toggle="tooltip" data-bs-placement="top" title="Videos">
                 <i class="fas fa-video"></i> <br>Videos
             </a>
@@ -184,6 +187,10 @@
         object-fit: cover;
         margin: auto;
     }*/
+
+    p {
+        color: #ff5555 !important;
+    }
 
     #awards {
         /* box shadow only on the bottom */

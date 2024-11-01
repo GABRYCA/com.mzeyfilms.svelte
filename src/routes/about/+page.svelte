@@ -41,24 +41,24 @@
             </div>
             <!-- Links -->
             <div class="row justify-content-evenly text-center px-2 px-md-5 gy-3">
-                <div class="col-12 col-md-5 bg-light bg-opacity-10 rounded-4 pt-4 pb-3" style="backdrop-filter: 8px" data-aos="zoom-in" data-aos-delay="150">
+                <div class="col-12 col-md-5 bg-custom rounded-4 pt-4 pb-3" style="backdrop-filter: 8px" data-aos="zoom-in" data-aos-delay="150">
                     <a href="https://m.youtube.com/channel/UCx0Ih65Y_TU86li7eWuM4_g"
                        class="btn btn-lg border-0 m-2 fs-2 pb-1" data-bs-toggle="tooltip" data-bs-placement="top"
                        title="Watch my videos"><i class="fab fa-youtube custom-fa-gradient-about"></i> Youtube</a>
                 </div>
-                <div class="col-12 col-md-5 bg-light bg-opacity-10 rounded-4 pt-4 pb-3" data-aos="zoom-in" data-aos-delay="200">
+                <div class="col-12 col-md-5 bg-custom rounded-4 pt-4 pb-3" data-aos="zoom-in" data-aos-delay="200">
                     <a href="https://www.instagram.com/mzeyfilms/"
                        class="btn btn-lg border-0 m-2 fs-2"
                        data-bs-toggle="tooltip" data-bs-placement="top" title="Follow me on Instagram"><i
                             class="fab fa-instagram custom-fa-gradient-about"></i> Instagram</a>
                 </div>
-                <div class="col-12 col-md-5 bg-light bg-opacity-10 rounded-4 pt-4 pb-3" data-aos="zoom-in" data-aos-delay="250">
+                <div class="col-12 col-md-5 bg-custom rounded-4 pt-4 pb-3" data-aos="zoom-in" data-aos-delay="250">
                     <a href="https://open.spotify.com/show/22Nsi7J93FcN6kICu6hEaS"
                        class="btn btn-lg border-0 m-2 fs-2"
                        data-bs-toggle="tooltip" data-bs-placement="top" title="Listen to my podcast"><i
                             class="fab fa-spotify custom-fa-gradient-about"></i> Spotify</a>
                 </div>
-                <div class="col-12 col-md-5 bg-light bg-opacity-10 rounded-4 pt-4 pb-3" data-aos="zoom-in" data-aos-delay="300">
+                <div class="col-12 col-md-5 bg-custom rounded-4 pt-4 pb-3" data-aos="zoom-in" data-aos-delay="300">
                     <a href="https://music.amazon.it/podcasts/1b46e8c5-0b6a-4882-b634-8d18ef578804/tachipistorie"
                        class="btn btn-lg border-0 m-2 fs-2" data-bs-toggle="tooltip" data-bs-placement="top"
                        title="Also available on Amazon"><i class="fab fa-amazon custom-fa-gradient-about"></i>
@@ -96,6 +96,11 @@
         transform: scale(1.1);
     }
     */
+
+    .bg-custom {
+        background-color: rgba(145, 0, 0, 0.25);
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+    }
 
     .btn {
         font-size: 1.55rem !important;

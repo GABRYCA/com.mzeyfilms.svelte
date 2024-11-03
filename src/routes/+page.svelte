@@ -49,20 +49,17 @@
             <p class="h2">Discover me</p>
         </div>
         <div class="col-auto">
-            <a href="/videos" class="btn btn-homepage rounded-5 fw-bold"
-               data-bs-toggle="tooltip" data-bs-placement="top" title="Videos">
+            <a href="/videos" class="btn btn-homepage rounded-5 fw-bold">
                 <i class="fas fa-video"></i> <br>Videos
             </a>
         </div>
         <div class="col-auto px-0 mx-sm-5">
-            <a href="/photos" class="btn btn-homepage rounded-5 fw-bold"
-               data-bs-toggle="tooltip" data-bs-placement="top" title="Photos">
+            <a href="/photos" class="btn btn-homepage rounded-5 fw-bold">
                 <i class="fas fa-camera"></i> <br>Photos
             </a>
         </div>
         <div class="col-auto">
-            <a href="/contacts" class="btn btn-homepage rounded-5 fw-bold" data-bs-toggle="tooltip"
-               data-bs-placement="top" title="Contact Me">
+            <a href="/contacts" class="btn btn-homepage rounded-5 fw-bold">
                 <i class="fas fa-envelope"></i> <br>Contacts
             </a>
         </div>

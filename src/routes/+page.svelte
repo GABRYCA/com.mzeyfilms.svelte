@@ -44,7 +44,7 @@
     </div>
 
     <!-- Info -->
-    <div class="row justify-content-center mt-4" id="info" data-aos="slide-up" data-aos-duration="700">
+    <div class="row justify-content-center mt-4" id="info" data-aos="fade-up" data-aos-duration="700">
         <div class="col-12 text-center my-auto">
             <p class="h2">Discover me</p>
         </div>

@@ -8,6 +8,7 @@
 		"preview": "vite preview"
 	},
 	"devDependencies": {
+		"@sveltejs/adapter-node": "^5.2.9",
 		"@sveltejs/enhanced-img": "^0.4.1",
 		"@sveltejs/kit": "^2.7.4",
 		"@sveltejs/vite-plugin-svelte": "^4.0.0",
@@ -15,16 +16,13 @@
 		"aos": "^3.0.0-beta.6",
 		"bootstrap": "^5.3.3",
 		"jquery": "^4.0.0-beta.2",
+		"pocketbase": "^0.21.5",
+		"sharp": "^0.33.5",
 		"sk-seo": "^0.4.2",
 		"super-sitemap": "^0.15.1",
 		"svelte": "^5.1.9",
 		"uuid": "^11.0.2",
 		"vite": "^5.4.10"
 	},
-	"type": "module",
-	"dependencies": {
-		"@sveltejs/adapter-node": "^5.2.9",
-		"pocketbase": "^0.21.5",
-		"sharp": "^0.33.5"
-	}
+	"type": "module"
 }

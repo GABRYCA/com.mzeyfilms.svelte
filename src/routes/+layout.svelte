@@ -53,11 +53,11 @@
     title={$page.data.title ?? "MZEYFILMS - Official"}
     author={$page.data.author ?? "MZEYFILMS"}
     name={$page.data.name ?? "MZEYFILMS"}
-    imageURL={$page.data.imageURL ?? "https://mzeyfilms.com/favicon.webp"}
-    logo={$page.data.logo ?? "https://mzeyfilms.com/favicon.webp"}
+    imageURL={$page.data.imageURL ?? $page.url.origin + "/favicon.webp"}
+    logo={$page.data.logo ?? $page.url.origin + "/favicon.webp"}
     description={$page.data.description ?? "MZEYFILMS, Filmmaker, Photographer, Aspirant Cinematographer, Always searching for new stories to tell."}
-    schemaOrg={true}
-    twitter={true}
+    schemaOrg={$page.data.schemaOrg ?? true}
+    twitter={$page.data.twitter ?? true}
     canonical={$page.data.canonical ?? $page.url.origin}
     index={$page.data.index ?? true}
 />

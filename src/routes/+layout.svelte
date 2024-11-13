@@ -3,7 +3,7 @@
     import AOS from "aos";
     import "$lib/css/style.css";
     import { page } from "$app/stores";
-    import Seo from "sk-seo";
+    import Seo from "$lib/components/Seo.svelte";
     /**
      * @typedef {Object} Props
      * @property {import('svelte').Snippet} [children]
@@ -49,18 +49,7 @@
     const email = "manuel.zaffiro03@gmail.com"
 </script>
 
-<Seo
-    title={$page.data.title ?? "MZEYFILMS - Official"}
-    author={$page.data.author ?? "MZEYFILMS"}
-    name={$page.data.name ?? "MZEYFILMS"}
-    imageURL={$page.data.imageURL ?? $page.url.origin + "/favicon.webp"}
-    logo={$page.data.logo ?? $page.url.origin + "/favicon.webp"}
-    description={$page.data.description ?? "MZEYFILMS, Filmmaker, Photographer, Aspirant Cinematographer, Always searching for new stories to tell."}
-    schemaOrg={$page.data.schemaOrg ?? true}
-    twitter={$page.data.twitter ?? true}
-    canonical={$page.data.canonical ?? $page.url.origin}
-    index={$page.data.index ?? true}
-/>
+<Seo />
 
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark text-center mb-1 bg-black bg-opacity-50 rounded-bottom-3">

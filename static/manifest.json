@@ -27,6 +27,28 @@
       "src": "/favicon.png",
       "sizes": "512x512",
       "type": "image/png"
+    },
+    {
+      "src": "/favicon.webp",
+      "sizes": "1024x1024",
+      "type": "image/webp",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/favicon.webp",
+      "sizes": "1024x1024",
+      "type": "image/webp"
+    },
+    {
+      "src": "/favicon.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/favicon.png",
+      "sizes": "1024x1024",
+      "type": "image/png"
     }
   ]
 }

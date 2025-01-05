@@ -155,6 +155,20 @@
         text-shadow: 3px 3px #a83613;
     }*/
 
+    :global(body::-webkit-scrollbar) {
+        width: 10px;
+        background: #230e0e;
+    }
+
+    :global(body::-webkit-scrollbar-thumb) {
+        background: #B600003F;
+        border-radius: 20px;
+    }
+
+    :global(body::-webkit-scrollbar-thumb:hover) {
+        background: #B6000066;
+    }
+
     .footer-icon {
         font-size: 1.5rem;
         color: #b63d3d !important;

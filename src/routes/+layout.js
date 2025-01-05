@@ -11,5 +11,6 @@ export const load = async ({url}) => {
         twitter: true,
         canonical: url.href,
         index: true,
+        subtitle: 'Director | Editor | Photographer<br>Aspirant Cinematographer'
     }
 }

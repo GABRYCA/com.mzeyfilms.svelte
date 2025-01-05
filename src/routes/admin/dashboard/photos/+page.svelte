@@ -5,7 +5,7 @@
     import {toast} from "@zerodevx/svelte-toast";
     import {invalidateAll} from "$app/navigation";
     let { data } = $props();
-    let {folders, content } = $state(data);
+    let { folders, content } = $state(data);
     $effect(() => {
         ({folders, content} = data);
     });
@@ -65,9 +65,6 @@
                     '--toastBackground': '#f44336'
                 }
             });
-
-            // Print in readable format
-            console.log(JSON.stringify(result, null, 2));
         }
 
         isUploading = false;

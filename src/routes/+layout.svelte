@@ -59,7 +59,7 @@
             <a class="text-decoration-none navbar-title-link my-auto pt-1 navbar-title d-lg-none" href="/">
                 <p class="navbar-title mb-0">MZEYFILMS</p>
                 <p class="navbar-subtitle mb-0 text-muted">
-                    Filmmaker | Photographer | Aspirant <br>Cinematographer
+                    {@html $page.data.subtitle}
                 </p>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,7 +90,7 @@
                     <a class="text-decoration-none navbar-title-link py-0" href="/">
                         <p class="navbar-title mb-0">MZEYFILMS</p>
                         <p class="navbar-subtitle mb-0 text-muted">
-                            Director | Photographer | Aspirant <br>Cinematographer
+                            {@html $page.data.subtitle}
                         </p>
                     </a>
                 </div>

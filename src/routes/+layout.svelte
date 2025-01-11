@@ -2,7 +2,7 @@
     import {onMount} from "svelte";
     import AOS from "aos";
     import "$lib/css/style.css";
-    import { page } from "$app/stores";
+    import { page } from "$app/state";
     import Seo from "$lib/components/Seo.svelte";
     /**
      * @typedef {Object} Props
@@ -59,7 +59,7 @@
             <a class="text-decoration-none navbar-title-link my-auto pt-1 navbar-title d-lg-none" href="/">
                 <p class="navbar-title mb-0">MZEYFILMS</p>
                 <p class="navbar-subtitle mb-0 text-muted">
-                    {@html $page.data.subtitle}
+                    {@html page.data.subtitle}
                 </p>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,16 +70,16 @@
             <div class="row align-items-center text-center justify-content-center w-100 mx-0 px-0 py-4 py-lg-0">
                 <ul class="col-12 col-lg-4 pe-0 justify-content-start navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link { $page.url.pathname === '/videos' ? 'active' : '' }" href="/videos">Videos</a>
+                        <a class="nav-link { page.url.pathname === '/videos' ? 'active' : '' }" href="/videos">Videos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link { $page.url.pathname === '/photos' ? 'active' : '' }" href="/photos">Photos</a>
+                        <a class="nav-link { page.url.pathname === '/photos' ? 'active' : '' }" href="/photos">Photos</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link { $page.url.pathname === '/about' ? 'active' : '' }" href="/about">About</a>
+                        <a class="nav-link { page.url.pathname === '/about' ? 'active' : '' }" href="/about">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link { $page.url.pathname === '/contacts' ? 'active' : '' }" href="/contacts">Contacts</a>
+                        <a class="nav-link { page.url.pathname === '/contacts' ? 'active' : '' }" href="/contacts">Contacts</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="https://www.saal-digital.net/profiles/5TR33T/" target="_blank">Shop</a>
@@ -90,7 +90,7 @@
                     <a class="text-decoration-none navbar-title-link py-0" href="/">
                         <p class="navbar-title mb-0">MZEYFILMS</p>
                         <p class="navbar-subtitle mb-0 text-muted">
-                            {@html $page.data.subtitle}
+                            {@html page.data.subtitle}
                         </p>
                     </a>
                 </div>

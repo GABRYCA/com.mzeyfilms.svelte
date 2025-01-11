@@ -1,11 +1,6 @@
-import { PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD } from '$env/static/private';
-import { PUBLIC_POCKETBASE_URL } from '$env/static/public';
-import PocketBase from "pocketbase";
 
-export async function load() {
+export async function load( { locals: { pb }}) {
 
-    const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
-    await pb.admins.authWithPassword(PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD);
     const videos = await pb.collection('videos').getFullList();
 
     return {
@@ -17,15 +12,11 @@ export async function load() {
 }
 
 export const actions = {
-    upload: async ({ request }) => {
+    upload: async ({ request, locals: { pb } }) => {
         const formData = Object.fromEntries(await request.formData());
 
         const name = formData.name;
         const url = formData.url;
-
-        // Check if video exists
-        const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
-        await pb.admins.authWithPassword(PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD);
 
         const video = await pb.collection('videos').getFullList({
             filter: 'name = "' + name + '"',
@@ -54,15 +45,11 @@ export const actions = {
             }
         }
     },
-    rename: async ({ request }) => {
+    rename: async ({ request, locals: { pb } }) => {
         const formData = Object.fromEntries(await request.formData());
 
         const oldName = formData.oldName;
         const newName = formData.newName;
-
-        // Check if video exists
-        const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
-        await pb.admins.authWithPassword(PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD);
 
         const video = await pb.collection('videos').getFullList({
             filter: 'name = "' + oldName + '"',
@@ -90,14 +77,10 @@ export const actions = {
             }
         }
     },
-    delete: async ({ request }) => {
+    delete: async ({ request, locals: { pb } }) => {
         const formData = Object.fromEntries(await request.formData());
 
         const name = formData.name;
-
-        // Check if video exists
-        const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
-        await pb.admins.authWithPassword(PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD);
 
         const video = await pb.collection('videos').getFullList({
             filter: 'name = "' + name + '"',

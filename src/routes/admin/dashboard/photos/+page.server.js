@@ -1,9 +1,7 @@
-import PocketBase from 'pocketbase';
 import sharp from 'sharp';
-import { PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD } from '$env/static/private';
-import { PUBLIC_POCKETBASE_URL, PUBLIC_POCKETBASE_URL_IMG_API } from '$env/static/public';
+import { PUBLIC_POCKETBASE_URL_IMG_API } from '$env/static/public';
 
-const uploadImage = async (image, folder) => {
+const uploadImage = async (image, folder, pb) => {
 
     const imageSharp = sharp(await image.arrayBuffer());
 
@@ -13,9 +11,6 @@ const uploadImage = async (image, folder) => {
 
     const random = Math.random().toString(36).substring(2, 15);
     const newImageName = `${random}.webp`;
-
-    const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
-    await pb.admins.authWithPassword(PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD);
 
     const file = new File([buffer], newImageName, { type: 'image/webp', lastModified: Date.now() });
 
@@ -34,15 +29,10 @@ const uploadImage = async (image, folder) => {
 
     await pb.collection('images').update(createdRecord.id, data);
 
-    pb.authStore.clear();
-
     return PUBLIC_POCKETBASE_URL_IMG_API + createdRecord.collectionId + '/' + createdRecord.id + '/' + createdRecord.image;
 }
 
-export async function load(){
-
-    const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
-    await pb.admins.authWithPassword(PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD);
+export async function load( { locals: { pb }} ){
 
     const folders = await pb.collection('folders').getFullList();
     const foldersWithImages = [];
@@ -57,8 +47,6 @@ export async function load(){
         });
     }
 
-    pb.authStore.clear();
-
     return {
         folders: folders,
         content: foldersWithImages,
@@ -69,7 +57,7 @@ export async function load(){
 }
 
 export const actions = {
-    upload: async ({ request }) => {
+    upload: async ({ request, locals: { pb } }) => {
         const formData = Object.fromEntries(await request.formData());
 
         let folder = formData.folder;
@@ -84,10 +72,6 @@ export const actions = {
                 }
             }
         }
-
-        // Check if folder exists on pockethost, if not create it
-        const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
-        await pb.admins.authWithPassword(PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD);
 
         const folderExists = await pb.collection('folders').getFullList({
             filter: 'name = "' + folder + '"',
@@ -114,9 +98,7 @@ export const actions = {
             folder = folderExists.filter(f => f.name === folder)[0].id;
         }
 
-        pb.authStore.clear();
-
-        const finalURL = await uploadImage(image, folder);
+        const finalURL = await uploadImage(image, folder, pb);
 
         // If error or object, return it
         if (typeof finalURL === 'object') {
@@ -130,14 +112,10 @@ export const actions = {
             }
         }
     },
-    create: async ({ request }) => {
+    create: async ({ request, locals: { pb } }) => {
         const formData = Object.fromEntries(await request.formData());
 
         const folderName = formData.folderName;
-
-        // Check if folder exists on pockethost, if not create it
-        const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
-        await pb.admins.authWithPassword(PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD);
 
         const folderExists = await pb.collection('folders').getFullList({
             filter: 'name = "' + folderName + '"',
@@ -174,14 +152,11 @@ export const actions = {
             }
         }
     },
-    renameFolder: async ({ request }) => {
+    renameFolder: async ({ request, locals: { pb } }) => {
         const formData = Object.fromEntries(await request.formData());
 
         const oldFolderName = formData.folderName;
         const newFolderName = formData.newFolderName;
-
-        const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
-        await pb.admins.authWithPassword(PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD);
 
         const folderExists = await pb.collection('folders').getFullList({
             filter: 'name = "' + oldFolderName + '"',
@@ -203,8 +178,6 @@ export const actions = {
 
         await pb.collection('folders').update(folderExists[0].id, folderData);
 
-        pb.authStore.clear();
-
         return {
             status: 200,
             body: {
@@ -212,13 +185,10 @@ export const actions = {
             }
         }
     },
-    deleteFolder: async ({ request }) => {
+    deleteFolder: async ({ request, locals: { pb } }) => {
         const formData = Object.fromEntries(await request.formData());
 
         const folderName = formData.folderName;
-
-        const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
-        await pb.admins.authWithPassword(PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD);
 
         const folderExists = await pb.collection('folders').getFullList({
             filter: 'name = "' + folderName + '"',
@@ -236,8 +206,6 @@ export const actions = {
 
         await pb.collection('folders').delete(folderExists[0].id);
 
-        pb.authStore.clear();
-
         return {
             status: 200,
             body: {
@@ -245,16 +213,12 @@ export const actions = {
             }
         }
     },
-    move: async ({ request }) => {
+    move: async ({ request, locals: { pb } }) => {
         const formData = Object.fromEntries(await request.formData());
 
         const folderName = formData.newFolder;
         const oldFolderName = formData.oldFolder;
         const image = formData.imageName;
-
-        // Check if folder exists on pockethost, if not create it
-        const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
-        await pb.admins.authWithPassword(PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD);
 
         const folderExists = await pb.collection('folders').getFullList({
             filter: 'name = "' + folderName + '" || name = "' + oldFolderName + '"',
@@ -290,8 +254,6 @@ export const actions = {
 
         await pb.collection('images').update(imageId, data);
 
-        pb.authStore.clear();
-
         return {
             status: 200,
             body: {
@@ -299,14 +261,10 @@ export const actions = {
             }
         }
     },
-    delete: async ({ request }) => {
+    delete: async ({ request, locals: { pb } }) => {
         const formData = Object.fromEntries(await request.formData());
 
         const image = formData.imageName;
-
-        // Check if image exists
-        const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
-        await pb.admins.authWithPassword(PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD);
 
         const imageExists = await pb.collection('images').getFullList({
             filter: 'image = "' + image + '"',
@@ -322,8 +280,6 @@ export const actions = {
         }
 
         await pb.collection('images').delete(imageExists[0].id);
-
-        pb.authStore.clear();
 
         return {
             status: 200,

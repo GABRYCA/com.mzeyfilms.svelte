@@ -8,20 +8,20 @@
 		"preview": "vite preview"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-node": "^5.2.9",
-		"@sveltejs/enhanced-img": "^0.4.1",
-		"@sveltejs/kit": "^2.7.4",
-		"@sveltejs/vite-plugin-svelte": "^4.0.0",
+		"@sveltejs/adapter-node": "^5.2.11",
+		"@sveltejs/enhanced-img": "^0.4.4",
+		"@sveltejs/kit": "^2.15.2",
+		"@sveltejs/vite-plugin-svelte": "^5.0.3",
 		"@zerodevx/svelte-toast": "^0.9.6",
 		"aos": "^3.0.0-beta.6",
 		"bootstrap": "^5.3.3",
 		"jquery": "^4.0.0-beta.2",
-		"pocketbase": "^0.21.5",
-		"sk-seo": "^0.4.2",
-		"super-sitemap": "^0.15.1",
-		"svelte": "^5.1.9",
-		"uuid": "^11.0.2",
-		"vite": "^5.4.10"
+		"pocketbase": "^0.25.0",
+		"sk-seo": "^0.5.2",
+		"super-sitemap": "^1.0.3",
+		"svelte": "^5.17.3",
+		"uuid": "^11.0.5",
+		"vite": "^6.0.7"
 	},
 	"type": "module",
 	"dependencies": {

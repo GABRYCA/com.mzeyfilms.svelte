@@ -10,7 +10,7 @@ export const handle = async ({ event, resolve }) => {
         console.log(" [PocketBase] init");
 
         const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
-        await pb.admins.authWithPassword(PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD);
+        await pb.collection('_superusers').authWithPassword(PRIVATE_POCKETBASE_EMAIL, PRIVATE_POCKETBASE_PASSWORD);
 
         pb_initiated = pb;
     }

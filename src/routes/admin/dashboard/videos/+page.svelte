@@ -4,6 +4,7 @@
     import AdminVideo from "$lib/components/AdminVideo.svelte";
     import {invalidateAll} from "$app/navigation";
     import {toast} from "@zerodevx/svelte-toast";
+    import AdminVideoModern from "$lib/components/AdminVideoModern.svelte";
 
     let { data } = $props();
     let { videos } = $state(data);
@@ -65,16 +66,17 @@
 </script>
 
 <div class="container-fluid mt-3 pt-4 pb-4 bg-light bg-opacity-10 rounded-3">
-    <div class="row">
-        <div class="col text-center">
-            <p class="h1">Video:</p>
+    <div class="row mb-auto mb-md-2">
+        <div class="col text-start ms-2 ms-md-3">
+            <p class="h1 mb-0">Video:</p>
+            <p class="text-muted">Gestisci i tuoi video</p>
         </div>
     </div>
-    <hr class="text-light">
-    <div class="row bg-light bg-opacity-25 pt-3 pb-3 mx-2 rounded-4">
+    <div class="row bg-light bg-opacity-25 pt-3 pb-3 px-3 mx-1 rounded-4">
         <!-- Area form upload selezione file video -->
-        <div class="col-12 text-center">
-            <p class="h3">Aggiungi <b>VIDEO</b>:</p>
+        <div class="col-12 text-start">
+            <p class="h3 mb-0">Aggiungi <b>VIDEO</b>:</p>
+            <p class="text-muted">Aggiungi un video da YouTube</p>
             <div class="row justify-content-center text-center">
                 <div class="col">
                     <form method="post" enctype="multipart/form-data" action="?/upload" onsubmit={handleUpload}>
@@ -95,8 +97,10 @@
             </div>
         </div>
     </div>
-    <hr class="text-light">
-    <div class="row justify-content-evenly align-items-center text-center">
+    <div class="row w-100 mx-auto justify-content-evenly align-items-center text-center gy-3">
+        <div class="col-12">
+            <p class="h4 text-start ms-auto ms-md-2 mt-3 mt-md-4 mb-0">I tuoi video:</p>
+        </div>
         {#if !videos || videos.length === 0}
             <div class="col-auto mt-3">
                 <p class="h3">Non hai ancora aggiunto video...</p>
@@ -104,8 +108,8 @@
         {:else}
             <!-- Sezione video -->
             {#each videos as video (video)}
-                <div class="col-auto d-flex justify-content-center align-items-center mt-3">
-                    <AdminVideo src={video.url} videoName={video.name} />
+                <div class="col-auto">
+                    <AdminVideoModern src={video.url} videoName={video.name} />
                 </div>
             {/each}
         {/if}

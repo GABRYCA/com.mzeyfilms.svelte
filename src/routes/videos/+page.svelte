@@ -2,8 +2,9 @@
     import {onMount} from "svelte";
     import UserVideo from "$lib/components/UserVideo.svelte";
     import {deserialize} from "$app/forms";
-    let { data } = $props();
-    let { videos } = $state(data);
+
+    let {data} = $props();
+    let {videos} = $state(data);
     let isFetching = false;
     let page = 1;
     let loadedAllPages = false;
@@ -57,24 +58,24 @@
     <div class="row align-items-center" style="min-height: 78vh">
         <div class="col">
             <div class="row text-center justify-content-center px-2 pt-2 pt-2 mb-3">
-                <div class="col pt-4 pb-2 bg-light bg-opacity-10 rounded-4">
-                    <p class="h1">Videos:</p>
+                <div class="col pt-4 pb-2 theme-main-container theme-shadow rounded-4">
+                    <p class="h1 theme-text-primary">Videos:</p>
                 </div>
             </div>
             <!-- Video Gallery -->
             <div class="row text-center justify-content-center px-2 pb-2">
-                <div class="col pt-2 pb-2 bg-light bg-opacity-10 rounded-4">
+                <div class="col pt-2 pb-2 theme-main-container theme-shadow rounded-4">
                     {#if !videos || videos.length === 0}
-                        <p class="h3 my-auto py-2">No videos found</p>
+                        <p class="h3 my-auto py-2 theme-text-primary">No videos found</p>
                     {:else}
                         {#each videos as video, index (video.id)}
                             <div class="row" data-aos="zoom-in">
                                 <div class="col">
-                                    <UserVideo src={video.url} title={video.name} />
+                                    <UserVideo src={video.url} title={video.name}/>
                                 </div>
                             </div>
                             {#if index < videos.length - 1}
-                                <hr>
+                                <hr class="theme-text-secondary">
                             {/if}
                         {/each}
                     {/if}

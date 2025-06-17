@@ -1,5 +1,5 @@
 <script>
-    let { src } = $props();
+    let {src} = $props();
     let isLoading = $state(true);
 
     function handleImageLoad() {
@@ -14,7 +14,8 @@
         </div>
     {/if}
     <a href="{src.url}" target="_blank">
-        <img src="{src.url}" loading="lazy" class="img-fluid rounded-4" alt="Gallery Content" onload={handleImageLoad}>
+        <img src="{src.url}" loading="lazy" class="img-fluid rounded-4 theme-shadow-hover" alt="Gallery Content"
+             onload={handleImageLoad}>
     </a>
 </div>
 
@@ -22,10 +23,12 @@
     .img-fluid {
         max-width: 100%;
         height: auto;
-        transition: all 0.15s ease-in-out;
+        transition: all 0.3s ease-in-out;
+        border: 1px solid rgba(255, 85, 85, 0.2);
     }
 
     .img-fluid:hover {
-        transform: scale(1.02);
+        transform: scale(1.03);
+        border-color: rgba(255, 85, 85, 0.4);
     }
 </style>

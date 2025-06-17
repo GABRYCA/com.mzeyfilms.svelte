@@ -1,55 +1,42 @@
 <script>
-    let { src, title } = $props();
+    let {src, title} = $props();
 
     const videoId = src.split('/').pop();
 </script>
 
 <div class="container-fluid">
     <div class="row text-center justify-content-center">
-        <div class="col bg-custom pt-3 pb-1 rounded-4">
-            <p class="h3 pt-1">{title}</p>
+        <div class="col theme-folder-container theme-shadow-hover pt-3 pb-1 rounded-4">
+            <p class="h3 pt-1 theme-text-primary">{title}</p>
         </div>
     </div>
-    <!--<div class="row text-center justify-content-center mt-2 mb-1">
-        <div class="col px-1">
-            <span class="text-muted">Click the <i class="fa-solid fa-play ms-1 text-secondary"></i> button to start the video</span>
-        </div>
-    </div>-->
     <div class="row mt-3">
         <div class="col-12">
             <div class="embed-responsive embed-responsive-16by9">
-                <iframe class="embed-responsive-item w-100 video rounded-3 bg-video" src={"https://www.youtube.com/embed/" + videoId} title={title} allowfullscreen></iframe>
+                <iframe class="embed-responsive-item w-100 video rounded-3 theme-folder-container theme-shadow"
+                        src={"https://www.youtube.com/embed/" + videoId} title={title} allowfullscreen></iframe>
             </div>
         </div>
     </div>
 </div>
 
 <style>
-    .bg-custom {
-        background-color: rgba(145, 0, 0, 0.25);
-        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
-    }
-
-    .bg-video {
-        background-color: rgba(145, 0, 0, 0.25);
-        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
-        animation: glow 2s infinite;
-    }
-
-    @keyframes glow {
-        0% {
-            background-color: rgba(145, 0, 0, 0.05);
-        }
-        50% {
-            background-color: rgba(145, 0, 0, 0.15);
-        }
-        100% {
-            background-color: rgba(145, 0, 0, 0.05);
-        }
-    }
-
     .video {
         height: 50vh;
+        border: 1px solid rgba(255, 85, 85, 0.3);
+        animation: glow-subtle 3s infinite ease-in-out;
+    }
+
+    @keyframes glow-subtle {
+        0% {
+            box-shadow: 0 8px 32px rgba(182, 0, 0, 0.15);
+        }
+        50% {
+            box-shadow: 0 8px 32px rgba(182, 0, 0, 0.25);
+        }
+        100% {
+            box-shadow: 0 8px 32px rgba(182, 0, 0, 0.15);
+        }
     }
 
     /* mobile */

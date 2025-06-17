@@ -16,7 +16,7 @@
     <!-- MZEY Cover -->
     <div class="row justify-content-center" data-aos="fade-up">
         <div class="col text-center px-0 pickgradient">
-            <enhanced:img src={logoHome} class="img-fluid shadow" alt="Logo" id="front-image" />
+            <enhanced:img src={logoHome} class="img-fluid shadow" alt="Logo" id="front-image"/>
         </div>
     </div>
 
@@ -38,7 +38,7 @@
         <div class="col-12 col-md-6 my-auto px-0 gradient-overlay text-center h-100">
             <div class="gradient-overlay">
                 <enhanced:img class="img-fluid rounded-5" src={noLightInDeepness}
-                              alt="no light in deepness by mzeyfilms" />
+                              alt="no light in deepness by mzeyfilms"/>
             </div>
         </div>
     </div>
@@ -46,20 +46,20 @@
     <!-- Info -->
     <div class="row justify-content-center mt-4" id="info" data-aos="fade-up" data-aos-duration="700">
         <div class="col-12 text-center my-auto">
-            <p class="h2">Discover me</p>
+            <p class="h2 theme-text-primary text-glow">Discover me</p>
         </div>
         <div class="col-auto">
-            <a href="/videos" class="btn btn-homepage rounded-5 fw-bold">
+            <a href="/videos" class="btn btn-homepage theme-button hover-lift rounded-5 fw-bold">
                 <i class="fas fa-video"></i> <br>Videos
             </a>
         </div>
         <div class="col-auto px-0 mx-sm-5">
-            <a href="/photos" class="btn btn-homepage rounded-5 fw-bold">
+            <a href="/photos" class="btn btn-homepage theme-button hover-lift rounded-5 fw-bold">
                 <i class="fas fa-camera"></i> <br>Photos
             </a>
         </div>
         <div class="col-auto">
-            <a href="/contacts" class="btn btn-homepage rounded-5 fw-bold">
+            <a href="/contacts" class="btn btn-homepage theme-button hover-lift rounded-5 fw-bold">
                 <i class="fas fa-envelope"></i> <br>Contacts
             </a>
         </div>
@@ -90,61 +90,61 @@
                     </a>
                 </div>
             </div>-->
-            <!--<a href="/about" class="btn btn-outline-light btn-lg rounded-5 mt-4 fw-bold" data-bs-toggle="tooltip"
-               data-bs-placement="top" title="About me">
-                <i class="fas fa-user"></i> About me
-            </a>-->
-            <!--
-            <div class="container">
-                <div class="row mt-5 justify-content-center">
-                    <div class="col-4">
-                        <a href="https://www.instagram.com/mzeyfilms/" target="_blank" aria-label="Instagram">
-                                <span class="fa-stack fa-2x text-light text-opacity-25" data-bs-toggle="tooltip"
-                                      data-bs-placement="top" title="Instagram">
-                                    <i class="fas fa-circle fa-stack-2x"></i>
-                                    <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
-                                </span>
-                        </a>
-                    </div>
-                    <div class="col-4">
-                        <a href="https://m.youtube.com/channel/UCx0Ih65Y_TU86li7eWuM4_g" target="_blank" aria-label="Youtube">
-                                <span class="fa-stack fa-2x text-light text-opacity-25" data-bs-toggle="tooltip"
-                                      data-bs-placement="top" title="Youtube">
-                                    <i class="fas fa-circle fa-stack-2x"></i>
-                                    <i class="fab fa-youtube fa-stack-1x fa-inverse"></i>
-                                </span>
-                        </a>
-                    </div>
-                </div>
-                <hr class="text-white">
-                <section data-aos="fade-up">
-                    <p class="h2 fw-bold pt-3">Podcast:</p>
-                    <div class="row mt-4 justify-content-center">
-                        <div class="col-3 px-0">
-                            <a href="https://open.spotify.com/show/22Nsi7J93FcN6kICu6hEaS" target="_blank" aria-label="Spotify">
-                                        <span class="fa-stack fa-2x text-light text-opacity-25" data-bs-toggle="tooltip"
-                                              data-bs-placement="top" title="Spotify">
-                                            <i class="fas fa-circle fa-stack-2x"></i>
-                                            <i class="fab fa-spotify fa-stack-1x fa-inverse"></i>
-                                        </span>
-                            </a>
-                        </div>
-                        <div class="col-3 px-0">
-                            <a href="https://music.amazon.it/podcasts/1b46e8c5-0b6a-4882-b634-8d18ef578804/tachipistorie"
-                               target="_blank" aria-label="Amazon Music Podcast">
-                                        <span class="fa-stack fa-2x text-light text-opacity-25" data-bs-toggle="tooltip"
-                                              data-bs-placement="top" title="Amazon Podcast">
-                                            <i class="fas fa-circle fa-stack-2x"></i>
-                                            <i class="fab fa-amazon fa-stack-1x fa-inverse"></i>
-                                        </span>
-                            </a>
-                        </div>
-                    </div>
-                </section>
+    <!--<a href="/about" class="btn btn-outline-light btn-lg rounded-5 mt-4 fw-bold" data-bs-toggle="tooltip"
+       data-bs-placement="top" title="About me">
+        <i class="fas fa-user"></i> About me
+    </a>-->
+    <!--
+    <div class="container">
+        <div class="row mt-5 justify-content-center">
+            <div class="col-4">
+                <a href="https://www.instagram.com/mzeyfilms/" target="_blank" aria-label="Instagram">
+                        <span class="fa-stack fa-2x text-light text-opacity-25" data-bs-toggle="tooltip"
+                              data-bs-placement="top" title="Instagram">
+                            <i class="fas fa-circle fa-stack-2x"></i>
+                            <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                        </span>
+                </a>
             </div>
-            -->
-        <!--</div>
-    </div>-->
+            <div class="col-4">
+                <a href="https://m.youtube.com/channel/UCx0Ih65Y_TU86li7eWuM4_g" target="_blank" aria-label="Youtube">
+                        <span class="fa-stack fa-2x text-light text-opacity-25" data-bs-toggle="tooltip"
+                              data-bs-placement="top" title="Youtube">
+                            <i class="fas fa-circle fa-stack-2x"></i>
+                            <i class="fab fa-youtube fa-stack-1x fa-inverse"></i>
+                        </span>
+                </a>
+            </div>
+        </div>
+        <hr class="text-white">
+        <section data-aos="fade-up">
+            <p class="h2 fw-bold pt-3">Podcast:</p>
+            <div class="row mt-4 justify-content-center">
+                <div class="col-3 px-0">
+                    <a href="https://open.spotify.com/show/22Nsi7J93FcN6kICu6hEaS" target="_blank" aria-label="Spotify">
+                                <span class="fa-stack fa-2x text-light text-opacity-25" data-bs-toggle="tooltip"
+                                      data-bs-placement="top" title="Spotify">
+                                    <i class="fas fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-spotify fa-stack-1x fa-inverse"></i>
+                                </span>
+                    </a>
+                </div>
+                <div class="col-3 px-0">
+                    <a href="https://music.amazon.it/podcasts/1b46e8c5-0b6a-4882-b634-8d18ef578804/tachipistorie"
+                       target="_blank" aria-label="Amazon Music Podcast">
+                                <span class="fa-stack fa-2x text-light text-opacity-25" data-bs-toggle="tooltip"
+                                      data-bs-placement="top" title="Amazon Podcast">
+                                    <i class="fas fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-amazon fa-stack-1x fa-inverse"></i>
+                                </span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+    -->
+    <!--</div>
+</div>-->
 </div>
 
 <style>
@@ -199,16 +199,20 @@
     }
 
     .btn-homepage {
-        box-shadow: 0 0 0.5rem 0.1rem rgba(182, 0, 0, 0.4);
+        background: linear-gradient(135deg, rgba(182, 0, 0, 0.3), rgba(145, 0, 0, 0.2));
+        border: 1px solid rgba(255, 85, 85, 0.3);
         color: #ff5555;
-        background-color: rgba(182, 0, 0, 0.25);
         backdrop-filter: blur(8px);
+        box-shadow: 0 8px 32px rgba(182, 0, 0, 0.2);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .btn-homepage:hover {
-        box-shadow: 0 0 1rem 0.1rem rgba(182, 0, 0, 0.4);
-        color: #ff5555 !important;
-        background-color: rgba(182, 0, 0, 0.4) !important;
+        background: linear-gradient(135deg, rgba(182, 0, 0, 0.5), rgba(145, 0, 0, 0.3));
+        border-color: rgba(255, 85, 85, 0.5);
+        color: #ffffff !important;
+        box-shadow: 0 12px 48px rgba(182, 0, 0, 0.4);
+        transform: translateY(-3px) scale(1.05);
     }
 
     @media (max-width: 991px) {
@@ -229,8 +233,10 @@
     .pickgradient:after {
         content: '';
         position: absolute;
-        left: 0; top: 0;
-        width: 100%; height: 100%;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
         display: inline-block;
         background: linear-gradient(to bottom, transparent, #000000);
     }
@@ -242,8 +248,10 @@
     .gradient-overlay::after {
         content: '';
         position: absolute;
-        left: 0; top: 0;
-        width: 100%; height: 100%;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
         display: inline-block;
         background: radial-gradient(ellipse closest-side at center, transparent, rgba(0, 0, 0, 0.30));
     }

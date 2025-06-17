@@ -20,7 +20,8 @@
 		"super-sitemap": "^1.0.3",
 		"svelte": "^5.34.3",
 		"uuid": "^11.1.0",
-		"vite": "^6.3.5"
+		"vite": "^6.3.5",
+		"vite-plugin-devtools-json": "^0.2.0"
 	},
 	"type": "module",
 	"dependencies": {

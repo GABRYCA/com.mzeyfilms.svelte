@@ -11,249 +11,332 @@
     });
 </script>
 
-<!-- BODY -->
-<div class="container-fluid bg-opacity-75">
-    <!-- MZEY Cover -->
-    <div class="row justify-content-center" data-aos="fade-up">
-        <div class="col text-center px-0 pickgradient">
-            <enhanced:img src={logoHome} class="img-fluid shadow" alt="Logo" id="front-image"/>
-        </div>
-    </div>
-
-    <!-- Awards -->
-    <div class="row h-100 bg-black justify-content-around" id="awards" data-aos="fade-in" data-aos-duration="1000">
-        <div class="col-12 col-md-5 px-0 my-auto gradient-overlay text-center h-100">
-            <!--<div>
-                <a class="text-decoration-none" href="https://youtu.be/kjOIvL3PduI?si=n9vPTBDQjV9B7la5" target="_blank"
-                   data-bs-toggle="tooltip" data-bs-placement="top" title="View Short">
-                    <h1 class="text-center text-white pt-5 pb-3">MZEYFILMS</h1>
-                    <p class="text-center text-white mb-5 mb-md-0">No Light In Deepness</p>
-                </a>
-            </div>-->
-            <div class="gradient-overlay">
-                <enhanced:img class="img-fluid rounded-5 shadow" src={naughtyLaundry}
-                              alt="naughty laundry by mzeyfilms"/>
-            </div>
-        </div>
-        <div class="col-12 col-md-6 my-auto px-0 gradient-overlay text-center h-100">
-            <div class="gradient-overlay">
-                <enhanced:img class="img-fluid rounded-5" src={noLightInDeepness}
-                              alt="no light in deepness by mzeyfilms"/>
+<!-- Hero Section -->
+<section class="container-fluid px-0">
+    <!-- Main Cover Image -->
+    <div class="row justify-content-center mb-5" data-aos="fade-up">
+        <div class="col-12 text-center px-3">
+            <div class="hero-image-container">
+                <enhanced:img src={logoHome} class="img-fluid hero-image" alt="MZEYFILMS Portfolio" id="front-image"/>
+                <div class="hero-overlay">
+                    <h1 class="hero-title">MZEYFILMS</h1>
+                    <p class="hero-subtitle theme-text-secondary d-none d-md-block">Visual Storytelling & Cinematic
+                        Excellence</p>
+                    <p class="hero-subtitle theme-text-secondary d-md-none">Visual Stories</p>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Info -->
-    <div class="row justify-content-center mt-4" id="info" data-aos="fade-up" data-aos-duration="700">
-        <div class="col-12 text-center my-auto">
-            <p class="h2 theme-text-primary text-glow">Discover me</p>
+    <!-- Featured Works -->
+    <div class="row justify-content-center mb-5" data-aos="fade-in" data-aos-duration="1000">
+        <div class="col-12 text-center mb-4">
+            <h2 class="section-title theme-text-primary text-glow">Featured Works</h2>
+            <p class="section-subtitle theme-text-secondary">Capturing moments that tell extraordinary stories</p>
         </div>
-        <div class="col-auto">
-            <a href="/videos" class="btn btn-homepage theme-button hover-lift rounded-5 fw-bold">
-                <i class="fas fa-video"></i> <br>Videos
+        <div class="col-12 col-lg-6 px-3 mb-4 mb-lg-0">
+            <div class="featured-work modern-card h-100">
+                <enhanced:img class="img-fluid featured-image" src={naughtyLaundry}
+                              alt="Naughty Laundry - A MZEYFILMS Production"/>
+                <div class="featured-overlay">
+                    <h3 class="featured-title">Naughty Laundry</h3>
+                    <!--<p class="featured-description">An intimate exploration of everyday moments</p>-->
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6 px-3">
+            <div class="featured-work modern-card h-100">
+                <enhanced:img class="img-fluid featured-image" src={noLightInDeepness}
+                              alt="No Light In Deepness - A MZEYFILMS Production"/>
+                <div class="featured-overlay">
+                    <h3 class="featured-title">No Light In Deepness</h3>
+                    <!--<p class="featured-description">A journey through shadows and light</p>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Cards -->
+    <div class="row justify-content-center" data-aos="fade-up" data-aos-duration="700">
+        <div class="col-12 text-center mb-4">
+            <h2 class="section-title theme-text-primary text-glow">Explore Portfolio</h2>
+            <p class="section-subtitle theme-text-secondary d-none d-md-block">Discover the world through my lens</p>
+            <p class="section-subtitle theme-text-secondary d-md-none">Visual storytelling</p>
+        </div>
+        <div class="col-auto mx-2 mb-3">
+            <a href="/videos" class="nav-card theme-button hover-lift">
+                <div class="nav-card-icon">
+                    <i class="fas fa-video"></i>
+                </div>
+                <h3 class="nav-card-title">Videos</h3>
+                <p class="nav-card-desc">Cinematic storytelling</p>
             </a>
         </div>
-        <div class="col-auto px-0 mx-sm-5">
-            <a href="/photos" class="btn btn-homepage theme-button hover-lift rounded-5 fw-bold">
-                <i class="fas fa-camera"></i> <br>Photos
-            </a>
-        </div>
-        <div class="col-auto">
-            <a href="/contacts" class="btn btn-homepage theme-button hover-lift rounded-5 fw-bold">
-                <i class="fas fa-envelope"></i> <br>Contacts
+        <div class="col-auto mx-2 mb-3">
+            <a href="/photos" class="nav-card theme-button hover-lift">
+                <div class="nav-card-icon">
+                    <i class="fas fa-camera"></i>
+                </div>
+                <h3 class="nav-card-title">Photos</h3>
+                <p class="nav-card-desc">Captured moments</p>
+            </a></div>
+        <div class="col-auto mx-2 mb-3">
+            <a href="/contacts" class="nav-card theme-button hover-lift">
+                <div class="nav-card-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <h3 class="nav-card-title">Contact</h3>
+                <p class="nav-card-desc">Let's collaborate</p>
             </a>
         </div>
     </div>
-
-    <!-- Links to sections -->
-    <!--<div class="row py-5 justify-content-center align-items-center" id="centrale">
-        <div class="col-12" id="contenutoCentrale"></div>
-
-        <div class="col-12 text-center" data-aos="zoom-in" data-aos-delay="100">
-            <div class="row justify-content-center align-items-center">
-                <div class="col-auto">
-                    <a href="/videos" class="btn btn-homepage rounded-5 pt-2 fw-bold"
-                       data-bs-toggle="tooltip" data-bs-placement="top" title="Videos">
-                        <i class="fas fa-video"></i> <br>Videos
-                    </a>
-                </div>
-                <div class="col-auto px-0 mx-sm-5">
-                    <a href="/photos" class="btn btn-homepage rounded-5 fw-bold"
-                       data-bs-toggle="tooltip" data-bs-placement="top" title="Photos">
-                        <i class="fas fa-camera"></i> <br>Photos
-                    </a>
-                </div>
-                <div class="col-auto">
-                    <a href="/contacts" class="btn btn-homepage rounded-5 fw-bold" data-bs-toggle="tooltip"
-                       data-bs-placement="top" title="Contact Me">
-                        <i class="fas fa-envelope"></i> <br>Contacts
-                    </a>
-                </div>
-            </div>-->
-    <!--<a href="/about" class="btn btn-outline-light btn-lg rounded-5 mt-4 fw-bold" data-bs-toggle="tooltip"
-       data-bs-placement="top" title="About me">
-        <i class="fas fa-user"></i> About me
-    </a>-->
-    <!--
-    <div class="container">
-        <div class="row mt-5 justify-content-center">
-            <div class="col-4">
-                <a href="https://www.instagram.com/mzeyfilms/" target="_blank" aria-label="Instagram">
-                        <span class="fa-stack fa-2x text-light text-opacity-25" data-bs-toggle="tooltip"
-                              data-bs-placement="top" title="Instagram">
-                            <i class="fas fa-circle fa-stack-2x"></i>
-                            <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
-                        </span>
-                </a>
-            </div>
-            <div class="col-4">
-                <a href="https://m.youtube.com/channel/UCx0Ih65Y_TU86li7eWuM4_g" target="_blank" aria-label="Youtube">
-                        <span class="fa-stack fa-2x text-light text-opacity-25" data-bs-toggle="tooltip"
-                              data-bs-placement="top" title="Youtube">
-                            <i class="fas fa-circle fa-stack-2x"></i>
-                            <i class="fab fa-youtube fa-stack-1x fa-inverse"></i>
-                        </span>
-                </a>
-            </div>
-        </div>
-        <hr class="text-white">
-        <section data-aos="fade-up">
-            <p class="h2 fw-bold pt-3">Podcast:</p>
-            <div class="row mt-4 justify-content-center">
-                <div class="col-3 px-0">
-                    <a href="https://open.spotify.com/show/22Nsi7J93FcN6kICu6hEaS" target="_blank" aria-label="Spotify">
-                                <span class="fa-stack fa-2x text-light text-opacity-25" data-bs-toggle="tooltip"
-                                      data-bs-placement="top" title="Spotify">
-                                    <i class="fas fa-circle fa-stack-2x"></i>
-                                    <i class="fab fa-spotify fa-stack-1x fa-inverse"></i>
-                                </span>
-                    </a>
-                </div>
-                <div class="col-3 px-0">
-                    <a href="https://music.amazon.it/podcasts/1b46e8c5-0b6a-4882-b634-8d18ef578804/tachipistorie"
-                       target="_blank" aria-label="Amazon Music Podcast">
-                                <span class="fa-stack fa-2x text-light text-opacity-25" data-bs-toggle="tooltip"
-                                      data-bs-placement="top" title="Amazon Podcast">
-                                    <i class="fas fa-circle fa-stack-2x"></i>
-                                    <i class="fab fa-amazon fa-stack-1x fa-inverse"></i>
-                                </span>
-                    </a>
-                </div>
-            </div>
-        </section>
-    </div>
-    -->
-    <!--</div>
-</div>-->
-</div>
+</section>
 
 <style>
-    /*#centrale {
-        background-image: url($lib/img/Video_Moto_31-optimized.webp);
-        background-size: cover;
-        background-position: 50% 10%;
-        background-repeat: no-repeat;
+    .hero-image-container {
         position: relative;
-        min-height: 50vh;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: var(--shadow-glass);
+        max-width: 1200px;
+        margin: 0 auto;
     }
 
-    #contenutoCentrale {
-        content: '';
+    .hero-image {
+        width: 100%;
+        height: auto;
         display: block;
+        filter: brightness(0.7) contrast(1.1);
+        transition: all 0.6s ease;
+    }
+
+    .hero-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        z-index: 2;
+        background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 70%, transparent 100%);
+        padding: 3rem 2rem;
+        border-radius: 20px;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .hero-title {
+        font-size: 3.5rem;
+        font-family: var(--font-display);
+        font-weight: 900;
+        margin-bottom: 0.5rem;
+        color: var(--accent-primary) !important;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9),
+        0 4px 12px rgba(0, 0, 0, 0.7),
+        0 8px 24px rgba(0, 0, 0, 0.5),
+        0 0 20px rgba(244, 162, 97, 0.3);
+        letter-spacing: 0.05em;
+        line-height: 1.1;
+    }
+
+    .hero-subtitle {
+        font-size: 1.2rem;
+        font-weight: 500;
+        letter-spacing: 0.15em;
+        color: var(--text-secondary) !important;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9),
+        0 3px 8px rgba(0, 0, 0, 0.6),
+        0 6px 16px rgba(0, 0, 0, 0.4);
+        text-transform: uppercase;
+    }
+
+    .section-title {
+        font-size: 2.5rem;
+        font-family: var(--font-display);
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+
+    .section-subtitle {
+        font-size: 1.1rem;
+        font-weight: 400;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+    }
+
+    .featured-work {
+        position: relative;
+        border-radius: 20px;
+        overflow: hidden;
+        cursor: pointer;
+        height: 300px;
+    }
+
+    .featured-image {
         width: 100%;
         height: 100%;
-        background: radial-gradient(ellipse closest-side at center, transparent, rgba(0, 0, 0, 0.95));
+        object-fit: cover;
+        transition: all 0.6s ease;
+    }
+
+    .featured-overlay {
         position: absolute;
-        top: 0;
+        bottom: 0;
         left: 0;
-        z-index: 0;
-    }*/
-
-    /*#noLightItem {
-        max-height: 50vh;
-        max-width: 1200px;
-        width: 100%;
-        object-fit: cover;
-        margin: auto;
+        right: 0;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+        color: white;
+        padding: 2rem;
+        transform: translateY(20px);
+        opacity: 0;
+        transition: all 0.4s ease;
     }
 
-    #noLightItem2 {
-        max-height: 50vh;
-        max-width: 1200px;
-        width: 100%;
-        object-fit: cover;
-        margin: auto;
-    }*/
-
-    p {
-        color: #ff5555 !important;
+    .featured-work:hover .featured-overlay {
+        transform: translateY(0);
+        opacity: 1;
     }
 
-    #awards {
-        /* box shadow only on the bottom */
-        box-shadow: 0 0 3rem 0 rgba(0, 0, 0, 1);
+    .featured-work:hover .featured-image {
+        transform: scale(1.05);
+        filter: brightness(0.8);
     }
 
-    #info {
-        min-height: 35vh;
+    .featured-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: var(--accent-primary);
     }
 
-    .btn-homepage {
-        background: linear-gradient(135deg, rgba(182, 0, 0, 0.3), rgba(145, 0, 0, 0.2));
-        border: 1px solid rgba(255, 85, 85, 0.3);
-        color: #ff5555;
-        backdrop-filter: blur(8px);
-        box-shadow: 0 8px 32px rgba(182, 0, 0, 0.2);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    .featured-description {
+        font-size: 1rem;
+        opacity: 0.9;
+        margin: 0;
     }
 
-    .btn-homepage:hover {
-        background: linear-gradient(135deg, rgba(182, 0, 0, 0.5), rgba(145, 0, 0, 0.3));
-        border-color: rgba(255, 85, 85, 0.5);
-        color: #ffffff !important;
-        box-shadow: 0 12px 48px rgba(182, 0, 0, 0.4);
-        transform: translateY(-3px) scale(1.05);
+    .nav-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        padding: 2rem 1.5rem;
+        border-radius: 20px;
+        min-width: 180px;
+        min-height: 200px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
     }
 
-    @media (max-width: 991px) {
-        .btn-homepage {
+    .nav-card-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: var(--accent-primary);
+        transition: all 0.3s ease;
+    }
+
+    .nav-card-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: var(--text-primary);
+    }
+
+    .nav-card-desc {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        margin: 0;
+    }
+
+    .nav-card:hover .nav-card-icon {
+        transform: scale(1.1);
+        color: var(--accent-hover);
+    }
+
+    .nav-card:hover .nav-card-title {
+        color: var(--accent-primary);
+    }
+
+    @media (max-width: 992px) {
+        .hero-overlay {
+            padding: 2.5rem 1.5rem;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+        }
+
+        .section-subtitle {
+            font-size: 1rem;
+        }
+
+        .featured-work {
+            height: 250px;
+            margin-bottom: 1rem;
+        }
+
+        .nav-card {
+            min-width: 150px;
+            min-height: 160px;
+            padding: 1.5rem 1rem;
+        }
+
+        .nav-card-icon {
+            font-size: 2.5rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .hero-overlay {
+            padding: 2rem 1rem;
+            border-radius: 16px;
+        }
+
+        .hero-title {
+            font-size: 2rem;
+            letter-spacing: 0.03em;
+        }
+
+        .hero-subtitle {
+            font-size: 0.9rem;
+            letter-spacing: 0.12em;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+        }
+
+        .featured-work {
+            height: 200px;
+        }
+
+        .nav-card {
+            min-width: 120px;
+            min-height: 140px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .nav-card-icon {
+            font-size: 2rem;
+        }
+
+        .nav-card-title {
+            font-size: 1.1rem;
+        }
+
+        .nav-card-desc {
             font-size: 0.8rem;
         }
-
-        #info {
-            min-height: 30vh;
-        }
     }
-
-    .pickgradient {
-        position: relative;
-        display: inline-block;
-    }
-
-    .pickgradient:after {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        display: inline-block;
-        background: linear-gradient(to bottom, transparent, #000000);
-    }
-
-    .gradient-overlay {
-        position: relative;
-    }
-
-    .gradient-overlay::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        display: inline-block;
-        background: radial-gradient(ellipse closest-side at center, transparent, rgba(0, 0, 0, 0.30));
-    }
-
 </style>

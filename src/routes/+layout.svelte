@@ -52,12 +52,12 @@
 <Seo/>
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark text-center mb-1 theme-main-container theme-shadow rounded-bottom-3">
-    <div class="container-fluid py-2 py-lg-4">
+<nav class="navbar navbar-expand-lg navbar-dark text-center mb-4 theme-main-container theme-shadow">
+    <div class="container-fluid py-3 py-lg-4">
         <div class="d-flex justify-content-between w-100 d-lg-none">
             <!-- Navbar title Mobile -->
             <a class="text-decoration-none navbar-title-link my-auto pt-1 navbar-title d-lg-none hover-lift" href="/">
-                <p class="navbar-title mb-0 enhanced-text">MZEYFILMS</p>
+                <h1 class="navbar-title mb-0 enhanced-text">MZEYFILMS</h1>
                 <p class="navbar-subtitle mb-0 theme-text-secondary">
                     {@html page.data.subtitle}
                 </p>
@@ -73,28 +73,38 @@
                 <ul class="col-12 col-lg-4 pe-0 justify-content-start navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link hover-lift { page.url.pathname === '/videos' ? 'active' : '' }"
-                           href="/videos">Videos</a>
+                           href="/videos">
+                            <i class="fas fa-video me-2"></i>Videos
+                        </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link hover-lift { page.url.pathname === '/photos' ? 'active' : '' }"
-                           href="/photos">Photos</a>
+                           href="/photos">
+                            <i class="fas fa-camera me-2"></i>Photos
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link hover-lift { page.url.pathname === '/about' ? 'active' : '' }" href="/about">About</a>
+                        <a class="nav-link hover-lift { page.url.pathname === '/about' ? 'active' : '' }" href="/about">
+                            <i class="fas fa-user me-2"></i>About
+                        </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link hover-lift { page.url.pathname === '/contacts' ? 'active' : '' }"
-                           href="/contacts">Contacts</a>
+                           href="/contacts">
+                            <i class="fas fa-envelope me-2"></i>Contact
+                        </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link hover-lift" href="https://www.saal-digital.net/profiles/5TR33T/"
-                           target="_blank">Shop</a>
+                           target="_blank">
+                            <i class="fas fa-shopping-cart me-2"></i>Shop
+                        </a>
                     </li>
                 </ul>
                 <!-- Navbar Title Desktop -->
                 <div class="col-12 col-lg-4 d-none d-lg-block">
                     <a class="text-decoration-none navbar-title-link py-0 hover-lift" href="/">
-                        <p class="navbar-title mb-0 enhanced-text text-glow">MZEYFILMS</p>
+                        <h1 class="navbar-title mb-1 enhanced-text text-glow">MZEYFILMS</h1>
                         <p class="navbar-subtitle mb-0 theme-text-secondary">
                             {@html page.data.subtitle}
                         </p>
@@ -104,27 +114,33 @@
                 <div class="col-12 col-lg-4 mt-4 mt-lg-0 justify-content-center justify-content-lg-end navbar-nav">
                     <div class="row justify-content-center">
                         <div class="col-auto">
-                            <a class="nav-link nav-icon px-0 interactive-icon"
+                            <a class="nav-link nav-icon px-2 interactive-icon"
                                href="https://www.instagram.com/mzeyfilms/" target="_blank" aria-label="Instagram"
-                               data-bs-toggle="tooltip" title="Follow me on Instagram"><i class="fab fa-instagram"></i></a>
+                               data-bs-toggle="tooltip" title="Follow on Instagram">
+                                <i class="fab fa-instagram"></i>
+                            </a>
                         </div>
                         <div class="col-auto">
-                            <a class="nav-link nav-icon px-0 interactive-icon"
+                            <a class="nav-link nav-icon px-2 interactive-icon"
                                href="https://m.youtube.com/channel/UCx0Ih65Y_TU86li7eWuM4_g" target="_blank"
-                               aria-label="Youtube" data-bs-toggle="tooltip" title="Watch my videos"><i
-                                    class="fab fa-youtube"></i></a>
+                               aria-label="Youtube" data-bs-toggle="tooltip" title="Watch videos">
+                                <i class="fab fa-youtube"></i>
+                            </a>
                         </div>
                         <div class="col-auto">
-                            <a class="nav-link nav-icon px-0 interactive-icon"
+                            <a class="nav-link nav-icon px-2 interactive-icon"
                                href="https://open.spotify.com/show/22Nsi7J93FcN6kICu6hEaS" target="_blank"
-                               aria-label="Spotify" data-bs-toggle="tooltip" title="Listen to my podcast"><i
-                                    class="fab fa-spotify"></i></a>
+                               aria-label="Spotify" data-bs-toggle="tooltip" title="Listen to podcast">
+                                <i class="fab fa-spotify"></i>
+                            </a>
                         </div>
                         <div class="col-auto">
-                            <a class="nav-link nav-icon px-0 interactive-icon"
+                            <a class="nav-link nav-icon px-2 interactive-icon"
                                href="https://music.amazon.it/podcasts/1b46e8c5-0b6a-4882-b634-8d18ef578804/tachipistorie"
-                               target="_blank" aria-label="Amazon Music Podcast" data-bs-toggle="tooltip"
-                               title="Listen on Amazon"><i class="fab fa-amazon"></i></a>
+                               target="_blank" aria-label="Amazon Music" data-bs-toggle="tooltip"
+                               title="Listen on Amazon">
+                                <i class="fab fa-amazon"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -136,96 +152,108 @@
 {@render children?.()}
 
 <!-- Footer -->
-<div class="row py-3 mx-auto mt-1 justify-content-center align-items-center theme-main-container theme-shadow rounded-top-3">
-    <div class="col-12 col-md-4 text-center pb-2">
+<footer class="row py-4 mx-auto mt-5 mb-0 justify-content-center align-items-center theme-main-container theme-shadow">
+    <div class="col-12 col-md-4 text-center pb-3">
         <div class="row justify-content-center">
             <div class="col-12">
-                <p class="h5 mt-2 theme-text-primary">Social:</p>
+                <h3 class="h4 mt-2 mb-3 theme-text-primary">Connect</h3>
             </div>
-            <div class="col-auto px-0">
+            <div class="col-auto px-2">
                 <a class="footer-icon interactive-icon" href="https://m.youtube.com/channel/UCx0Ih65Y_TU86li7eWuM4_g"
-                   target="_blank" aria-label="Youtube"><i class="fab fa-youtube mx-3" data-bs-toggle="tooltip"
-                                                           data-bs-placement="top" title="Watch my videos"></i></a>
+                   target="_blank" aria-label="Youtube">
+                    <i class="fab fa-youtube" data-bs-toggle="tooltip" data-bs-placement="top" title="Watch videos"></i>
+                </a>
             </div>
-            <div class="col-auto px-0">
+            <div class="col-auto px-2">
                 <a class="footer-icon interactive-icon" href="https://www.instagram.com/mzeyfilms/" target="_blank"
-                   aria-label="Instagram"><i class="fab fa-instagram mx-3" data-bs-toggle="tooltip"
-                                             data-bs-placement="top" title="Follow me on Instagram"></i></a>
+                   aria-label="Instagram">
+                    <i class="fab fa-instagram" data-bs-toggle="tooltip" data-bs-placement="top"
+                       title="Follow on Instagram"></i>
+                </a>
             </div>
-            <div class="col-auto px-0">
+            <div class="col-auto px-2">
                 <a class="footer-icon interactive-icon" href="https://open.spotify.com/show/22Nsi7J93FcN6kICu6hEaS"
-                   target="_blank" aria-label="Spotify"><i class="fab fa-spotify mx-3" data-bs-toggle="tooltip"
-                                                           data-bs-placement="top" title="Listen to my podcast"></i></a>
+                   target="_blank" aria-label="Spotify">
+                    <i class="fab fa-spotify" data-bs-toggle="tooltip" data-bs-placement="top"
+                       title="Listen to podcast"></i>
+                </a>
             </div>
-            <div class="col-auto px-0">
+            <div class="col-auto px-2">
                 <a class="footer-icon interactive-icon"
                    href="https://music.amazon.it/podcasts/1b46e8c5-0b6a-4882-b634-8d18ef578804/tachipistorie"
-                   target="_blank" aria-label="Amazon Music Podcast"><i class="fab fa-amazon mx-3"
-                                                                        data-bs-toggle="tooltip" data-bs-placement="top"
-                                                                        title="Listen on Amazon"></i></a>
+                   target="_blank" aria-label="Amazon Music">
+                    <i class="fab fa-amazon" data-bs-toggle="tooltip" data-bs-placement="top"
+                       title="Listen on Amazon"></i>
+                </a>
             </div>
         </div>
     </div>
-    <div class="col-12 col-md-4 text-center pb-2 mt-3 mt-md-0">
-        <p class="h5 mt-2 theme-text-primary">Contacts:</p>
-        <p class="h5"><a class="theme-text-secondary text-decoration-none hover-lift" href="mailto:{email}"
-                         data-bs-toggle="tooltip" data-bs-placement="top" title="Send me an email">Email</a></p>
+    <div class="col-12 col-md-4 text-center pb-3 mt-3 mt-md-0">
+        <h3 class="h4 mt-2 mb-3 theme-text-primary">Contact</h3>
+        <a class="theme-text-secondary text-decoration-none hover-lift custom-link fs-5" href="mailto:{email}"
+           data-bs-toggle="tooltip" data-bs-placement="top" title="Send email">
+            <i class="fas fa-envelope me-2"></i>Get in touch
+        </a>
     </div>
-    <div class="col-12 col-md-4 text-center pb-2 mt-2 mt-md-0">
-        <p class="h5 mt-2 theme-text-primary">© Copyright:</p>
-        <p class="h6 theme-text-secondary">- MZEYFILMS {currentYear}</p>
-        <p class="h6 pt-1">Made by: <a class="theme-text-secondary text-decoration-none hover-lift"
-                                       href="https://github.com/GABRYCA" data-bs-toggle="tooltip"
-                                       data-bs-placement="top" title="Visit Developer" target="_blank">AnonymousGCA/GABRYCA</a>
+    <div class="col-12 col-md-4 text-center pb-2 mt-3 mt-md-0">
+        <h3 class="h4 mt-2 mb-3 theme-text-primary">Credits</h3>
+        <p class="small theme-text-secondary mb-2">© MZEYFILMS {currentYear}</p>
+        <p class="small">
+            Crafted by
+            <a class="theme-text-secondary text-decoration-none hover-lift custom-link"
+               href="https://github.com/GABRYCA" data-bs-toggle="tooltip"
+               data-bs-placement="top" title="Visit Developer" target="_blank">
+                AnonymousGCA/GABRYCA
+            </a>
         </p>
     </div>
-</div>
+</footer>
 
 <style>
-    :global(body::-webkit-scrollbar) {
-        width: 10px;
-        background: #230e0e;
-    }
-
-    :global(body::-webkit-scrollbar-thumb) {
-        background: linear-gradient(180deg, #B600003F, #B6000066);
-        border-radius: 20px;
-    }
-
-    :global(body::-webkit-scrollbar-thumb:hover) {
-        background: linear-gradient(180deg, #B6000066, #B60000AA);
-    }
-
     .footer-icon {
-        font-size: 1.5rem;
-        color: #b63d3d !important;
-        transition: all 0.3s ease-in-out;
+        font-size: 1.75rem;
+        color: var(--accent-primary) !important;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        padding: 8px;
+        border-radius: 12px;
     }
 
     .footer-icon:hover {
-        color: #ff5555 !important;
-        transform: scale(1.1);
+        color: var(--accent-hover) !important;
+        transform: scale(1.1) translateY(-2px);
+        background: rgba(244, 162, 97, 0.1);
     }
 
-    @media (max-width: 991px) {
-        .nav-link {
-            font-size: 0.8rem;
-        }
-
-        .nav-icon {
-            font-size: 1.5rem;
-        }
+    .navbar-title {
+        font-size: 1.75rem;
+        font-family: var(--font-display);
+        font-weight: 700;
+        letter-spacing: 0.05em;
     }
 
-    .navbar-title, .navbar-subtitle {
-        color: #ff5555 !important;
+    .navbar-subtitle {
+        font-size: 0.75rem;
+        font-weight: 400;
+        opacity: 0.8;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+    }
+
+    .navbar-title-link {
+        word-wrap: break-word;
+        transition: all 0.3s ease;
     }
 
     .nav-link {
-        color: #b63d3d !important;
-        transition: all 0.3s ease-in-out;
+        color: var(--text-secondary) !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         position: relative;
         overflow: hidden;
+        font-weight: 500;
+        font-size: var(--font-size-sm);
+        padding: 8px 16px;
+        border-radius: 8px;
+        margin: 0 4px;
     }
 
     .nav-link::before {
@@ -235,8 +263,8 @@
         left: 0;
         width: 0;
         height: 2px;
-        background: linear-gradient(90deg, #ff5555, #b63d3d);
-        transition: width 0.3s ease-in-out;
+        background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+        transition: width 0.3s ease;
     }
 
     .nav-link:hover::before,
@@ -246,32 +274,52 @@
 
     .nav-link:hover,
     .nav-link.active {
-        color: #ff5555 !important;
+        color: var(--accent-primary) !important;
+        background: rgba(244, 162, 97, 0.05);
+        transform: translateY(-1px);
     }
 
-    .navbar-title {
-        font-size: 1.25rem;
+    .nav-icon {
+        font-size: 1.5rem;
+        padding: 8px !important;
+        border-radius: 8px;
+        transition: all 0.3s ease;
     }
 
-    .navbar-subtitle {
-        font-size: 0.5rem;
-    }
-
-    .navbar-title-link {
-        word-wrap: break-word;
-    }
-
-    .h5 {
-        font-size: 0.8rem;
-    }
-
-    .h6 {
-        font-size: 0.5rem;
+    .nav-icon:hover {
+        background: rgba(244, 162, 97, 0.1);
     }
 
     .nav-item {
-        font-size: 0.6rem;
-        padding-left: 0;
-        padding-right: 0;
+        font-size: var(--font-size-sm);
+    }
+
+    @media (max-width: 991px) {
+        .nav-link {
+            font-size: var(--font-size-sm);
+            margin: 4px 0;
+        }
+
+        .nav-icon {
+            font-size: 1.5rem;
+        }
+
+        .navbar-title {
+            font-size: 1.5rem;
+        }
+
+        .navbar-subtitle {
+            font-size: 0.7rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .navbar-title {
+            font-size: 1.25rem;
+        }
+
+        .footer-icon {
+            font-size: 1.5rem;
+        }
     }
 </style>

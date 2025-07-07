@@ -9,7 +9,7 @@ export const load = async ({url}) => {
         schemaOrg: true,
         openGraph: true,
         twitter: true,
-        canonical: url.href,
+        canonical: 'https://mzeyfilms.com' + url.pathname,
         index: true,
         subtitle: 'Director | Editor | Photographer<br>Aspirant Cinematographer'
     }

@@ -52,6 +52,11 @@
     }
 </script>
 
+<svelte:head>
+    <title>MZEYFILMS - Videos</title>
+    <meta name="robots" content="index, follow, max-image-preview:large">
+</svelte:head>
+
 <svelte:window onscroll={handleScroll} bind:scrollY={y}/>
 
 <div class="container-xxl" data-aos="zoom-in" data-aos-duration="400">

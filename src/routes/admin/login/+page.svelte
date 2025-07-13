@@ -45,6 +45,11 @@
 
 </script>
 
+<svelte:head>
+    <title>MZEYFILMS - Admin - Login</title>
+    <meta name="robots" content="noindex, nofollow">
+</svelte:head>
+
 <div class="container-fluid pt-5 pb-5 text-center">
     <div class="container-sm">
         <div class="row justify-content-center">

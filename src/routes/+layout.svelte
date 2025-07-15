@@ -3,6 +3,7 @@
     import AOS from "aos";
     import "$lib/css/style.css";
     import {page} from "$app/state";
+    import Seo from "$lib/components/Seo.svelte";
 
     /** @type {Props} */
     let {children} = $props();
@@ -43,6 +44,8 @@
     const currentYear = new Date().getFullYear();
     const email = "manuel.zaffiro03@gmail.com"
 </script>
+
+<Seo></Seo>
 
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark text-center mb-1 theme-main-container theme-shadow rounded-bottom-3">

@@ -10,11 +10,6 @@
     });
 </script>
 
-<svelte:head>
-    <title>MZEYFILMS - Contacts</title>
-    <meta name="robots" content="index, follow, max-image-preview:large">
-</svelte:head>
-
 <!-- BODY -->
 <div class="container-fluid pb-3 pb-md-5 rounded-3" style="min-height: 78vh">
     <div class="container-xxl">        <!-- Contacts Text -->

@@ -13,11 +13,6 @@
 
 </script>
 
-<svelte:head>
-    <title>MZEYFILMS - Photos</title>
-    <meta name="robots" content="index, follow, max-image-preview:large">
-</svelte:head>
-
 <div class="container-xxl" data-aos="zoom-in" data-aos-duration="400">
     <div class="row align-items-center" style="min-height: 78vh">
         <div class="col">

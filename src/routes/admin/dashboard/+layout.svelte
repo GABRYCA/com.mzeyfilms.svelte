@@ -29,11 +29,6 @@
     });
 </script>
 
-<svelte:head>
-    <title>MZEYFILMS - Admin - Dashboard</title>
-    <meta name="robots" content="noindex, nofollow">
-</svelte:head>
-
 <div class="admin">
     <nav class="navbar navbar-expand navbar-light bg-light bg-opacity-25 mt-2 mb-2 mx-1 text-center rounded-4">
         <div class="container-fluid justify-content-evenly fs-5">

@@ -11,12 +11,6 @@
     });
 </script>
 
-<svelte:head>
-    <title>MZEYFILMS - Official</title>
-    <link rel="canonical" href="https://mzeyfilms.com/">
-    <meta name="robots" content="index, follow, max-image-preview:large">
-</svelte:head>
-
 <!-- BODY -->
 <div class="container-fluid bg-opacity-75">
     <!-- MZEY Cover -->

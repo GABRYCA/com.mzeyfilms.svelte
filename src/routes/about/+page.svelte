@@ -10,11 +10,6 @@
     const age = new Date().getFullYear() - 2003;
 </script>
 
-<svelte:head>
-    <title>MZEYFILMS - About</title>
-    <meta name="robots" content="index, follow, max-image-preview:large">
-</svelte:head>
-
 <!-- CONTENT -->
 <div class="container-xxl pb-3 pb-md-5" style="min-height: 77vh">    <!-- Title -->
     <div class="row pt-md-5 text-center rounded-bottom-4 p-2">

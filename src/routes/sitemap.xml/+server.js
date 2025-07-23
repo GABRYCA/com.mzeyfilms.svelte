@@ -7,6 +7,6 @@ export const GET = async () => {
         origin: 'https://mzeyfilms.com',
         excludeRoutePatterns: [
             '^/admin.*',
-            ],
+        ],
     });
 };

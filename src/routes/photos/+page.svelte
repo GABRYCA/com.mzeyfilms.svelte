@@ -11,7 +11,100 @@
         });
     });
 
+    const structuredData = $derived({
+        "@context": "https://schema.org",
+        "@type": "ImageGallery",
+        "name": "MZEYFILMS Photo Gallery",
+        "description": data.description,
+        "url": "https://mzeyfilms.com/photos",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://mzeyfilms.com/photos"
+        },
+        "author": {
+            "@type": "Person",
+            "name": "MZEYFILMS",
+            "url": "https://mzeyfilms.com"
+        },
+        "publisher": {
+            "@type": "Person",
+            "name": "MZEYFILMS",
+            "url": "https://mzeyfilms.com"
+        },
+        "numberOfItems": data.totalImages,
+        "hasPart": content.map(folder => ({
+            "@type": "ImageGallery",
+            "name": folder.name,
+            "description": `Photo collection: ${folder.name}`,
+            "numberOfItems": folder.expand?.images_via_folder?.length || 0,
+            "image": folder.expand?.images_via_folder?.map(image => ({
+                "@type": "ImageObject",
+                "url": image.url,
+                "name": image.title || image.name || `Photo from ${folder.name}`,
+                "description": image.description || `Professional photo from ${folder.name} collection by MZEYFILMS`,
+                "author": {
+                    "@type": "Person",
+                    "name": "MZEYFILMS"
+                },
+                "copyrightHolder": {
+                    "@type": "Person",
+                    "name": "MZEYFILMS"
+                },
+                "contentUrl": image.url,
+                "thumbnailUrl": image.url
+            })) || []
+        })),
+        "image": content.flatMap(folder => 
+            folder.expand?.images_via_folder?.map(image => ({
+                "@type": "ImageObject",
+                "url": image.url,
+                "name": image.title || image.name || `Photo from ${folder.name}`,
+                "description": image.description || `Professional photo from ${folder.name} collection by MZEYFILMS`,
+                "author": {
+                    "@type": "Person",
+                    "name": "MZEYFILMS"
+                },
+                "copyrightHolder": {
+                    "@type": "Person",
+                    "name": "MZEYFILMS"
+                },
+                "contentUrl": image.url,
+                "thumbnailUrl": image.url
+            })) || []
+        )
+    });
+
 </script>
+
+<svelte:head>
+    <!-- Primary Meta Tags -->
+    <title>{data.title}</title>
+    <meta name="title" content="{data.title}">
+    <meta name="description" content="{data.description}">
+    <meta name="author" content="{data.author}">
+    <meta name="keywords" content="MZEYFILMS, photography, photo gallery, professional photographer, images, portfolio">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="{data.canonical}">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{data.canonical}">
+    <meta property="og:site_name" content="MZEYFILMS">
+    <meta property="og:title" content="{data.title}">
+    <meta property="og:description" content="{data.description}">
+    <meta property="og:image" content="{data.imageURL}">
+    <meta property="og:image:alt" content="Photo from MZEYFILMS gallery">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{data.canonical}">
+    <meta property="twitter:title" content="{data.title}">
+    <meta property="twitter:description" content="{data.description}">
+    <meta property="twitter:image" content="{data.imageURL}">
+
+    <!-- Structured Data (JSON-LD) for Image Gallery -->
+    {@html `<script type="application/ld+json">${JSON.stringify(structuredData)}</script>`}
+</svelte:head>
 
 <div class="container-xxl" data-aos="zoom-in" data-aos-duration="400">
     <div class="row align-items-center" style="min-height: 78vh">
@@ -39,7 +132,7 @@
                                             </div>
                                         {:else}
                                             {#each folder.expand.images_via_folder as image (image.id)}
-                                                <UserPhoto src={image}/>
+                                                <UserPhoto src={image} folderName={folder.name}/>
                                             {/each}
                                         {/if}
                                     </div>

@@ -1,5 +1,6 @@
 <script>
     import {onMount} from "svelte";
+    import { getCollectionCoverImage, getPhotoThumbnail, getModalImage } from '$lib/utils/imageOptimization.js';
 
     let {data} = $props();
     const {content} = data;
@@ -140,7 +141,7 @@
                     "name": "MZEYFILMS"
                 },
                 "contentUrl": image.url,
-                "thumbnailUrl": image.url
+                "thumbnailUrl": getPhotoThumbnail(image.url).src
             })) || []
         })),
         "image": content.flatMap(folder =>
@@ -158,7 +159,7 @@
                     "name": "MZEYFILMS"
                 },
                 "contentUrl": image.url,
-                "thumbnailUrl": image.url
+                "thumbnailUrl": getPhotoThumbnail(image.url).src
             })) || []
         )
     });
@@ -174,6 +175,12 @@
     <meta name="keywords" content="MZEYFILMS, photography, photo gallery, professional photographer, images, portfolio">
     <meta name="robots" content="index, follow, max-image-preview:large">
     <link rel="canonical" href="{data.canonical}">
+
+    <!-- Preload critical images -->
+    {#if content.length > 0 && content[0].expand?.images_via_folder?.length > 0}
+        {@const firstImage = getCollectionCoverImage(content[0].expand.images_via_folder[0].url)}
+        <link rel="preload" as="image" href={firstImage.src} fetchpriority="high">
+    {/if}
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -239,8 +246,11 @@
                     <!-- Collection Cover -->
                     <div class="collection-cover position-relative">
                         {#if folder.expand?.images_via_folder?.length > 0}
+                            {@const coverImage = getCollectionCoverImage(folder.expand.images_via_folder[0].url)}
                             <img
-                                    src={folder.expand.images_via_folder[0].url}
+                                    src={coverImage.src}
+                                    srcset={coverImage.srcset}
+                                    sizes="(max-width: 576px) 240px, (max-width: 768px) 280px, (max-width: 992px) 350px, 400px"
                                     alt="Cover for {folder.name}"
                                     class="collection-cover-img"
                                     loading="lazy"
@@ -287,13 +297,16 @@
                     <!-- Photos Grid -->
                     <div class="photos-grid">
                         {#each selectedFolder.expand.images_via_folder as image, index (image.id)}
+                            {@const thumbnailImage = getPhotoThumbnail(image.url)}
                             <div class="photo-item"
                                  role="button"
                                  tabindex="0"
                                  onclick={() => openModal(image, selectedFolder.expand.images_via_folder)}
                                  onkeydown={(e) => e.key === 'Enter' && openModal(image, selectedFolder.expand.images_via_folder)}>
                                 <img
-                                        src={image.url}
+                                        src={thumbnailImage.src}
+                                        srcset={thumbnailImage.srcset}
+                                        sizes="(max-width: 576px) 240px, (max-width: 768px) 280px, (max-width: 1200px) 350px, 400px"
                                         alt={image.title || image.name || `Photo ${index + 1} from ${selectedFolder.name}`}
                                         class="photo-img"
                                         loading="lazy"
@@ -325,6 +338,7 @@
 
 <!-- Image Modal -->
 {#if showModal && selectedImage}
+    {@const modalImage = getModalImage(selectedImage.url)}
     <div
             class="modal-backdrop fade show"
             role="button"
@@ -345,7 +359,9 @@
         >
             <!-- Image -->
             <img
-                    src={selectedImage.url}
+                    src={modalImage.src}
+                    srcset={modalImage.srcset}
+                    sizes="(max-width: 768px) 95vw, 90vw"
                     alt={selectedImage.title || selectedImage.name || 'Full size photo'}
                     class="modal-image"
             >
@@ -428,11 +444,11 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transition: transform 0.4s ease;
+        transition: transform 1s ease;
         border-radius: inherit;
     }
 
-    .collection-card:hover .collection-cover-img {
+    .collection-card:hover {
         transform: scale(1.1);
     }
 
@@ -550,7 +566,7 @@
         transition: transform 0.3s ease;
     }
 
-    .photo-item:hover .photo-img {
+    .photo-item:hover {
         transform: scale(1.05);
     }
 
@@ -821,6 +837,33 @@
     .photo-img,
     .modal-image {
         background: linear-gradient(135deg, rgba(40, 0, 0, 0.3), rgba(20, 0, 0, 0.2));
+        transition: opacity 0.3s ease;
+    }
+
+    .collection-cover-img:not([src]),
+    .photo-img:not([src]),
+    .modal-image:not([src]) {
+        opacity: 0;
+    }
+
+    /* Aspect ratio preservation during loading */
+    .collection-cover-img {
+        aspect-ratio: 4/3;
+        object-fit: cover;
+    }
+
+    .photo-img {
+        aspect-ratio: 4/3;
+        object-fit: cover;
+    }
+
+    /* Improve image quality on high-DPI displays */
+    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+        .collection-cover-img,
+        .photo-img {
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+        }
     }
 
     /* Smooth animations */

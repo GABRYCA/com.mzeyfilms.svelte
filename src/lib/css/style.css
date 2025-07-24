@@ -198,6 +198,7 @@ body {
     backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 85, 85, 0.25);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 85, 85, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .modern-card:hover {
@@ -337,4 +338,151 @@ body {
 .btn-folder:focus {
     box-shadow: 0 0 0 2px rgba(255, 85, 85, 0.5) !important;
     background: transparent !important;
+}
+
+/* Modern Photo Gallery Styles */
+.theme-input-group .theme-input-addon {
+    background: linear-gradient(135deg, rgba(40, 0, 0, 0.6), rgba(20, 0, 0, 0.4));
+    border: 1px solid rgba(255, 85, 85, 0.3);
+    color: #ff5555;
+    backdrop-filter: blur(8px);
+}
+
+.theme-input-group .theme-input {
+    background: linear-gradient(135deg, rgba(30, 0, 0, 0.4), rgba(15, 0, 0, 0.2));
+    border: 1px solid rgba(255, 85, 85, 0.3);
+    color: #ffffff;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+}
+
+.theme-input-group .theme-input:focus {
+    background: linear-gradient(135deg, rgba(30, 0, 0, 0.6), rgba(15, 0, 0, 0.4));
+    border-color: rgba(255, 85, 85, 0.5);
+    box-shadow: 0 0 0 2px rgba(255, 85, 85, 0.2);
+    color: #ffffff;
+}
+
+.theme-input-group .theme-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Enhanced animations for photo gallery */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-slide-in-left {
+    animation: slideInFromLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-slide-in-right {
+    animation: slideInFromRight 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Improved modern cards */
+.modern-card-enhanced {
+    background: linear-gradient(135deg, 
+        rgba(20, 0, 0, 0.7) 0%, 
+        rgba(40, 0, 0, 0.4) 50%, 
+        rgba(20, 0, 0, 0.6) 100%);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 85, 85, 0.3);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.4), 
+        0 0 0 1px rgba(255, 85, 85, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modern-card-enhanced:hover {
+    background: linear-gradient(135deg, 
+        rgba(20, 0, 0, 0.8) 0%, 
+        rgba(40, 0, 0, 0.6) 50%, 
+        rgba(20, 0, 0, 0.7) 100%);
+    border-color: rgba(255, 85, 85, 0.5);
+    box-shadow: 
+        0 16px 64px rgba(0, 0, 0, 0.5), 
+        0 0 0 2px rgba(255, 85, 85, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    transform: translateY(-8px);
+}
+
+/* Scrollbar styling for modern browsers */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(20, 0, 0, 0.3);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, rgba(255, 85, 85, 0.4), rgba(182, 0, 0, 0.6));
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, rgba(255, 85, 85, 0.6), rgba(182, 0, 0, 0.8));
+}
+
+/* Firefox scrollbar */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 85, 85, 0.4) rgba(20, 0, 0, 0.3);
+}
+
+/* Loading states for images */
+.image-loading {
+    background: linear-gradient(90deg, 
+        rgba(40, 0, 0, 0.3) 0%, 
+        rgba(60, 0, 0, 0.4) 50%, 
+        rgba(40, 0, 0, 0.3) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite ease-in-out;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
 }

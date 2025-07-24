@@ -1,6 +1,8 @@
 <script>
     import {onMount} from "svelte";
     import { getCollectionCoverImage, getPhotoThumbnail, getModalImage } from '$lib/utils/imageOptimization.js';
+    import Masonry from '$lib/components/Masonry.svelte';
+    import PhotoMasonry from '$lib/components/PhotoMasonry.svelte';
 
     let {data} = $props();
     const {content} = data;
@@ -10,6 +12,12 @@
     let selectedImage = $state(null);
     let currentImageIndex = $state(0);
     let searchTerm = $state('');
+
+    // Masonry configuration
+    let masonryWidth = $state(0);
+    let masonryHeight = $state(0);
+    const minColWidth = 280;
+    const gap = 20;
 
     // Filter folders based on search
     const filteredContent = $derived(
@@ -294,29 +302,24 @@
                         </div>
                     </div>
 
-                    <!-- Photos Grid -->
-                    <div class="photos-grid">
-                        {#each selectedFolder.expand.images_via_folder as image, index (image.id)}
-                            {@const thumbnailImage = getPhotoThumbnail(image.url)}
-                            <div class="photo-item"
-                                 role="button"
-                                 tabindex="0"
-                                 onclick={() => openModal(image, selectedFolder.expand.images_via_folder)}
-                                 onkeydown={(e) => e.key === 'Enter' && openModal(image, selectedFolder.expand.images_via_folder)}>
-                                <img
-                                        src={thumbnailImage.src}
-                                        srcset={thumbnailImage.srcset}
-                                        sizes="(max-width: 576px) 240px, (max-width: 768px) 280px, (max-width: 1200px) 350px, 400px"
-                                        alt={image.title || image.name || `Photo ${index + 1} from ${selectedFolder.name}`}
-                                        class="photo-img"
-                                        loading="lazy"
-                                >
-                                <div class="photo-overlay">
-                                    <i class="fas fa-expand-alt"></i>
-                                </div>
-                            </div>
-                        {/each}
-                    </div>
+                    <!-- Photos Masonry -->
+                    <Masonry
+                        items={selectedFolder.expand.images_via_folder}
+                        {minColWidth}
+                        {gap}
+                        animate={true}
+                        class="col-12 px-0"
+                        bind:masonryWidth
+                        bind:masonryHeight
+                    >
+                        {#snippet children({item})}
+                            <PhotoMasonry 
+                                photo={item} 
+                                folderName={selectedFolder.name}
+                                onClick={(image) => openModal(image, selectedFolder.expand.images_via_folder)}
+                            />
+                        {/snippet}
+                    </Masonry>
                 </div>
             </div>
         </div>
@@ -524,67 +527,6 @@
         padding: 0.5rem 1rem;
         border-radius: 1rem;
         backdrop-filter: blur(4px);
-    }
-
-    /* Photos Grid */
-    .photos-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 1.5rem;
-        margin-top: 1rem;
-    }
-
-    @media (max-width: 768px) {
-        .photos-grid {
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 1rem;
-        }
-    }
-
-    .photo-item {
-        position: relative;
-        aspect-ratio: 4/3;
-        border-radius: 12px;
-        overflow: hidden;
-        cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        background: linear-gradient(135deg, rgba(40, 0, 0, 0.3), rgba(20, 0, 0, 0.2));
-        backdrop-filter: blur(8px);
-        border: 1px solid rgba(255, 85, 85, 0.15);
-    }
-
-    .photo-item:hover {
-        transform: translateY(-4px) scale(1.02);
-        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 0 2px rgba(255, 85, 85, 0.3);
-        border-color: rgba(255, 85, 85, 0.4);
-    }
-
-    .photo-img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.3s ease;
-    }
-
-    .photo-item:hover {
-        transform: scale(1.05);
-    }
-
-    .photo-overlay {
-        position: absolute;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.5);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        color: #ffffff;
-        font-size: 1.5rem;
-    }
-
-    .photo-item:hover .photo-overlay {
-        opacity: 1;
     }
 
     /* Modal Styles */
@@ -820,8 +762,7 @@
     }
 
     /* Focus and accessibility */
-    .collection-card:focus-visible,
-    .photo-item:focus-visible {
+    .collection-card:focus-visible {
         outline: 2px solid rgba(255, 85, 85, 0.6);
         outline-offset: 4px;
     }
@@ -834,14 +775,12 @@
 
     /* Loading states */
     .collection-cover-img,
-    .photo-img,
     .modal-image {
         background: linear-gradient(135deg, rgba(40, 0, 0, 0.3), rgba(20, 0, 0, 0.2));
         transition: opacity 0.3s ease;
     }
 
     .collection-cover-img:not([src]),
-    .photo-img:not([src]),
     .modal-image:not([src]) {
         opacity: 0;
     }
@@ -852,15 +791,9 @@
         object-fit: cover;
     }
 
-    .photo-img {
-        aspect-ratio: 4/3;
-        object-fit: cover;
-    }
-
     /* Improve image quality on high-DPI displays */
     @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-        .collection-cover-img,
-        .photo-img {
+        .collection-cover-img {
             image-rendering: -webkit-optimize-contrast;
             image-rendering: crisp-edges;
         }
@@ -868,8 +801,7 @@
 
     /* Smooth animations */
     @media (prefers-reduced-motion: no-preference) {
-        .collection-card,
-        .photo-item {
+        .collection-card {
             animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) backwards;
         }
 

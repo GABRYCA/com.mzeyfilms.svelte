@@ -1,7 +1,6 @@
 <script>
     import {flip} from 'svelte/animate';
     import {fade} from 'svelte/transition';
-    import autoAnimate from '@formkit/auto-animate';
 
     let {
         animate = true,
@@ -54,7 +53,6 @@
         bind:clientHeight={masonryHeight}
         bind:this={div}
         style="gap: {gap}px; {style}"
-        use:autoAnimate
 >
     {#if masonryWidth !== 0}
         {#each itemsToCols as col, idx}

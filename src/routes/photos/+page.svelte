@@ -210,7 +210,7 @@
     {@html `<script type="application/ld+json">${JSON.stringify(structuredData)}</script>`}
 </svelte:head>
 
-<div class="container-fluid px-3" data-aos="fade-up" data-aos-duration="600">
+<div class="container-fluid px-3 pt-lg-4" data-aos="fade-up" data-aos-duration="600">
     <!-- Header Section -->
     <div class="row justify-content-center mb-4 mt-4">
         <div class="col-12 col-lg-10">

@@ -54,7 +54,7 @@
 
 <svelte:window onscroll={handleScroll} bind:scrollY={y}/>
 
-<div class="container-xxl" data-aos="zoom-in" data-aos-duration="400">
+<div class="container-xxl pt-lg-5" data-aos="zoom-in" data-aos-duration="400">
     <div class="row align-items-center" style="min-height: 78vh">
         <div class="col">
             <div class="row text-center justify-content-center px-2 pt-2 pt-2 mb-3">

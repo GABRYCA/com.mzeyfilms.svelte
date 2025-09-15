@@ -1,6 +1,5 @@
 <script>
     import {onMount} from "svelte";
-    import logoHome from "$lib/img/home_bg.webp?enhanced";
     import noLightInDeepness from "$lib/img/MVI_7133-optimized.webp?enhanced";
     import naughtyLaundry from "$lib/img/naughty_laundry.webp?enhanced";
 
@@ -12,130 +11,202 @@
 </script>
 
 <!-- BODY -->
-<div class="container-fluid bg-opacity-75">
+<div class="container-fluid">
 
-    <!-- Info -->
-    <div class="row justify-content-center mt-4" id="info" data-aos="fade-up" data-aos-duration="700">
-        <div class="col-12 text-center my-auto">
-            <p class="h2 theme-text-primary text-glow">Discover me</p>
-        </div>
-        <div class="col-auto">
-            <a href="/videos" class="btn btn-homepage theme-button hover-lift rounded-5 fw-bold">
-                <i class="fas fa-video"></i> <br>Videos
-            </a>
-        </div>
-        <div class="col-auto px-0 mx-sm-5">
-            <a href="/photos" class="btn btn-homepage theme-button hover-lift rounded-5 fw-bold">
-                <i class="fas fa-camera"></i> <br>Photos
-            </a>
-        </div>
-        <div class="col-auto">
-            <a href="/contacts" class="btn btn-homepage theme-button hover-lift rounded-5 fw-bold">
-                <i class="fas fa-envelope"></i> <br>Contacts
-            </a>
-        </div>
-    </div>
+    <!-- Hero Section with Clean Typography -->
+    <section class="row g-0 min-vh-100 d-flex align-items-center justify-content-center">
+        <div class="col-12 col-lg-8 text-center">
+            <div class="pb-5">
+                <h1 class="display-2 fw-bold theme-text-primary mb-4">
+                    Welcome to MZEYFILMS
+                </h1>
+                <p class="lead theme-text-secondary mb-5 fs-4">
+                    Professional cinematography and creative storytelling
+                </p>
 
-    <!-- MZEY Cover -->
-    <div class="row justify-content-center" data-aos="fade-up">
-        <div class="col text-center px-0 pickgradient">
-            <enhanced:img src={logoHome} class="img-fluid shadow" alt="Logo" id="front-image"/>
-        </div>
-    </div>
-
-    <!-- Awards -->
-    <div class="row h-100 bg-black justify-content-around" id="awards" data-aos="fade-in" data-aos-duration="1000">
-        <div class="col-12 col-md-5 px-0 my-auto gradient-overlay text-center h-100">
-            <!--<div>
-                <a class="text-decoration-none" href="https://youtu.be/kjOIvL3PduI?si=n9vPTBDQjV9B7la5" target="_blank"
-                   data-bs-toggle="tooltip" data-bs-placement="top" title="View Short">
-                    <h1 class="text-center text-white pt-5 pb-3">MZEYFILMS</h1>
-                    <p class="text-center text-white mb-5 mb-md-0">No Light In Deepness</p>
-                </a>
-            </div>-->
-            <div class="gradient-overlay">
-                <enhanced:img class="img-fluid rounded-5 shadow" src={naughtyLaundry}
-                              alt="naughty laundry by mzeyfilms"/>
+                <div class="row justify-content-center g-4 mb-5">
+                    <div class="col-12 col-md-4">
+                        <a href="/videos" class="d-block text-decoration-none">
+                            <div class="modern-card p-4 h-100 hover-lift">
+                                <div class="mb-3">
+                                    <i class="fas fa-video fa-3x theme-text-primary"></i>
+                                </div>
+                                <h3 class="h4 theme-text-primary mb-2">Videos</h3>
+                                <p class="theme-text-secondary mb-0">Explore my video portfolio</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <a href="/photos" class="d-block text-decoration-none">
+                            <div class="modern-card p-4 h-100 hover-lift">
+                                <div class="mb-3">
+                                    <i class="fas fa-camera fa-3x theme-text-primary"></i>
+                                </div>
+                                <h3 class="h4 theme-text-primary mb-2">Photos</h3>
+                                <p class="theme-text-secondary mb-0">Browse my photography</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <a href="/contacts" class="d-block text-decoration-none">
+                            <div class="modern-card p-4 h-100 hover-lift">
+                                <div class="mb-3">
+                                    <i class="fas fa-envelope fa-3x theme-text-primary"></i>
+                                </div>
+                                <h3 class="h4 theme-text-primary mb-2">Contact</h3>
+                                <p class="theme-text-secondary mb-0">Get in touch with me</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col-12 col-md-6 my-auto px-0 gradient-overlay text-center h-100">
-            <div class="gradient-overlay">
-                <enhanced:img class="img-fluid rounded-5" src={noLightInDeepness}
-                              alt="no light in deepness by mzeyfilms"/>
+    </section>
+
+    <!-- Featured Work Section -->
+    <section class="row g-4 py-5" id="featured-work">
+        <div class="col-12 text-center mb-5">
+            <h2 class="display-5 fw-bold theme-text-primary mb-3">Featured Work</h2>
+            <p class="lead theme-text-secondary">A selection of my award-winning projects</p>
+        </div>
+
+        <div class="col-12 col-lg-6 mb-4 mb-lg-0">
+            <div class="modern-card-enhanced overflow-hidden">
+                <enhanced:img class="img-fluid w-100" src={naughtyLaundry} alt="Naughty Laundry by MZEYFILMS"
+                              style="height: 400px; object-fit: cover;"/>
+                <div class="p-4">
+                    <h4 class="theme-text-primary mb-2">Naughty Laundry</h4>
+                    <!--<p class="theme-text-secondary mb-0">Creative cinematography project</p>-->
+                </div>
             </div>
         </div>
-    </div>
+
+        <div class="col-12 col-lg-6">
+            <div class="modern-card-enhanced overflow-hidden">
+                <enhanced:img class="img-fluid w-100" src={noLightInDeepness} alt="No Light In Deepness by MZEYFILMS"
+                              style="height: 400px; object-fit: cover;"/>
+                <div class="p-4">
+                    <h4 class="theme-text-primary mb-2">No Light In Deepness</h4>
+                    <!--<p class="theme-text-secondary mb-0">Atmospheric storytelling</p>-->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Preview Section -->
+    <section class="row g-0 py-5 bg-light" id="about-preview">
+        <div class="col-12 col-lg-8 mx-auto text-center">
+            <h2 class="display-5 fw-bold theme-text-primary mb-4">About MZEYFILMS</h2>
+            <p class="lead theme-text-secondary mb-4">
+                Always searching for new stories to tell.
+            </p>
+            <a href="/about" class="btn theme-button btn-lg px-5 py-3">
+                Learn More About Me
+            </a>
+        </div>
+    </section>
+
 </div>
 
 <style>
-    p {
-        color: #212529 !important;
+    /* Clean, minimal styling for the homepage */
+
+    #hero {
+        background: linear-gradient(135deg, var(--pure-white) 0%, var(--off-white) 100%);
     }
 
-    #awards {
-        box-shadow: 0 0 3rem 0 rgba(0, 0, 0, 0.1);
+    #featured-work {
+        background: var(--pure-white);
     }
 
-    #info {
-        min-height: 35vh;
+    #about-preview {
+        background: var(--off-white) !important;
     }
 
-    .btn-homepage {
-        background: linear-gradient(135deg, rgba(248, 249, 250, 0.9), rgba(255, 255, 255, 0.7));
-        border: 1px solid rgba(222, 226, 230, 0.8);
-        color: #212529;
-        backdrop-filter: blur(8px);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    .modern-card {
+        border-radius: 12px;
+        border: 2px solid var(--border-gray);
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .btn-homepage:hover {
-        background: linear-gradient(135deg, rgba(222, 226, 230, 0.9), rgba(248, 249, 250, 0.8));
-        border-color: rgba(222, 226, 230, 1);
-        color: #000000 !important;
-        box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
-        transform: translateY(-3px) scale(1.05);
+    .modern-card:hover {
+        border-color: var(--primary-black);
+        transform: translateY(-8px);
+        box-shadow: 0 12px 40px var(--shadow-medium);
     }
 
-    @media (max-width: 991px) {
-        .btn-homepage {
-            font-size: 0.8rem;
+    .modern-card-enhanced {
+        border-radius: 16px;
+        border: 2px solid var(--border-gray);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .modern-card-enhanced:hover {
+        border-color: var(--primary-black);
+        transform: translateY(-12px);
+        box-shadow: 0 20px 60px var(--shadow-strong);
+    }
+
+    .hover-lift {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .hover-lift:hover {
+        transform: translateY(-4px);
+    }
+
+    .fas {
+        transition: all 0.3s ease-in-out;
+    }
+
+    .modern-card:hover .fas {
+        transform: scale(1.1);
+    }
+
+    /* Typography enhancements */
+    .display-2 {
+        letter-spacing: -0.02em;
+    }
+
+    .display-5 {
+        letter-spacing: -0.01em;
+    }
+
+    .lead {
+        font-weight: 400;
+        line-height: 1.6;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .display-2 {
+            font-size: 2.5rem;
         }
 
-        #info {
-            min-height: 30vh;
+        .display-5 {
+            font-size: 2rem;
+        }
+
+        .min-vh-100 {
+            min-height: 80vh;
+        }
+
+        /* Reduce section padding on mobile */
+        #featured-work,
+        #about-preview {
+            padding-top: 2rem !important;
+            padding-bottom: 2rem !important;
         }
     }
 
-    .pickgradient {
-        position: relative;
-        display: inline-block;
-    }
+    @media (min-width: 769px) {
+        /* Better spacing on desktop */
+        .container-xxl {
+            max-width: 1200px;
+        }
 
-    .pickgradient:after {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        display: inline-block;
-        background: linear-gradient(to bottom, transparent, #000000);
+        #hero {
+            padding-top: 2rem;
+        }
     }
-
-    .gradient-overlay {
-        position: relative;
-    }
-
-    .gradient-overlay::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        display: inline-block;
-        background: radial-gradient(ellipse closest-side at center, transparent, rgba(0, 0, 0, 0.30));
-    }
-
 </style>

@@ -186,7 +186,7 @@
     </div>
 </nav>
 
-<div class="container my-5 pb-1">
+<div class="container my-5 my-lg-1 pb-1 pb-lg-0">
 </div>
 
 {@render children?.()}
@@ -238,144 +238,173 @@
 </div>
 
 <style>
+    /* Modern clean scrollbar */
     :global(body::-webkit-scrollbar) {
-        width: 10px;
-        background: #230e0e;
+        width: 8px;
+        background: var(--light-gray);
     }
 
     :global(body::-webkit-scrollbar-thumb) {
-        background: linear-gradient(180deg, #B600003F, #B6000066);
-        border-radius: 20px;
+        background: var(--light-black);
+        border-radius: 4px;
     }
 
     :global(body::-webkit-scrollbar-thumb:hover) {
-        background: linear-gradient(180deg, #495057AA, #212529BB);
+        background: var(--primary-black);
     }
 
-    /* Navbar autohide styles */
+    /* Modern Navbar autohide styles */
     .navbar-autohide {
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
         z-index: 1030;
-        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        transition: transform 0.3s ease-in-out;
         margin-bottom: 0 !important;
-        will-change: transform; /* Optimize for animations */
+        will-change: transform;
+        background: var(--pure-white) !important;
+        border-bottom: 2px solid var(--border-gray);
+        box-shadow: 0 2px 20px var(--shadow-light);
     }
 
     .navbar-visible {
         transform: translateY(0);
-        opacity: 1;
     }
 
     .navbar-hidden {
         transform: translateY(-100%);
-        opacity: 0.95;
     }
 
     /* Add top padding to body to account for fixed navbar */
     :global(body) {
-        padding-top: 85px; /* Adjust based on your navbar height */
+        padding-top: 80px;
     }
 
-    /* Ensure content doesn't jump when navbar is hidden */
     :global(main) {
-        min-height: calc(100vh - 85px);
+        min-height: calc(100vh - 80px);
     }
 
-    /* Improve mobile experience */
+    /* Mobile navbar adjustments */
     @media (max-width: 991px) {
         .nav-icon {
             font-size: 1.5rem;
         }
 
-        /* Adjust body padding for mobile */
         :global(body) {
-            padding-top: 75px;
+            padding-top: 70px;
         }
 
-        /* Prevent navbar from hiding too aggressively on mobile */
         .navbar-autohide {
-            transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+            transition: transform 0.4s ease-in-out;
         }
     }
 
-    /* Ensure navbar shows on very small scrolls for accessibility */
     @media (prefers-reduced-motion: reduce) {
         .navbar-autohide {
             transition: none;
         }
     }
 
-    .footer-icon {
-        font-size: 1.5rem;
-        color: #6c757d !important;
-        transition: all 0.3s ease-in-out;
-    }
-
-    .footer-icon:hover {
-        color: #212529 !important;
-        transform: scale(1.1);
-    }
-
-    @media (max-width: 991px) {
-        .nav-icon {
-            font-size: 1.5rem;
-        }
-
-        /* Adjust body padding for mobile */
-        :global(body) {
-            padding-top: 70px;
-        }
-    }
-
-    .navbar-title, .navbar-subtitle {
-        color: #212529 !important;
-    }
-
-    .nav-link {
-        color: #6c757d !important;
-        transition: all 0.3s ease-in-out;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .nav-link::before {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 0;
-        height: 2px;
-        background: linear-gradient(90deg, #212529, #6c757d);
-        transition: width 0.3s ease-in-out;
-    }
-
-    .nav-link:hover::before,
-    .nav-link.active::before {
-        width: 100%;
-    }
-
-    .nav-link:hover,
-    .nav-link.active {
-        color: #212529 !important;
-    }
-
+    /* Modern typography and navigation */
     .navbar-title {
-        font-size: 2rem;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--primary-black) !important;
+        letter-spacing: -0.02em;
     }
 
     .navbar-subtitle {
-        font-size: 1rem;
+        font-size: 0.9rem;
+        color: var(--light-black) !important;
+        font-weight: 400;
     }
 
     .navbar-title-link {
         word-wrap: break-word;
     }
 
+    .nav-link {
+        color: var(--primary-black) !important;
+        font-weight: 500;
+        position: relative;
+        transition: all 0.3s ease-in-out;
+        padding: 0.75rem 1rem !important;
+    }
+
+    .nav-link::before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 2px;
+        background: var(--primary-black);
+        transition: width 0.3s ease-in-out;
+    }
+
+    .nav-link:hover::before,
+    .nav-link.active::before {
+        width: 30px;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+        color: var(--primary-black) !important;
+        transform: translateY(-1px);
+    }
+
+    .nav-link.active {
+        font-weight: 600;
+    }
+
     .nav-item {
         padding-left: 0;
         padding-right: 0;
+    }
+
+    /* Social icons */
+    .nav-icon {
+        font-size: 1.2rem;
+        color: var(--primary-black) !important;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .nav-icon:hover {
+        color: var(--soft-black) !important;
+        transform: scale(1.1);
+    }
+
+    .footer-icon {
+        font-size: 1.5rem;
+        color: var(--primary-black) !important;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .footer-icon:hover {
+        color: var(--soft-black) !important;
+        transform: scale(1.1);
+    }
+
+    /* Modern navbar toggler */
+    .navbar-toggler {
+        border: 2px solid var(--primary-black);
+        padding: 0.5rem 0.75rem;
+    }
+
+    .navbar-toggler:focus {
+        box-shadow: 0 0 0 2px var(--light-gray);
+    }
+
+    .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23000000' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+
+    /* Footer styling */
+    .theme-main-container {
+        background: var(--pure-white) !important;
+        border-top: 2px solid var(--border-gray) !important;
+        box-shadow: 0 -2px 20px var(--shadow-light) !important;
     }
 </style>

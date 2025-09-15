@@ -123,11 +123,10 @@
     .photo-masonry-item {
         position: relative;
         width: 100%;
-        border-radius: 12px;
         overflow: hidden;
         background: linear-gradient(135deg, rgba(40, 0, 0, 0.3), rgba(20, 0, 0, 0.2));
         backdrop-filter: blur(8px);
-        border: 1px solid rgba(255, 85, 85, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.15);
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         display: block;
         padding: 0;

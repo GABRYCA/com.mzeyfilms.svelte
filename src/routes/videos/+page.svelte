@@ -87,6 +87,6 @@
 
 <style>
     p {
-        color: #ff5555 !important;
+        color: #212529 !important;
     }
 </style>

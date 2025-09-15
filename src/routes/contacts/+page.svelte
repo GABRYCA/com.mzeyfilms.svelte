@@ -80,10 +80,10 @@
 
 <style>
     p, a {
-        color: #ff5555 !important;
+        color: #212529 !important;
     }
 
     a:hover {
-        color: #da4747 !important;
+        color: #0b5ed7 !important;
     }
 </style>

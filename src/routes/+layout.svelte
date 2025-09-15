@@ -48,7 +48,7 @@
 <Seo></Seo>
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark text-center mb-1 theme-main-container theme-shadow rounded-bottom-3">
+<nav class="navbar navbar-expand-lg text-center mb-1 theme-main-container theme-shadow rounded-bottom-3">
     <div class="container-fluid py-2">
         <div class="d-flex justify-content-between w-100 d-lg-none">
             <!-- Navbar title Mobile -->
@@ -58,7 +58,7 @@
                     {@html page.data.subtitle}
                 </p>
             </a>
-            <button class="navbar-toggler theme-outline" type="button" data-bs-toggle="collapse"
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -189,17 +189,17 @@
     }
 
     :global(body::-webkit-scrollbar-thumb:hover) {
-        background: linear-gradient(180deg, #B6000066, #B60000AA);
+        background: linear-gradient(180deg, #495057AA, #212529BB);
     }
 
     .footer-icon {
         font-size: 1.5rem;
-        color: #b63d3d !important;
+        color: #6c757d !important;
         transition: all 0.3s ease-in-out;
     }
 
     .footer-icon:hover {
-        color: #ff5555 !important;
+        color: #212529 !important;
         transform: scale(1.1);
     }
 
@@ -210,11 +210,11 @@
     }
 
     .navbar-title, .navbar-subtitle {
-        color: #ff5555 !important;
+        color: #212529 !important;
     }
 
     .nav-link {
-        color: #b63d3d !important;
+        color: #6c757d !important;
         transition: all 0.3s ease-in-out;
         position: relative;
         overflow: hidden;
@@ -227,7 +227,7 @@
         left: 0;
         width: 0;
         height: 2px;
-        background: linear-gradient(90deg, #ff5555, #b63d3d);
+        background: linear-gradient(90deg, #212529, #6c757d);
         transition: width 0.3s ease-in-out;
     }
 
@@ -238,7 +238,7 @@
 
     .nav-link:hover,
     .nav-link.active {
-        color: #ff5555 !important;
+        color: #212529 !important;
     }
 
     .navbar-title {

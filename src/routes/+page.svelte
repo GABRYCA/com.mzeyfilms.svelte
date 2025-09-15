@@ -69,11 +69,11 @@
 
 <style>
     p {
-        color: #ff5555 !important;
+        color: #212529 !important;
     }
 
     #awards {
-        box-shadow: 0 0 3rem 0 rgba(0, 0, 0, 1);
+        box-shadow: 0 0 3rem 0 rgba(0, 0, 0, 0.1);
     }
 
     #info {
@@ -81,19 +81,19 @@
     }
 
     .btn-homepage {
-        background: linear-gradient(135deg, rgba(182, 0, 0, 0.3), rgba(145, 0, 0, 0.2));
-        border: 1px solid rgba(255, 85, 85, 0.3);
-        color: #ff5555;
+        background: linear-gradient(135deg, rgba(248, 249, 250, 0.9), rgba(255, 255, 255, 0.7));
+        border: 1px solid rgba(222, 226, 230, 0.8);
+        color: #212529;
         backdrop-filter: blur(8px);
-        box-shadow: 0 8px 32px rgba(182, 0, 0, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .btn-homepage:hover {
-        background: linear-gradient(135deg, rgba(182, 0, 0, 0.5), rgba(145, 0, 0, 0.3));
-        border-color: rgba(255, 85, 85, 0.5);
-        color: #ffffff !important;
-        box-shadow: 0 12px 48px rgba(182, 0, 0, 0.4);
+        background: linear-gradient(135deg, rgba(222, 226, 230, 0.9), rgba(248, 249, 250, 0.8));
+        border-color: rgba(222, 226, 230, 1);
+        color: #000000 !important;
+        box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
         transform: translateY(-3px) scale(1.05);
     }
 

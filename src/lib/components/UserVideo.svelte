@@ -23,19 +23,19 @@
 <style>
     .video {
         height: 50vh;
-        border: 1px solid rgba(255, 85, 85, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.3);
         animation: glow-subtle 3s infinite ease-in-out;
     }
 
     @keyframes glow-subtle {
         0% {
-            box-shadow: 0 8px 32px rgba(182, 0, 0, 0.15);
+            box-shadow: 0 8px 32px rgba(255, 255, 255, 0.15);
         }
         50% {
-            box-shadow: 0 8px 32px rgba(182, 0, 0, 0.25);
+            box-shadow: 0 8px 32px rgba(255, 255, 255, 0.25);
         }
         100% {
-            box-shadow: 0 8px 32px rgba(182, 0, 0, 0.15);
+            box-shadow: 0 8px 32px rgba(255, 255, 255, 0.15);
         }
     }
 
@@ -44,9 +44,5 @@
         .video {
             height: 30vh;
         }
-    }
-
-    p {
-        color: #ff5555 !important;
     }
 </style>

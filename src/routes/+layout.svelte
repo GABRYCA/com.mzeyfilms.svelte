@@ -49,7 +49,7 @@
 
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark text-center mb-1 theme-main-container theme-shadow rounded-bottom-3">
-    <div class="container-fluid py-2 py-lg-4">
+    <div class="container-fluid py-2">
         <div class="d-flex justify-content-between w-100 d-lg-none">
             <!-- Navbar title Mobile -->
             <a class="text-decoration-none navbar-title-link my-auto pt-1 navbar-title d-lg-none hover-lift" href="/">
@@ -72,6 +72,10 @@
                            href="/videos">Videos</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link hover-lift { page.url.pathname === '/cinematography' ? 'active' : '' }"
+                           href="/cinematography">Cinematography</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link hover-lift { page.url.pathname === '/photos' ? 'active' : '' }"
                            href="/photos">Photos</a>
                     </li>
@@ -81,10 +85,6 @@
                     <li class="nav-item">
                         <a class="nav-link hover-lift { page.url.pathname === '/contacts' ? 'active' : '' }"
                            href="/contacts">Contacts</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link hover-lift" href="https://www.saal-digital.net/profiles/5TR33T/"
-                           target="_blank">Shop</a>
                     </li>
                 </ul>
                 <!-- Navbar Title Desktop -->
@@ -204,10 +204,6 @@
     }
 
     @media (max-width: 991px) {
-        .nav-link {
-            font-size: 0.8rem;
-        }
-
         .nav-icon {
             font-size: 1.5rem;
         }
@@ -246,27 +242,18 @@
     }
 
     .navbar-title {
-        font-size: 1.25rem;
+        font-size: 2rem;
     }
 
     .navbar-subtitle {
-        font-size: 0.5rem;
+        font-size: 1rem;
     }
 
     .navbar-title-link {
         word-wrap: break-word;
     }
 
-    .h5 {
-        font-size: 0.8rem;
-    }
-
-    .h6 {
-        font-size: 0.5rem;
-    }
-
     .nav-item {
-        font-size: 0.6rem;
         padding-left: 0;
         padding-right: 0;
     }

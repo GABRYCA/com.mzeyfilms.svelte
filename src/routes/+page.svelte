@@ -13,6 +13,29 @@
 
 <!-- BODY -->
 <div class="container-fluid bg-opacity-75">
+
+    <!-- Info -->
+    <div class="row justify-content-center mt-4" id="info" data-aos="fade-up" data-aos-duration="700">
+        <div class="col-12 text-center my-auto">
+            <p class="h2 theme-text-primary text-glow">Discover me</p>
+        </div>
+        <div class="col-auto">
+            <a href="/videos" class="btn btn-homepage theme-button hover-lift rounded-5 fw-bold">
+                <i class="fas fa-video"></i> <br>Videos
+            </a>
+        </div>
+        <div class="col-auto px-0 mx-sm-5">
+            <a href="/photos" class="btn btn-homepage theme-button hover-lift rounded-5 fw-bold">
+                <i class="fas fa-camera"></i> <br>Photos
+            </a>
+        </div>
+        <div class="col-auto">
+            <a href="/contacts" class="btn btn-homepage theme-button hover-lift rounded-5 fw-bold">
+                <i class="fas fa-envelope"></i> <br>Contacts
+            </a>
+        </div>
+    </div>
+
     <!-- MZEY Cover -->
     <div class="row justify-content-center" data-aos="fade-up">
         <div class="col text-center px-0 pickgradient">
@@ -42,155 +65,14 @@
             </div>
         </div>
     </div>
-
-    <!-- Info -->
-    <div class="row justify-content-center mt-4" id="info" data-aos="fade-up" data-aos-duration="700">
-        <div class="col-12 text-center my-auto">
-            <p class="h2 theme-text-primary text-glow">Discover me</p>
-        </div>
-        <div class="col-auto">
-            <a href="/videos" class="btn btn-homepage theme-button hover-lift rounded-5 fw-bold">
-                <i class="fas fa-video"></i> <br>Videos
-            </a>
-        </div>
-        <div class="col-auto px-0 mx-sm-5">
-            <a href="/photos" class="btn btn-homepage theme-button hover-lift rounded-5 fw-bold">
-                <i class="fas fa-camera"></i> <br>Photos
-            </a>
-        </div>
-        <div class="col-auto">
-            <a href="/contacts" class="btn btn-homepage theme-button hover-lift rounded-5 fw-bold">
-                <i class="fas fa-envelope"></i> <br>Contacts
-            </a>
-        </div>
-    </div>
-
-    <!-- Links to sections -->
-    <!--<div class="row py-5 justify-content-center align-items-center" id="centrale">
-        <div class="col-12" id="contenutoCentrale"></div>
-
-        <div class="col-12 text-center" data-aos="zoom-in" data-aos-delay="100">
-            <div class="row justify-content-center align-items-center">
-                <div class="col-auto">
-                    <a href="/videos" class="btn btn-homepage rounded-5 pt-2 fw-bold"
-                       data-bs-toggle="tooltip" data-bs-placement="top" title="Videos">
-                        <i class="fas fa-video"></i> <br>Videos
-                    </a>
-                </div>
-                <div class="col-auto px-0 mx-sm-5">
-                    <a href="/photos" class="btn btn-homepage rounded-5 fw-bold"
-                       data-bs-toggle="tooltip" data-bs-placement="top" title="Photos">
-                        <i class="fas fa-camera"></i> <br>Photos
-                    </a>
-                </div>
-                <div class="col-auto">
-                    <a href="/contacts" class="btn btn-homepage rounded-5 fw-bold" data-bs-toggle="tooltip"
-                       data-bs-placement="top" title="Contact Me">
-                        <i class="fas fa-envelope"></i> <br>Contacts
-                    </a>
-                </div>
-            </div>-->
-    <!--<a href="/about" class="btn btn-outline-light btn-lg rounded-5 mt-4 fw-bold" data-bs-toggle="tooltip"
-       data-bs-placement="top" title="About me">
-        <i class="fas fa-user"></i> About me
-    </a>-->
-    <!--
-    <div class="container">
-        <div class="row mt-5 justify-content-center">
-            <div class="col-4">
-                <a href="https://www.instagram.com/mzeyfilms/" target="_blank" aria-label="Instagram">
-                        <span class="fa-stack fa-2x text-light text-opacity-25" data-bs-toggle="tooltip"
-                              data-bs-placement="top" title="Instagram">
-                            <i class="fas fa-circle fa-stack-2x"></i>
-                            <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
-                        </span>
-                </a>
-            </div>
-            <div class="col-4">
-                <a href="https://m.youtube.com/channel/UCx0Ih65Y_TU86li7eWuM4_g" target="_blank" aria-label="Youtube">
-                        <span class="fa-stack fa-2x text-light text-opacity-25" data-bs-toggle="tooltip"
-                              data-bs-placement="top" title="Youtube">
-                            <i class="fas fa-circle fa-stack-2x"></i>
-                            <i class="fab fa-youtube fa-stack-1x fa-inverse"></i>
-                        </span>
-                </a>
-            </div>
-        </div>
-        <hr class="text-white">
-        <section data-aos="fade-up">
-            <p class="h2 fw-bold pt-3">Podcast:</p>
-            <div class="row mt-4 justify-content-center">
-                <div class="col-3 px-0">
-                    <a href="https://open.spotify.com/show/22Nsi7J93FcN6kICu6hEaS" target="_blank" aria-label="Spotify">
-                                <span class="fa-stack fa-2x text-light text-opacity-25" data-bs-toggle="tooltip"
-                                      data-bs-placement="top" title="Spotify">
-                                    <i class="fas fa-circle fa-stack-2x"></i>
-                                    <i class="fab fa-spotify fa-stack-1x fa-inverse"></i>
-                                </span>
-                    </a>
-                </div>
-                <div class="col-3 px-0">
-                    <a href="https://music.amazon.it/podcasts/1b46e8c5-0b6a-4882-b634-8d18ef578804/tachipistorie"
-                       target="_blank" aria-label="Amazon Music Podcast">
-                                <span class="fa-stack fa-2x text-light text-opacity-25" data-bs-toggle="tooltip"
-                                      data-bs-placement="top" title="Amazon Podcast">
-                                    <i class="fas fa-circle fa-stack-2x"></i>
-                                    <i class="fab fa-amazon fa-stack-1x fa-inverse"></i>
-                                </span>
-                    </a>
-                </div>
-            </div>
-        </section>
-    </div>
-    -->
-    <!--</div>
-</div>-->
 </div>
 
 <style>
-    /*#centrale {
-        background-image: url($lib/img/Video_Moto_31-optimized.webp);
-        background-size: cover;
-        background-position: 50% 10%;
-        background-repeat: no-repeat;
-        position: relative;
-        min-height: 50vh;
-    }
-
-    #contenutoCentrale {
-        content: '';
-        display: block;
-        width: 100%;
-        height: 100%;
-        background: radial-gradient(ellipse closest-side at center, transparent, rgba(0, 0, 0, 0.95));
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 0;
-    }*/
-
-    /*#noLightItem {
-        max-height: 50vh;
-        max-width: 1200px;
-        width: 100%;
-        object-fit: cover;
-        margin: auto;
-    }
-
-    #noLightItem2 {
-        max-height: 50vh;
-        max-width: 1200px;
-        width: 100%;
-        object-fit: cover;
-        margin: auto;
-    }*/
-
     p {
         color: #ff5555 !important;
     }
 
     #awards {
-        /* box shadow only on the bottom */
         box-shadow: 0 0 3rem 0 rgba(0, 0, 0, 1);
     }
 

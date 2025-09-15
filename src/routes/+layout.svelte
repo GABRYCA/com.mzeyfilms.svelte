@@ -8,7 +8,58 @@
     /** @type {Props} */
     let {children} = $props();
 
+    // Navbar scroll state
+    let isNavbarVisible = $state(true);
+    let lastScrollY = $state(0);
+    let scrollThreshold = 100;
+    let ticking = $state(false);
+
     onMount(() => {
+        function handleScroll() {
+            if (!ticking) {
+                requestAnimationFrame(updateNavbar);
+                ticking = true;
+            }
+        }
+
+        function updateNavbar() {
+            const currentScrollY = window.scrollY;
+            const navbarCollapse = document.querySelector('.navbar-collapse');
+            const isMobileMenuOpen = navbarCollapse?.classList.contains('show');
+
+            // Always show navbar if mobile menu is open
+            if (isMobileMenuOpen) {
+                isNavbarVisible = true;
+                lastScrollY = currentScrollY;
+                ticking = false;
+                return;
+            }
+
+            // Show navbar when scrolling up or at the top
+            if (currentScrollY < lastScrollY || currentScrollY < scrollThreshold) {
+                isNavbarVisible = true;
+            }
+            // Hide navbar when scrolling down and past threshold
+            else if (currentScrollY > lastScrollY && currentScrollY > scrollThreshold) {
+                isNavbarVisible = false;
+            }
+
+            lastScrollY = currentScrollY;
+            ticking = false;
+        }
+
+        // Scroll event listener
+        window.addEventListener('scroll', handleScroll, {passive: true});
+
+        // Show navbar when user hovers near the top of the screen
+        function handleMouseMove(e) {
+            if (e.clientY < 80 && !isNavbarVisible) {
+                isNavbarVisible = true;
+            }
+        }
+
+        document.addEventListener('mousemove', handleMouseMove, {passive: true});
+
         // Close navbar
         document.querySelectorAll('.nav-link').forEach((element) => {
             element.addEventListener('click', () => {
@@ -32,6 +83,12 @@
             once: true,
         });
         window.AOS = AOS;
+
+        // Cleanup function
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            document.removeEventListener('mousemove', handleMouseMove);
+        };
     });
 
     export function handlePageChange() {
@@ -48,7 +105,7 @@
 <Seo></Seo>
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg text-center mb-1 theme-main-container theme-shadow rounded-bottom-3">
+<nav class="navbar navbar-expand-lg text-center mb-1 theme-main-container theme-shadow rounded-bottom-3 navbar-autohide {isNavbarVisible ? 'navbar-visible' : 'navbar-hidden'}">
     <div class="container-fluid py-2">
         <div class="d-flex justify-content-between w-100 d-lg-none">
             <!-- Navbar title Mobile -->
@@ -129,6 +186,9 @@
     </div>
 </nav>
 
+<div class="container my-5 pb-1">
+</div>
+
 {@render children?.()}
 
 <!-- Footer -->
@@ -192,6 +252,62 @@
         background: linear-gradient(180deg, #495057AA, #212529BB);
     }
 
+    /* Navbar autohide styles */
+    .navbar-autohide {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1030;
+        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        margin-bottom: 0 !important;
+        will-change: transform; /* Optimize for animations */
+    }
+
+    .navbar-visible {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    .navbar-hidden {
+        transform: translateY(-100%);
+        opacity: 0.95;
+    }
+
+    /* Add top padding to body to account for fixed navbar */
+    :global(body) {
+        padding-top: 85px; /* Adjust based on your navbar height */
+    }
+
+    /* Ensure content doesn't jump when navbar is hidden */
+    :global(main) {
+        min-height: calc(100vh - 85px);
+    }
+
+    /* Improve mobile experience */
+    @media (max-width: 991px) {
+        .nav-icon {
+            font-size: 1.5rem;
+        }
+
+        /* Adjust body padding for mobile */
+        :global(body) {
+            padding-top: 75px;
+        }
+
+        /* Prevent navbar from hiding too aggressively on mobile */
+        .navbar-autohide {
+            transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+        }
+    }
+
+    /* Ensure navbar shows on very small scrolls for accessibility */
+    @media (prefers-reduced-motion: reduce) {
+        .navbar-autohide {
+            transition: none;
+        }
+    }
+
     .footer-icon {
         font-size: 1.5rem;
         color: #6c757d !important;
@@ -206,6 +322,11 @@
     @media (max-width: 991px) {
         .nav-icon {
             font-size: 1.5rem;
+        }
+
+        /* Adjust body padding for mobile */
+        :global(body) {
+            padding-top: 70px;
         }
     }
 

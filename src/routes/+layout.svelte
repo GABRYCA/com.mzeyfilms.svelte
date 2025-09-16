@@ -97,7 +97,7 @@
         }
     }
 
-    // Automatically update footer year
+    // Footer year
     const currentYear = new Date().getFullYear();
     const email = "manuel.zaffiro03@gmail.com"
 </script>
@@ -186,9 +186,6 @@
     </div>
 </nav>
 
-<div class="container my-5 my-lg-1 pb-1 pb-lg-0">
-</div>
-
 {@render children?.()}
 
 <!-- Footer -->
@@ -231,14 +228,13 @@
         <p class="h5 mt-2 theme-text-primary">© Copyright:</p>
         <p class="h6 theme-text-secondary">- MZEYFILMS {currentYear}</p>
         <p class="h6 pt-1">Made by: <a class="theme-text-secondary text-decoration-none hover-lift"
-                                       href="https://github.com/GABRYCA" data-bs-toggle="tooltip"
+                                       href="https://anonymousgca.eu/" data-bs-toggle="tooltip"
                                        data-bs-placement="top" title="Visit Developer" target="_blank">AnonymousGCA/GABRYCA</a>
         </p>
     </div>
 </div>
 
 <style>
-    /* Modern clean scrollbar */
     :global(body::-webkit-scrollbar) {
         width: 8px;
         background: var(--light-gray);
@@ -253,7 +249,6 @@
         background: var(--primary-black);
     }
 
-    /* Modern Navbar autohide styles */
     .navbar-autohide {
         position: fixed;
         top: 0;
@@ -276,23 +271,21 @@
         transform: translateY(-100%);
     }
 
-    /* Add top padding to body to account for fixed navbar */
     :global(body) {
-        padding-top: 80px;
+        padding-top: 10vh;
     }
 
     :global(main) {
         min-height: calc(100vh - 80px);
     }
 
-    /* Mobile navbar adjustments */
     @media (max-width: 991px) {
         .nav-icon {
             font-size: 1.5rem;
         }
 
         :global(body) {
-            padding-top: 70px;
+            padding-top: 13vh;
         }
 
         .navbar-autohide {
@@ -385,20 +378,6 @@
     .footer-icon:hover {
         color: var(--soft-black) !important;
         transform: scale(1.1);
-    }
-
-    /* Modern navbar toggler */
-    .navbar-toggler {
-        border: 2px solid var(--primary-black);
-        padding: 0.5rem 0.75rem;
-    }
-
-    .navbar-toggler:focus {
-        box-shadow: 0 0 0 2px var(--light-gray);
-    }
-
-    .navbar-toggler-icon {
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23000000' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
     }
 
     /* Footer styling */

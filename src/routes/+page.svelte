@@ -97,7 +97,7 @@
     </section>
 
     <!-- About Preview Section -->
-    <section class="row g-0 py-5 bg-light" id="about-preview">
+    <section class="row g-0 py-5" id="about-preview">
         <div class="col-12 col-lg-8 mx-auto text-center">
             <h2 class="display-5 fw-bold theme-text-primary mb-4">About MZEYFILMS</h2>
             <p class="lead theme-text-secondary mb-4">
@@ -233,7 +233,7 @@
     }
 
     #featured-work {
-        background: var(--pure-white);
+        background: #ffffff;
     }
 
     #about-preview {
@@ -241,14 +241,14 @@
     }
 
     #contact-section {
-        background: var(--pure-white);
+        background: #ffffff;
     }
 
     .social-card {
         border-radius: 12px;
         border: 2px solid var(--border-gray);
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        background: var(--pure-white);
+        background: #ffffff;
     }
 
     .social-card:hover {
@@ -269,6 +269,7 @@
         border-radius: 12px;
         border: 2px solid var(--border-gray);
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        background: #ffffff;
     }
 
     .modern-card:hover {
@@ -281,6 +282,7 @@
         border-radius: 16px;
         border: 2px solid var(--border-gray);
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        background: #ffffff;
     }
 
     .modern-card-enhanced:hover {

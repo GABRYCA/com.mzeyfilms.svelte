@@ -258,7 +258,7 @@
         transition: transform 0.3s ease-in-out;
         margin-bottom: 0 !important;
         will-change: transform;
-        background: var(--pure-white) !important;
+        background: #ffffff !important;
         border-bottom: 2px solid var(--border-gray);
         box-shadow: 0 2px 20px var(--shadow-light);
     }
@@ -382,7 +382,7 @@
 
     /* Footer styling */
     .theme-main-container {
-        background: var(--pure-white) !important;
+        background: #ffffff !important;
         border-top: 2px solid var(--border-gray) !important;
         box-shadow: 0 -2px 20px var(--shadow-light) !important;
     }

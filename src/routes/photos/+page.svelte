@@ -1,6 +1,6 @@
 <script>
     import {onMount} from "svelte";
-    import { getCollectionCoverImage, getPhotoThumbnail, getModalImage } from '$lib/utils/imageOptimization.js';
+    import {getCollectionCoverImage, getPhotoThumbnail, getModalImage} from '$lib/utils/imageOptimization.js';
     import Masonry from '$lib/components/Masonry.svelte';
     import PhotoMasonry from '$lib/components/PhotoMasonry.svelte';
 
@@ -214,7 +214,7 @@
     <!-- Header Section -->
     <div class="row justify-content-center mb-4 mt-4">
         <div class="col-12 col-lg-10">
-            <div class="modern-card p-4 text-center">
+            <div class="p-4 text-center">
                 <h1 class="enhanced-text display-4 mb-3">Photos</h1>
                 <p class="theme-text-secondary mb-4">
                     Discover {data.totalImages} photos across {data.totalFolders} collections
@@ -289,21 +289,20 @@
     {#if selectedFolder?.expand?.images_via_folder?.length > 0}
         <div class="row justify-content-center mt-3" data-aos="fade-up" data-aos-duration="400">
             <div class="col-12">
-                <div class="modern-card p-4">
-                    <div class="collection-header mb-4">
-                        <div class="d-flex justify-content-lg-between align-items-start gap-3">
-                            <h2 class="enhanced-text text-center text-lg-start h3 mb-0">{selectedFolder.name}</h2>
-                            <button
-                                    class="btn theme-button rounded-pill px-3 py-2 mx-auto me-lg-1"
-                                    onclick={() => selectedFolder = null}>
-                                <i class="fas fa-times me-md-1 mx-auto"></i>
-                                <span class="d-none d-sm-inline">Close</span>
-                            </button>
-                        </div>
+                <div class="collection-header mb-4">
+                    <div class="d-flex justify-content-lg-between align-items-start gap-3">
+                        <h2 class="enhanced-text text-center text-lg-start h3 mb-0">{selectedFolder.name}</h2>
+                        <button
+                                class="btn theme-button rounded-pill px-3 py-2 mx-auto me-lg-1"
+                                onclick={() => selectedFolder = null}>
+                            <i class="fas fa-times me-md-1 mx-auto"></i>
+                            <span class="d-none d-sm-inline">Close</span>
+                        </button>
                     </div>
+                </div>
 
-                    <!-- Photos Masonry -->
-                    <Masonry
+                <!-- Photos Masonry -->
+                <Masonry
                         items={selectedFolder.expand.images_via_folder}
                         {minColWidth}
                         {gap}
@@ -311,16 +310,15 @@
                         class="col-12 px-0"
                         bind:masonryWidth
                         bind:masonryHeight
-                    >
-                        {#snippet children({item})}
-                            <PhotoMasonry 
-                                photo={item} 
+                >
+                    {#snippet children({item})}
+                        <PhotoMasonry
+                                photo={item}
                                 folderName={selectedFolder.name}
                                 onClick={(image) => openModal(image, selectedFolder.expand.images_via_folder)}
-                            />
-                        {/snippet}
-                    </Masonry>
-                </div>
+                        />
+                    {/snippet}
+                </Masonry>
             </div>
         </div>
     {/if}

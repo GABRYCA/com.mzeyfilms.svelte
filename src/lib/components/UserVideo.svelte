@@ -4,18 +4,17 @@
     const videoId = src.split('/').pop();
 </script>
 
-<div class="container-fluid">
-    <div class="row text-center justify-content-center">
-        <div class="col theme-folder-container theme-shadow-hover pt-3 pb-1 rounded-4">
-            <p class="h3 pt-1 theme-text-primary">{title}</p>
-        </div>
+
+<div class="row text-center justify-content-center">
+    <div class="col pt-3 pb-1 rounded-4">
+        <p class="h3 pt-1 theme-text-primary">{title}</p>
     </div>
-    <div class="row mt-3">
-        <div class="col-12">
-            <div class="embed-responsive embed-responsive-16by9">
-                <iframe class="embed-responsive-item w-100 video rounded-3 theme-folder-container theme-shadow"
-                        src={"https://www.youtube.com/embed/" + videoId} title={title} allowfullscreen></iframe>
-            </div>
+</div>
+<div class="row mt-3">
+    <div class="col-12">
+        <div class="embed-responsive embed-responsive-16by9">
+            <iframe class="embed-responsive-item w-100 video rounded-3 theme-folder-container theme-shadow"
+                    src={"https://www.youtube.com/embed/" + videoId} title={title} allowfullscreen></iframe>
         </div>
     </div>
 </div>

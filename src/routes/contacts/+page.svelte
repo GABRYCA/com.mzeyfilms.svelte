@@ -1,89 +1,171 @@
 <script>
-    import {onMount} from "svelte";
+    const email = "manuel.zaffiro03@gmail.com";
+    let isLoaded = $state(false);
 
-    const email = "manuel.zaffiro03@gmail.com"
+    // Contact methods data
+    const contactMethods = $state([
+        {
+            title: "Email",
+            description: "Send me an email",
+            icon: "fas fa-envelope",
+            link: `mailto:${email}`,
+            displayText: email,
+            primary: true
+        }
+    ]);
 
-    onMount(() => {
+    // Social platforms
+    const socialPlatforms = $state([
+        {
+            name: "YouTube",
+            url: "https://m.youtube.com/channel/UCx0Ih65Y_TU86li7eWuM4_g",
+            icon: "fab fa-youtube",
+            description: "Watch my videos",
+            color: "youtube-color",
+            stats: "10K+ Views"
+        },
+        {
+            name: "Instagram",
+            url: "https://www.instagram.com/mzeyfilms/",
+            icon: "fab fa-instagram",
+            description: "Follow my journey",
+            color: "instagram-color",
+            stats: "Most recent projects"
+        },
+        {
+            name: "Spotify",
+            url: "https://open.spotify.com/show/22Nsi7J93FcN6kICu6hEaS",
+            icon: "fab fa-spotify",
+            description: "Listen to my podcast",
+            color: "spotify-color",
+            stats: "Tachipistorie"
+        },
+        {
+            name: "Amazon Music",
+            url: "https://music.amazon.it/podcasts/1b46e8c5-0b6a-4882-b634-8d18ef578804/tachipistorie",
+            icon: "fab fa-amazon",
+            description: "Available on Amazon",
+            color: "amazon-color",
+            stats: "Podcast"
+        }
+    ]);
+
+    $effect(() => {
+        // Initialize tooltips after component mounts
         document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach((element) => {
             new bootstrap.Tooltip(element);
         });
+        
+        // Set loaded state for animations
+        setTimeout(() => {
+            isLoaded = true;
+        }, 100);
     });
 </script>
 
-<!-- BODY -->
-<div class="container-fluid pb-3 pb-md-5 rounded-3" style="min-height: 78vh">
-    <div class="container-xxl">        <!-- Contacts Text -->
-        <div class="row justify-content-center pt-2 pt-md-5 pb-3">
-            <div class="col theme-main-container theme-shadow rounded-4 pt-4 pb-2" data-aos="zoom-in">
-                <p class="h1 theme-text-primary text-center">Contacts:</p>
+<!-- Contacts Page -->
+<div class="container-fluid">
+    <!-- Hero Section -->
+    <section class="py-5 mb-5 mt-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <div class="hero-content" class:loaded={isLoaded}>
+                        <h1 class="display-3 fw-bold theme-text-primary mb-4">
+                            Get In Touch
+                        </h1>
+                        <p class="lead fs-3 theme-text-secondary mb-5">
+                            Ready to bring your vision to life? Let's create something amazing together.
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
+    </section>
 
-        <!-- Email -->
-        <div class="col-12">
-            <div class="row align-items-center pb-2 pt-4 pb-md-4 pt-md-4 mb-3 theme-main-container theme-shadow-hover rounded-3"
-                 data-aos="zoom-in">
-                <div class="col-12 col-md-8 justify-content-center" data-aos="fade-in" data-aos-delay="250">
-                    <p class="h4 theme-text-primary text-center mt-2 my-md-auto">You can reach me by <a
-                            href="mailto:{email}" class="theme-text-secondary" data-bs-toggle="tooltip"
-                            data-bs-placement="top" title="Send me an email">Email</a>.</p>
-                </div>
-                <div class="col-12 col-md-4 text-center justify-content-center" data-aos="slide-right"
-                     data-aos-delay="200">
-                    <a href="mailto:{email}" aria-label="Email">
-                        <i class="fas fa-envelope fa-10x custom-fa-gradient mt-3 mt-md-auto" data-bs-toggle="tooltip"
-                           data-bs-placement="top" title="Send me an email"></i>
-                    </a>
+    <!-- Contact Methods Section -->
+    <section class="py-5 mb-5">
+        <div class="container">
+            <div class="row justify-content-center mb-5">
+                <div class="col-lg-8 text-center">
+                    <h2 class="display-5 fw-bold theme-text-primary mb-3">Contact Methods</h2>
+                    <p class="lead theme-text-secondary">Choose the best way to reach out</p>
                 </div>
             </div>
-        </div>
 
-        <div class="row align-items-center mt-1 mb-md-5 pt-3 pb-4 py-md-4 pb-md-5 theme-main-container theme-shadow-hover rounded-3"
-             data-aos="zoom-in">
-            <div class="col">
-                <p class="h4 theme-text-primary text-center mt-4 mb-5" data-aos="fade-in" data-aos-delay="400">Or
-                    Socials: </p>
-                <!-- Social Icons -->
-                <div class="row align-items-center justify-content-center justify-content-md-around text-center">
-                    <div class="col-5 col-md-2 mb-4 mb-md-0 px-0" data-aos="fade-down" data-aos-delay="450">
-                        <a href="https://m.youtube.com/channel/UCx0Ih65Y_TU86li7eWuM4_g" target="_blank"
-                           aria-label="Youtube">
-                            <i class="fab fa-youtube fa-5x custom-fa-gradient" data-bs-toggle="tooltip"
-                               data-bs-placement="top" title="Watch my videos"></i>
+            <div class="row g-4 justify-content-center">
+                {#each contactMethods as method}
+                    <div class="col-12 col-md-6 col-lg-5">
+                        <a href={method.link} class="text-decoration-none d-block h-100">
+                            <div class="modern-card-enhanced p-4 h-100 hover-lift rounded-4 {method.primary ? 'pulse-glow' : ''}">
+                                <div class="text-center mb-4">
+                                    <div class="mb-3">
+                                        <i class="{method.icon} fa-4x theme-text-primary"></i>
+                                    </div>
+                                    <h3 class="h3 theme-text-primary mb-2">{method.title}</h3>
+                                    <p class="theme-text-secondary mb-3">{method.description}</p>
+                                    <p class="h5 theme-text-primary mb-0">{method.displayText}</p>
+                                </div>
+                            </div>
                         </a>
                     </div>
-                    <div class="col-5 col-md-2 mb-4 mb-md-0 px-0" data-aos="fade-down" data-aos-delay="550">
-                        <a href="https://www.instagram.com/mzeyfilms/" target="_blank" aria-label="Instagram">
-                            <i class="fab fa-instagram fa-5x custom-fa-gradient" data-bs-toggle="tooltip"
-                               data-bs-placement="top" title="Follow me on Instagram"></i>
+                {/each}
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Media Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row justify-content-center mb-5">
+                <div class="col-lg-8 text-center">
+                    <h2 class="display-5 fw-bold theme-text-primary mb-3">Follow My Work</h2>
+                    <p class="lead theme-text-secondary">Stay updated with my latest projects and content</p>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                {#each socialPlatforms as platform}
+                    <div class="col-12 col-sm-6 col-lg-3">
+                        <a href={platform.url} target="_blank" rel="noopener noreferrer" 
+                           class="text-decoration-none d-block h-100" 
+                           aria-label={platform.name}>
+                            <div class="modern-card p-4 h-100 hover-lift rounded-4">
+                                <div class="text-center">
+                                    <div class="mb-3">
+                                        <i class="{platform.icon} fa-3x theme-text-primary interactive-icon" 
+                                           data-bs-toggle="tooltip" 
+                                           data-bs-placement="top" 
+                                           title={platform.description}></i>
+                                    </div>
+                                    <h4 class="h5 theme-text-primary mb-2">{platform.name}</h4>
+                                    <p class="theme-text-secondary mb-2 small">{platform.description}</p>
+                                    <div class="badge bg-light text-dark small">{platform.stats}</div>
+                                </div>
+                            </div>
                         </a>
                     </div>
-                    <div class="col-5 col-md-2 px-0" data-aos="fade-down" data-aos-delay="650">
-                        <a href="https://open.spotify.com/show/22Nsi7J93FcN6kICu6hEaS" target="_blank"
-                           aria-label="Spotify">
-                            <i class="fab fa-spotify fa-5x custom-fa-gradient" data-bs-toggle="tooltip"
-                               data-bs-placement="top" title="Listen to my podcast"></i>
-                        </a>
-                    </div>
-                    <div class="col-5 col-md-2 p-0" data-aos="fade-down" data-aos-delay="750">
-                        <a href="https://music.amazon.it/podcasts/1b46e8c5-0b6a-4882-b634-8d18ef578804/tachipistorie"
-                           target="_blank" aria-label="Amazon Music Podcast">
-                            <i class="fab fa-amazon fa-5x custom-fa-gradient" data-bs-toggle="tooltip"
-                               data-bs-placement="top" title="My Amazon Music Podcast"></i>
+                {/each}
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <div class="modern-card-enhanced p-5 rounded-4">
+                        <h3 class="h2 theme-text-primary mb-3">Ready to Start Your Project?</h3>
+                        <p class="lead theme-text-secondary mb-4">
+                            I'm always excited to work on new creative projects and collaborate with passionate individuals.
+                        </p>
+                        <a href="mailto:{email}" class="btn theme-button btn-lg px-5 py-3">
+                            Send Me an Email
                         </a>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 </div>
-
-<style>
-    p, a {
-        color: #212529 !important;
-    }
-
-    a:hover {
-        color: #0b5ed7 !important;
-    }
-</style>

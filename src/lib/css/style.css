@@ -348,7 +348,6 @@ html, body {
     background: transparent !important;
 }
 
-/* Modern Photo Gallery Styles */
 .theme-input-group .theme-input-addon {
     background: #ffffff;
     border: 1px solid var(--border-gray);
@@ -373,7 +372,6 @@ html, body {
     color: var(--light-black);
 }
 
-/* Enhanced animations for photo gallery */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -453,13 +451,11 @@ html, body {
     background: var(--primary-black);
 }
 
-/* Firefox scrollbar */
 * {
     scrollbar-width: thin;
     scrollbar-color: var(--light-black) var(--light-gray);
 }
 
-/* Loading states for images */
 .image-loading {
     background: linear-gradient(90deg, 
         var(--light-gray) 0%, 
@@ -488,4 +484,57 @@ html, body {
     background: var(--off-white);
     border-color: var(--mid-black);
     color: var(--primary-black);
+}
+
+.hero-content {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hero-content.loaded {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.youtube-color {
+    color: #ff0000 !important;
+}
+
+.instagram-color {
+    color: #e4405f !important;
+}
+
+.spotify-color {
+    color: #1db954 !important;
+}
+
+.amazon-color {
+    color: #ff9900 !important;
+}
+
+/* Enhanced interaction for contact cards */
+.modern-card-enhanced.pulse-glow {
+    animation: pulse-glow 3s infinite ease-in-out;
+}
+
+.modern-card-enhanced.pulse-glow:hover {
+    animation: none;
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px var(--shadow-medium);
+}
+
+/* Contact page */
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero-content .lead {
+        font-size: 1.1rem;
+    }
+    
+    .modern-card-enhanced .fa-4x {
+        font-size: 3rem !important;
+    }
 }

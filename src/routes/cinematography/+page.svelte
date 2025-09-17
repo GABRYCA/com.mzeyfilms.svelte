@@ -1,6 +1,6 @@
 <script>
     import {onMount} from "svelte";
-    import {getCollectionCoverImage, getPhotoThumbnail, getModalImage} from '$lib/utils/imageOptimization.js';
+    import {getModalImage} from '$lib/utils/imageOptimization.js';
     import Masonry from '$lib/components/Masonry.svelte';
     import PhotoMasonry from '$lib/components/PhotoMasonry.svelte';
 
@@ -11,11 +11,21 @@
     let selectedImage = $state(null);
     let currentImageIndex = $state(0);
 
+    let isLoaded = $state(false);
+
+
     // Masonry configuration
     let masonryWidth = $state(0);
     let masonryHeight = $state(0);
     const minColWidth = 280;
     const gap = 20;
+
+    $effect(() => {
+        // Set loaded state for animations
+        setTimeout(() => {
+            isLoaded = true;
+        }, 100);
+    });
 
     onMount(() => {
         document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach((element) => {
@@ -97,40 +107,43 @@
     }
 </script>
 
-<div class="container-fluid px-3 pt-lg-4" data-aos="fade-up" data-aos-duration="600">
+<div class="container-fluid px-3 pt-3 pt-lg-5" data-aos="fade-up" data-aos-duration="600">
     <!-- Header Section -->
-    <div class="row justify-content-center mb-4 mt-4">
-        <div class="col-12 col-lg-10">
-            <div class="modern-card p-4 text-center">
-                <h1 class="enhanced-text display-4 mb-3">Cinematography</h1>
+    <div class="row align-items-center min-vh-50 my-4 my-lg-5">
+        <div class="col-lg-8 mx-auto text-center">
+            <div class="hero-content" class:loaded={isLoaded}>
+                <h1 class="display-3 fw-bold theme-text-primary mb-1 mb-lg-4 hero-title">
+                    Cinematography
+                </h1>
+                <p class="lead fs-3 theme-text-secondary mb-4 hero-subtitle">
+                    Browse my cinematography
+                </p>
             </div>
         </div>
     </div>
 
-    <!-- Selected Collection Photos -->
+    <!-- Collection -->
     {#if content?.length > 0}
         <div class="row justify-content-center mt-3" data-aos="fade-up" data-aos-duration="400">
             <div class="col-12">
-                <div class="modern-card p-4">
 
-                    <!-- Photos Masonry -->
-                    <Masonry
-                            items={content}
-                            {minColWidth}
-                            {gap}
-                            animate={true}
-                            class="col-12 px-0"
-                            bind:masonryWidth
-                            bind:masonryHeight
-                    >
-                        {#snippet children({item})}
-                            <PhotoMasonry
-                                    photo={item}
-                                    onClick={(image) => openModal(image, content)}
-                            />
-                        {/snippet}
-                    </Masonry>
-                </div>
+                <!-- Photos Masonry -->
+                <Masonry
+                        items={content}
+                        {minColWidth}
+                        {gap}
+                        animate={true}
+                        class="col-12 px-0"
+                        bind:masonryWidth
+                        bind:masonryHeight
+                >
+                    {#snippet children({item})}
+                        <PhotoMasonry
+                                photo={item}
+                                onClick={(image) => openModal(image, content)}
+                        />
+                    {/snippet}
+                </Masonry>
             </div>
         </div>
     {/if}

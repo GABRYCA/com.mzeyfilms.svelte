@@ -57,14 +57,16 @@
 <div class="container-xxl pt-lg-5" data-aos="zoom-in" data-aos-duration="400">
     <div class="row align-items-center" style="min-height: 78vh">
         <div class="col">
-            <div class="row text-center justify-content-center px-2 pt-2 pt-2 mb-3">
-                <div class="col pt-4 pb-2 theme-main-container theme-shadow rounded-4">
-                    <p class="h1 theme-text-primary">Videos:</p>
+            <div class="row text-center justify-content-center px-2 pt-4 pt-lg-2 mb-3">
+                <div class="col pt-4 pb-2 rounded-4">
+                    <h1 class="enhanced-text display-4 mb-3">Videos</h1>
+                    <p class="lead fs-3 theme-text-secondary mb-4 hero-subtitle">
+                        Browse my video portfolio
+                    </p>
                 </div>
             </div>
             <!-- Video Gallery -->
-            <div class="row text-center justify-content-center px-2 pb-2">
-                <div class="col pt-2 pb-2 theme-main-container theme-shadow rounded-4">
+            <div class="row text-center justify-content-center pb-2">
                     {#if !videos || videos.length === 0}
                         <p class="h3 my-auto py-2 theme-text-primary">No videos found</p>
                     {:else}
@@ -75,11 +77,10 @@
                                 </div>
                             </div>
                             {#if index < videos.length - 1}
-                                <hr class="theme-text-secondary">
+                                <hr class="text-white">
                             {/if}
                         {/each}
                     {/if}
-                </div>
             </div>
         </div>
     </div>

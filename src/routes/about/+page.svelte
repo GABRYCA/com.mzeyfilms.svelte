@@ -129,7 +129,7 @@
                                         <div class="stat-label theme-text-secondary">Projects Completed</div>
                                     </div>
                                     <div class="col-6 col-md-3 text-center">
-                                        <div class="stat-number theme-text-primary fw-bold fs-2">15K+</div>
+                                        <div class="stat-number theme-text-primary fw-bold fs-2">10K+</div>
                                         <div class="stat-label theme-text-secondary">Total Views</div>
                                     </div>
                                     <div class="col-6 col-md-3 text-center">
@@ -254,24 +254,6 @@
 </div>
 
 <style>
-    /* Hero Section Styling */
-    .hero-about {
-        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-        position: relative;
-        overflow: hidden;
-    }
-
-    .hero-about::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: radial-gradient(circle at 30% 70%, rgba(0, 0, 0, 0.02) 0%, transparent 50%);
-        pointer-events: none;
-    }
-
     .min-vh-50 {
         min-height: 50vh;
     }
@@ -300,11 +282,6 @@
         letter-spacing: 0.5px;
     }
 
-    .hero-description {
-        font-weight: 400;
-        line-height: 1.7;
-    }
-
     .hero-badges .badge {
         font-weight: 500;
         letter-spacing: 0.5px;
@@ -316,7 +293,6 @@
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
 
-    /* Modern Card Enhancements */
     .modern-card {
         background: #ffffff;
         border: 1px solid var(--border-gray);
@@ -375,7 +351,6 @@
         opacity: 1;
     }
 
-    /* Hover Effects */
     .hover-lift {
         transition: all 0.4s ease;
     }
@@ -385,7 +360,6 @@
         box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
     }
 
-    /* Statistics Styling */
     .stat-number {
         background: linear-gradient(135deg, var(--primary-black), var(--mid-black));
         -webkit-background-clip: text;
@@ -444,7 +418,6 @@
         filter: brightness(1.1) contrast(1.1);
     }
 
-    /* Skills Section */
     .skill-icon {
         width: 60px;
         height: 60px;
@@ -468,7 +441,6 @@
         color: white !important;
     }
 
-    /* Social Media Cards */
     .social-card {
         transition: all 0.4s ease;
         position: relative;
@@ -509,7 +481,6 @@
         transform: translateX(4px);
     }
 
-    /* Social Media Brand Colors */
     .youtube-color {
         color: #FF0000 !important;
     }
@@ -526,7 +497,6 @@
         color: #FF9900 !important;
     }
 
-    /* Hover effects for social icons */
     .social-card:hover .youtube-color {
         color: #CC0000 !important;
     }
@@ -543,7 +513,6 @@
         color: #FF7700 !important;
     }
 
-    /* Button Enhancements */
     .btn-lg {
         font-weight: 600;
         letter-spacing: 0.5px;
@@ -610,12 +579,5 @@
     .modern-card:focus-within {
         outline: 2px solid var(--primary-black);
         outline-offset: 2px;
-    }
-
-    /* Dark mode support preparation */
-    @media (prefers-color-scheme: dark) {
-        .hero-about {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-        }
     }
 </style>

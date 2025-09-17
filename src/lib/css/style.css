@@ -9,9 +9,23 @@
  }
 
 body {
-    background-color: #f8f9fa;
+    background: linear-gradient(-45deg, #ffb160, #e9ecef, #f1f3f4, #6387ff);
+    background-size: 400% 400%;
     background-attachment: fixed;
     overflow-x: hidden;
+    animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 html, body {
@@ -409,6 +423,25 @@ html, body {
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
+    }
+
+    body {
+        animation: none !important;
+        background: #f8f9fa !important;
+    }
+}
+
+/* Performance optimizations for animations */
+@media (prefers-reduced-motion: no-preference) {
+    body {
+        will-change: background-position;
+    }
+}
+
+/* Reduce animations on low-end devices */
+@media (max-width: 768px) and (prefers-reduced-motion: no-preference) {
+    body {
+        animation-duration: 20s; /* Slower on mobile for better performance */
     }
 }
 

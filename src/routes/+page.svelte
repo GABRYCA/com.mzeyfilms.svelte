@@ -119,7 +119,7 @@
     </section>
 
     <!-- About Preview Section -->
-    <section class="row g-0 py-5" id="about-preview">
+    <section class="row g-0 py-5 rounded-4" id="about-preview">
         <div class="col-12 col-lg-8 mx-auto text-center">
             <h2 class="display-5 fw-bold theme-text-primary mb-4">About MZEYFILMS</h2>
             <p class="lead theme-text-secondary mb-4">
@@ -254,16 +254,8 @@
         z-index: 3;
     }
 
-    #featured-work {
-        background: #ffffff;
-    }
-
     #about-preview {
-        background: var(--off-white) !important;
-    }
-
-    #contact-section {
-        background: #ffffff;
+        background: rgba(0, 0, 0, 0.13) !important;
     }
 
     .social-card {

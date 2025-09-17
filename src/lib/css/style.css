@@ -204,14 +204,74 @@ html, body {
     background: #ffffff;
     border: 1px solid var(--border-gray);
     box-shadow: 0 4px 20px var(--shadow-light);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.modern-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+    transition: left 0.6s ease-in-out;
+    z-index: 1;
 }
 
 .modern-card:hover {
     background: var(--off-white);
     border-color: var(--mid-black);
-    box-shadow: 0 8px 30px var(--shadow-medium);
-    transform: translateY(-4px);
+    box-shadow: 0 12px 40px var(--shadow-medium), 0 4px 12px var(--shadow-strong);
+    transform: translateY(-6px) scale(1.02);
+}
+
+.modern-card:hover::before {
+    left: 100%;
+}
+
+.modern-card-enhanced {
+    background: #ffffff;
+    border: 1px solid var(--border-gray);
+    box-shadow: 0 4px 20px var(--shadow-light);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.modern-card-enhanced::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.7s ease-in-out;
+    z-index: 1;
+}
+
+.modern-card-enhanced:hover {
+    background: var(--off-white);
+    border-color: var(--mid-black);
+    box-shadow: 0 16px 50px var(--shadow-medium), 0 6px 16px var(--shadow-strong);
+    transform: translateY(-10px) scale(1.03) rotateX(2deg);
+}
+
+.modern-card-enhanced:hover::before {
+    left: 100%;
+}
+
+/* Enhanced image hover effects */
+.modern-card img, .modern-card-enhanced img {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modern-card:hover img, .modern-card-enhanced:hover img {
+    transform: scale(1.05);
+    filter: brightness(1.1) contrast(1.05);
 }
 
 .pulse-glow {
@@ -231,22 +291,62 @@ html, body {
     text-shadow: 0 2px 4px var(--shadow-light);
 }
 
+.enhanced-text {
+    background: linear-gradient(45deg, var(--primary-black), var(--soft-black));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% 200%;
+    animation: textShimmer 3s ease-in-out infinite;
+}
+
+@keyframes textShimmer {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+/* Typography improvements */
+.hero-title {
+    letter-spacing: -0.02em;
+    position: relative;
+}
+
+.hero-subtitle {
+    letter-spacing: 0.01em;
+    line-height: 1.6;
+}
+
 .hover-lift {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .hover-lift:hover {
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+    filter: drop-shadow(0 6px 12px var(--shadow-medium));
 }
 
 .interactive-icon {
-    transition: all 0.3s ease-in-out;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     filter: drop-shadow(0 2px 4px var(--shadow-light));
 }
 
 .interactive-icon:hover {
-    transform: scale(1.1) rotate(5deg);
-    filter: drop-shadow(0 4px 8px var(--shadow-medium));
+    transform: scale(1.15) rotate(8deg);
+    filter: drop-shadow(0 6px 12px var(--shadow-medium));
+    animation: iconPulse 0.6s ease-in-out;
+}
+
+@keyframes iconPulse {
+    0%, 100% {
+        transform: scale(1.15) rotate(8deg);
+    }
+    50% {
+        transform: scale(1.25) rotate(8deg);
+    }
 }
 
 .theme-outline {
@@ -417,19 +517,7 @@ html, body {
     animation: slideInFromRight 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.modern-card-enhanced {
-    background: #ffffff;
-    border: 1px solid var(--border-gray);
-    box-shadow: 0 4px 20px var(--shadow-light);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
 
-.modern-card-enhanced:hover {
-    background: var(--off-white);
-    border-color: var(--mid-black);
-    box-shadow: 0 8px 30px var(--shadow-medium);
-    transform: translateY(-8px);
-}
 
 ::-webkit-scrollbar {
     width: 8px;

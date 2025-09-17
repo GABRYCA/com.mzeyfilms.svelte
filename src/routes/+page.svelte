@@ -4,10 +4,27 @@
     import naughtyLaundry from "$lib/img/naughty_laundry.webp?enhanced";
     import homeBg from "$lib/img/home_bg.webp?enhanced";
 
+    let heroSection;
+    let parallaxOffset = $state(0);
+
     onMount(() => {
+        const handleScroll = () => {
+            if (heroSection) {
+                const rect = heroSection.getBoundingClientRect();
+                const scrolled = window.pageYOffset;
+                parallaxOffset = scrolled * 0.5;
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+
         document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach((element) => {
             new bootstrap.Tooltip(element);
         });
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
     });
 </script>
 
@@ -15,17 +32,22 @@
 <div class="container-fluid pt-lg-5">
 
     <!-- Hero Section with Clean Typography -->
-    <section class="row g-0 py-5 d-flex align-items-center justify-content-center hero-section rounded-3">
-        <enhanced:img src={homeBg} alt="MZEYFILMS Background" class="hero-background" style="z-index: -2;" />
-        <div class="hero-overlay" style="z-index: -1;"></div>
-        <div class="col-12 col-lg-8 text-center position-relative px-2">
-            <div class="pb-5">
-                <h1 class="display-2 fw-bold theme-text-primary mb-4 hero-title">
-                    MZEYFILMS
-                </h1>
-                <p class="lead theme-text-secondary mb-5 fs-4 hero-subtitle">
-                    Professional cinematography and creative storytelling
-                </p>
+        <section bind:this={heroSection} class="row g-0 py-5 d-flex align-items-center justify-content-center hero-section rounded-3">
+            <enhanced:img 
+                src={homeBg} 
+                alt="MZEYFILMS Background" 
+                class="hero-background" 
+                style="z-index: -2; transform: translateY({parallaxOffset}px);" 
+            />
+            <div class="hero-overlay" style="z-index: -1;"></div>
+            <div class="col-12 col-lg-8 text-center position-relative px-2">
+                <div class="pb-5">
+                    <h1 class="display-2 fw-bold theme-text-primary mb-4 hero-title">
+                        MZEYFILMS
+                    </h1>
+                    <p class="lead theme-text-secondary mb-5 fs-4 hero-subtitle">
+                        Professional cinematography and creative storytelling
+                    </p>
 
                 <div class="row justify-content-center g-4 mb-5">
                     <div class="col-12 col-md-4">

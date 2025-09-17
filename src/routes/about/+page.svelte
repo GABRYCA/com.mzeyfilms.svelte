@@ -3,8 +3,6 @@
     import profileImage from "$lib/img/home_bg.webp?enhanced";
 
     let isLoaded = $state(false);
-    const currentYear = new Date().getFullYear();
-    const experienceYears = currentYear - 2018;
 
     // Social media platforms
     const socialPlatforms = $state([
@@ -60,9 +58,9 @@
             icon: "fas fa-camera"
         },
         {
-            title: "Podcast Production",
-            description: "Audio recording and podcast creation",
-            icon: "fas fa-microphone"
+            title: "Director",
+            description: "Creative direction and project management",
+            icon: "fas fa-clapperboard"
         }
     ]);
 
@@ -114,23 +112,15 @@
                             <div class="col-lg-8">
                                 <h2 class="display-6 fw-bold theme-text-primary mb-4">About Me</h2>
                                 <p class="fs-5 theme-text-secondary mb-4 lh-lg">
-                                    I'm a passionate cinematographer, director and editor with over {experienceYears} years of experience in creating compelling content. My work spans from award-winning short films to engaging podcasts, always driven by the desire to capture authentic moments and tell meaningful stories.
+                                    I'm a passionate cinematographer, director and editor in creating compelling content. My work spans from award-winning short films to engaging cinematography, always driven by the desire to capture authentic moments and tell meaningful stories.
                                 </p>
                                 <p class="fs-5 theme-text-secondary mb-4 lh-lg">
                                     Through my lens, I transform everyday moments into cinematic experiences. Whether it's behind the camera or in the editing room, I bring creativity, technical expertise, and a unique perspective to every project.
                                 </p>
                                 <div class="row g-4 mt-4">
                                     <div class="col-6 col-md-3 text-center">
-                                        <div class="stat-number theme-text-primary fw-bold fs-2">{experienceYears}+</div>
-                                        <div class="stat-label theme-text-secondary">Years Experience</div>
-                                    </div>
-                                    <div class="col-6 col-md-3 text-center">
                                         <div class="stat-number theme-text-primary fw-bold fs-2">10+</div>
                                         <div class="stat-label theme-text-secondary">Projects Completed</div>
-                                    </div>
-                                    <div class="col-6 col-md-3 text-center">
-                                        <div class="stat-number theme-text-primary fw-bold fs-2">10K+</div>
-                                        <div class="stat-label theme-text-secondary">Total Views</div>
                                     </div>
                                     <div class="col-6 col-md-3 text-center">
                                         <div class="stat-number theme-text-primary fw-bold fs-2">Several</div>
@@ -239,7 +229,7 @@
                             Let's collaborate on your next project. Whether it's a cinematic story, promotional content, or creative consultation, I'm here to bring your vision to life.
                         </p>
                         <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center">
-                            <a href="/contacts" class="btn btn-lg theme-button px-5 py-3">
+                            <a href="/contacts" class="btn btn-lg btn-outline-dark px-5 py-3">
                                 <i class="fas fa-envelope me-2"></i>Get In Touch
                             </a>
                             <a href="/videos" class="btn btn-lg btn-outline-dark px-5 py-3">

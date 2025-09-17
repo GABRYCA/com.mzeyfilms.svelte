@@ -2,10 +2,13 @@ import { getOptimizedImageUrl } from '$lib/utils/imageOptimization.js';
 
 export async function load({ locals: { pb }, url}) {
 
-    const foldersWithImages = await pb.collection("folders").getFullList({
+    let foldersWithImages = await pb.collection("folders").getFullList({
         fields: "name, id, expand",
         expand: 'images_via_folder'
     });
+
+    // Remove Cinematography folder
+    foldersWithImages = foldersWithImages.filter(folder => folder.name.toLowerCase() !== 'cinematography');
 
     const totalImages = foldersWithImages.reduce((count, folder) => {
         return count + (folder.expand?.images_via_folder?.length || 0);

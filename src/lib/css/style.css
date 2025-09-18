@@ -441,7 +441,8 @@ html, body {
 /* Reduce animations on low-end devices */
 @media (max-width: 768px) and (prefers-reduced-motion: no-preference) {
     body {
-        animation-duration: 20s; /* Slower on mobile for better performance */
+        animation-duration: 20s;
+        background-size: 200% 200%;
     }
 }
 

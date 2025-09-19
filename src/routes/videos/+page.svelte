@@ -88,6 +88,6 @@
 
 <style>
     p {
-        color: #212529 !important;
+        color: #212529;
     }
 </style>

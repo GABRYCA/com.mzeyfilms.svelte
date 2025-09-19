@@ -236,7 +236,6 @@
         }
     }
 
-    /* Mobile optimizations */
     @media (max-width: 768px) {
         .overlay-icon {
             font-size: 1.5rem;
@@ -252,7 +251,6 @@
         }
     }
 
-    /* Accessibility improvements */
     @media (prefers-reduced-motion: reduce) {
         .photo-masonry-item,
         .photo-image,
@@ -268,7 +266,6 @@
         }
     }
 
-    /* High contrast mode support */
     @media (prefers-contrast: more) {
         .photo-masonry-item {
             border-width: 2px;

@@ -432,8 +432,8 @@
         }
 
         .modal-info h4 {
-            font-size: 1rem !important;
-            margin-bottom: 0.25rem !important;
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
         }
     }
 

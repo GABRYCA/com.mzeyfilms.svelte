@@ -19,7 +19,7 @@
     const minColWidth = 280;
     const gap = 20;
 
-    // Filter folders based on search
+    // Filter function search
     const filteredContent = $derived(
         content.filter(folder =>
             folder.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -415,7 +415,6 @@
         line-height: 1.2;
     }
 
-    /* Collection Cards */
     .collection-card {
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         height: 280px;
@@ -491,7 +490,6 @@
         text-align: center;
     }
 
-    /* Theme Inputs */
     .theme-input-group .input-group-text {
         background: linear-gradient(135deg, rgba(248, 249, 250, 0.9), rgba(255, 255, 255, 0.7));
         border: 1px solid rgba(222, 226, 230, 0.8);
@@ -527,7 +525,6 @@
         backdrop-filter: blur(4px);
     }
 
-    /* Modal Styles */
     .modal-backdrop {
         position: fixed;
         inset: 0;
@@ -649,7 +646,6 @@
         z-index: 1052;
     }
 
-    /* Mobile Responsive */
     @media (max-width: 768px) {
         .collection-card {
             height: 240px;
@@ -657,7 +653,7 @@
 
         .collection-header .btn {
             font-size: 0.875rem;
-            padding: 0.5rem 1rem !important;
+            padding: 0.5rem 1rem;
         }
 
         .image-modal {
@@ -670,7 +666,7 @@
         }
 
         .modal-image {
-            max-width: calc(100vw - 4.5rem); /* Account for navigation buttons */
+            max-width: calc(100vw - 4.5rem);
             max-height: 75vh;
         }
 
@@ -759,7 +755,6 @@
         }
     }
 
-    /* Focus and accessibility */
     .collection-card:focus-visible {
         outline: 2px solid rgba(13, 110, 253, 0.6);
         outline-offset: 4px;
@@ -771,7 +766,6 @@
         outline-offset: 2px;
     }
 
-    /* Loading states */
     .collection-cover-img,
     .modal-image {
         background: linear-gradient(135deg, rgba(248, 249, 250, 0.5), rgba(255, 255, 255, 0.3));
@@ -783,13 +777,11 @@
         opacity: 0;
     }
 
-    /* Aspect ratio preservation during loading */
     .collection-cover-img {
         aspect-ratio: 4/3;
         object-fit: cover;
     }
 
-    /* Improve image quality on high-DPI displays */
     @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
         .collection-cover-img {
             image-rendering: -webkit-optimize-contrast;
@@ -797,7 +789,6 @@
         }
     }
 
-    /* Smooth animations */
     @media (prefers-reduced-motion: no-preference) {
         .collection-card {
             animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) backwards;

@@ -54,9 +54,8 @@
 
 <style>
 
-    /* change font of all pages in this layout */
     :global(.admin) {
-        font-family: 'Roboto', sans-serif !important;
+        font-family: 'Roboto', sans-serif;
     }
 
     .navbar-link {

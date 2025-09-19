@@ -29,7 +29,7 @@
 </script>
 
 <!-- BODY -->
-<div class="container-fluid pt-lg-5">
+<div class="container-fluid pt-lg-5 homepage-content">
 
     <!-- Hero Section with Clean Typography -->
         <section bind:this={heroSection} class="row g-0 py-5 d-flex align-items-center justify-content-center hero-section rounded-3">
@@ -243,19 +243,19 @@
     }
 
     .hero-title {
-        color: #ffffff !important;
+        color: #ffffff;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
         z-index: 3;
     }
 
     .hero-subtitle {
-        color: #f8f9fa !important;
+        color: #f8f9fa;
         text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
         z-index: 3;
     }
 
     #about-preview {
-        background: rgba(0, 0, 0, 0.13) !important;
+        background: rgba(0, 0, 0, 0.13);
     }
 
     .social-card {
@@ -313,15 +313,14 @@
         transform: translateY(-4px);
     }
 
-    .fas {
+    .homepage-content .fas {
         transition: all 0.3s ease-in-out;
     }
 
-    .modern-card:hover .fas {
+    .homepage-content .modern-card:hover .fas {
         transform: scale(1.1);
     }
 
-    /* Typography enhancements */
     .display-2 {
         letter-spacing: -0.02em;
     }
@@ -347,8 +346,8 @@
         #featured-work,
         #about-preview,
         #contact-section {
-            padding-top: 2rem !important;
-            padding-bottom: 2rem !important;
+            padding-top: 2rem;
+            padding-bottom: 2rem;
         }
 
         .hero-overlay {
@@ -361,11 +360,11 @@
         }
 
         .social-card {
-            padding: 1rem !important;
+            padding: 1rem;
         }
 
         .social-card i {
-            font-size: 2rem !important;
+            font-size: 2rem;
         }
     }
 </style>

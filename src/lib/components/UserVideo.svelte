@@ -38,7 +38,6 @@
         }
     }
 
-    /* mobile */
     @media (max-width: 768px) {
         .video {
             height: 30vh;

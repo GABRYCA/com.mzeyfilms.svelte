@@ -100,7 +100,7 @@
                             <div class="modern-card-enhanced p-4 h-100 hover-lift rounded-4 {method.primary ? 'pulse-glow' : ''}">
                                 <div class="text-center mb-4">
                                     <div class="mb-3">
-                                        <i class="{method.icon} fa-4x theme-text-primary"></i>
+                                        <i class="{method.icon} fa-4x theme-text-primary contact-icon"></i>
                                     </div>
                                     <h3 class="h3 theme-text-primary mb-2">{method.title}</h3>
                                     <p class="theme-text-secondary mb-3">{method.description}</p>
@@ -133,7 +133,7 @@
                             <div class="modern-card p-4 h-100 hover-lift rounded-4">
                                 <div class="text-center">
                                     <div class="mb-3">
-                                        <i class="{platform.icon} fa-3x theme-text-primary interactive-icon" 
+                                        <i class="{platform.icon} fa-3x theme-text-primary contact-social-icon" 
                                            data-bs-toggle="tooltip" 
                                            data-bs-placement="top" 
                                            title={platform.description}></i>
@@ -169,3 +169,42 @@
         </div>
     </section>
 </div>
+
+<style>
+    .contact-icon.fas,
+    .contact-icon.fab,
+    .contact-social-icon.fas,
+    .contact-social-icon.fab {
+        font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+        font-weight: 900;
+        display: inline-block;
+    }
+
+    .contact-icon.fab,
+    .contact-social-icon.fab {
+        font-weight: 400 !important;
+    }
+
+    .fa-4x.contact-icon {
+        font-size: 4rem !important;
+    }
+
+    .fa-3x.contact-social-icon {
+        font-size: 3rem !important;
+    }
+
+    .modern-card:hover .contact-icon,
+    .modern-card:hover .contact-social-icon {
+        transform: none;
+    }
+
+    @media (max-width: 768px) {
+        .fa-4x.contact-icon {
+            font-size: 3rem !important;
+        }
+
+        .fa-3x.contact-social-icon {
+            font-size: 2.5rem !important;
+        }
+    }
+</style>

@@ -248,17 +248,6 @@
         min-height: 50vh;
     }
 
-    .hero-content {
-        opacity: 0;
-        transform: translateY(30px);
-        transition: all 0.8s ease-out;
-    }
-
-    .hero-content.loaded {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
     .hero-title {
         background: linear-gradient(135deg, var(--primary-black), var(--mid-black));
         -webkit-background-clip: text;
@@ -281,73 +270,6 @@
     .hero-badges .badge:hover {
         transform: translateY(-2px);
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    .modern-card {
-        background: #ffffff;
-        border: 1px solid var(--border-gray);
-        border-radius: 16px;
-        transition: all 0.4s ease;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .modern-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(135deg, transparent 0%, rgba(0, 0, 0, 0.01) 100%);
-        opacity: 0;
-        transition: opacity 0.4s ease;
-        pointer-events: none;
-    }
-
-    .modern-card:hover::before {
-        opacity: 1;
-    }
-
-    .modern-card-enhanced {
-        background: #ffffff;
-        border: 1px solid var(--border-gray);
-        border-radius: 20px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        transition: all 0.4s ease;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .modern-card-enhanced::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(135deg, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.01) 100%);
-        opacity: 0;
-        transition: opacity 0.4s ease;
-        pointer-events: none;
-    }
-
-    .modern-card-enhanced:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15);
-    }
-
-    .modern-card-enhanced:hover::before {
-        opacity: 1;
-    }
-
-    .hover-lift {
-        transition: all 0.4s ease;
-    }
-
-    .hover-lift:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
     }
 
     .stat-number {
@@ -421,20 +343,8 @@
     }
 
     .modern-card:hover .skill-icon {
-        background: linear-gradient(135deg, var(--primary-black) 0%, var(--mid-black) 100%);
-        color: white;
         transform: scale(1.1) rotate(3deg);
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-    }
-
-    .modern-card:hover .skill-icon i {
-        color: white !important;
-    }
-
-    .social-card {
-        transition: all 0.4s ease;
-        position: relative;
-        overflow: hidden;
     }
 
     .social-card::after {
@@ -471,59 +381,6 @@
         transform: translateX(4px);
     }
 
-    .youtube-color {
-        color: #FF0000 !important;
-    }
-
-    .instagram-color {
-        color: #E4405F !important;
-    }
-
-    .spotify-color {
-        color: #1DB954 !important;
-    }
-
-    .amazon-color {
-        color: #FF9900 !important;
-    }
-
-    .social-card:hover .youtube-color {
-        color: #CC0000 !important;
-    }
-
-    .social-card:hover .instagram-color {
-        color: #C13584 !important;
-    }
-
-    .social-card:hover .spotify-color {
-        color: #1ED760 !important;
-    }
-
-    .social-card:hover .amazon-color {
-        color: #FF7700 !important;
-    }
-
-    .btn-lg {
-        font-weight: 600;
-        letter-spacing: 0.5px;
-        border-radius: 12px;
-        transition: all 0.4s ease;
-    }
-
-    .btn-outline-dark {
-        border: 2px solid var(--primary-black);
-        color: var(--primary-black);
-    }
-
-    .btn-outline-dark:hover {
-        background: var(--primary-black);
-        border-color: var(--primary-black);
-        color: #ffffff;
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-    }
-
-    /* Responsive Design */
     @media (max-width: 768px) {
         .hero-title {
             font-size: 2.5rem;
@@ -537,34 +394,12 @@
             font-size: 2rem;
         }
 
-        .modern-card-enhanced {
-            border-radius: 16px;
-        }
-
         .profile-image-container {
-            width: 200px !important;
-            height: 200px !important;
+            width: 200px;
+            height: 200px;
         }
     }
 
-    /* Accessibility Improvements */
-    @media (prefers-reduced-motion: reduce) {
-        .hero-content,
-        .modern-card,
-        .modern-card-enhanced,
-        .hover-lift,
-        .social-card,
-        .skill-icon,
-        .btn-lg {
-            transition: none;
-        }
-        
-        .hero-content.loaded {
-            transform: none;
-        }
-    }
-
-    /* Focus Styles for Accessibility */
     .social-card:focus-within,
     .modern-card:focus-within {
         outline: 2px solid var(--primary-black);

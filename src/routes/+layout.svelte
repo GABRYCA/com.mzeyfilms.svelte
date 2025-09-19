@@ -157,24 +157,24 @@
                 <div class="col-12 col-lg-4 mt-4 mt-lg-0 justify-content-center justify-content-lg-end navbar-nav">
                     <div class="row justify-content-center">
                         <div class="col-auto">
-                            <a class="nav-link nav-icon px-0 interactive-icon"
+                            <a class="nav-link navbar-icon px-0"
                                href="https://www.instagram.com/mzeyfilms/" target="_blank" aria-label="Instagram"
                                data-bs-toggle="tooltip" title="Follow me on Instagram"><i class="fab fa-instagram"></i></a>
                         </div>
                         <div class="col-auto">
-                            <a class="nav-link nav-icon px-0 interactive-icon"
+                            <a class="nav-link navbar-icon px-0"
                                href="https://m.youtube.com/channel/UCx0Ih65Y_TU86li7eWuM4_g" target="_blank"
                                aria-label="Youtube" data-bs-toggle="tooltip" title="Watch my videos"><i
                                     class="fab fa-youtube"></i></a>
                         </div>
                         <div class="col-auto">
-                            <a class="nav-link nav-icon px-0 interactive-icon"
+                            <a class="nav-link navbar-icon px-0"
                                href="https://open.spotify.com/show/22Nsi7J93FcN6kICu6hEaS" target="_blank"
                                aria-label="Spotify" data-bs-toggle="tooltip" title="Listen to my podcast"><i
                                     class="fab fa-spotify"></i></a>
                         </div>
                         <div class="col-auto">
-                            <a class="nav-link nav-icon px-0 interactive-icon"
+                            <a class="nav-link navbar-icon px-0"
                                href="https://music.amazon.it/podcasts/1b46e8c5-0b6a-4882-b634-8d18ef578804/tachipistorie"
                                target="_blank" aria-label="Amazon Music Podcast" data-bs-toggle="tooltip"
                                title="Listen on Amazon"><i class="fab fa-amazon"></i></a>
@@ -196,22 +196,22 @@
                 <p class="h5 mt-2 theme-text-primary">Social:</p>
             </div>
             <div class="col-auto px-0">
-                <a class="footer-icon interactive-icon" href="https://m.youtube.com/channel/UCx0Ih65Y_TU86li7eWuM4_g"
+                <a class="footer-icon" href="https://m.youtube.com/channel/UCx0Ih65Y_TU86li7eWuM4_g"
                    target="_blank" aria-label="Youtube"><i class="fab fa-youtube mx-3" data-bs-toggle="tooltip"
                                                            data-bs-placement="top" title="Watch my videos"></i></a>
             </div>
             <div class="col-auto px-0">
-                <a class="footer-icon interactive-icon" href="https://www.instagram.com/mzeyfilms/" target="_blank"
+                <a class="footer-icon" href="https://www.instagram.com/mzeyfilms/" target="_blank"
                    aria-label="Instagram"><i class="fab fa-instagram mx-3" data-bs-toggle="tooltip"
                                              data-bs-placement="top" title="Follow me on Instagram"></i></a>
             </div>
             <div class="col-auto px-0">
-                <a class="footer-icon interactive-icon" href="https://open.spotify.com/show/22Nsi7J93FcN6kICu6hEaS"
+                <a class="footer-icon" href="https://open.spotify.com/show/22Nsi7J93FcN6kICu6hEaS"
                    target="_blank" aria-label="Spotify"><i class="fab fa-spotify mx-3" data-bs-toggle="tooltip"
                                                            data-bs-placement="top" title="Listen to my podcast"></i></a>
             </div>
             <div class="col-auto px-0">
-                <a class="footer-icon interactive-icon"
+                <a class="footer-icon"
                    href="https://music.amazon.it/podcasts/1b46e8c5-0b6a-4882-b634-8d18ef578804/tachipistorie"
                    target="_blank" aria-label="Amazon Music Podcast"><i class="fab fa-amazon mx-3"
                                                                         data-bs-toggle="tooltip" data-bs-placement="top"
@@ -281,10 +281,6 @@
     }
 
     @media (max-width: 991px) {
-        .nav-icon {
-            font-size: 1.5rem;
-        }
-
         :global(body) {
             padding-top: 13vh;
         }
@@ -300,7 +296,6 @@
         }
     }
 
-    /* Modern typography and navigation */
     .navbar-title {
         font-size: 1.8rem;
         font-weight: 700;
@@ -376,33 +371,9 @@
         padding-right: 0;
     }
 
-    /* Social icons */
-    .nav-icon {
-        font-size: 1.2rem;
-        color: var(--primary-black) !important;
-        transition: all 0.3s ease-in-out;
-    }
-
-    .nav-icon:hover {
-        color: var(--soft-black) !important;
-        transform: scale(1.1);
-    }
-
-    .footer-icon {
-        font-size: 1.5rem;
-        color: var(--primary-black) !important;
-        transition: all 0.3s ease-in-out;
-    }
-
-    .footer-icon:hover {
-        color: var(--soft-black) !important;
-        transform: scale(1.1);
-    }
-
-    /* Footer styling */
     .theme-main-container {
-        background: #ffffff !important;
-        border-top: 2px solid var(--border-gray) !important;
-        box-shadow: 0 -2px 20px var(--shadow-light) !important;
+        background: #ffffff;
+        border-top: 2px solid var(--border-gray);
+        box-shadow: 0 -2px 20px var(--shadow-light);
     }
 </style>

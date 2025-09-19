@@ -119,7 +119,7 @@
     </section>
 
     <!-- About Preview Section -->
-    <section class="row g-0 py-5 rounded-4" id="about-preview">
+    <section class="row g-0 py-5 mb-5 rounded-4" id="about-preview">
         <div class="col-12 col-lg-8 mx-auto text-center">
             <h2 class="display-5 fw-bold theme-text-primary mb-4">About MZEYFILMS</h2>
             <p class="lead theme-text-secondary mb-4">
@@ -132,14 +132,13 @@
     </section>
 
     <!-- Contact Section -->
-    <section class="row g-0 py-5" id="contact-section">
+    <!--<section class="row g-0 py-5" id="contact-section">
         <div class="col-12 col-lg-10 mx-auto text-center">
             <h2 class="display-5 fw-bold theme-text-primary mb-4">Get In Touch</h2>
             <p class="lead theme-text-secondary mb-5">
                 Ready to bring your vision to life? Let's create something amazing together.
             </p>
             
-            <!-- Email Contact -->
             <div class="row justify-content-center mb-5">
                 <div class="col-12 col-md-8">
                     <div class="modern-card p-4 hover-lift">
@@ -162,7 +161,6 @@
                 </div>
             </div>
 
-            <!-- Social Media -->
             <div class="row justify-content-center">
                 <div class="col-12">
                     <h4 class="theme-text-primary mb-4">Follow My Work</h4>
@@ -207,7 +205,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section>-->
 
 </div>
 

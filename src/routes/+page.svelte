@@ -256,6 +256,7 @@
         background: rgba(0, 0, 0, 0.13);
     }
 
+    /*
     .social-card {
         border-radius: 12px;
         border: 2px solid var(--border-gray);
@@ -275,7 +276,7 @@
 
     .social-card:hover i {
         transform: scale(1.1);
-    }
+    }*/
 
     .modern-card {
         border-radius: 12px;
@@ -342,8 +343,8 @@
         }
 
         #featured-work,
-        #about-preview,
-        #contact-section {
+        #about-preview/*,
+        #contact-section*/ {
             padding-top: 2rem;
             padding-bottom: 2rem;
         }
@@ -357,12 +358,12 @@
             );
         }
 
-        .social-card {
+        /*.social-card {
             padding: 1rem;
         }
 
         .social-card i {
             font-size: 2rem;
-        }
+        }*/
     }
 </style>

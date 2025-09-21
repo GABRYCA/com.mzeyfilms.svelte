@@ -444,11 +444,11 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transition: transform 1s ease;
+        transition: transform 1s ease !important;
         border-radius: inherit;
     }
 
-    .collection-card:hover {
+    .collection-card:hover .collection-cover-img {
         transform: scale(1.1);
     }
 

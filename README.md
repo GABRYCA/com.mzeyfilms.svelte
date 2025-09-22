@@ -1,18 +1,19 @@
-# create-svelte
+## Requirements:
+- Deployment of [Pocketbase](https://pocketbase.io/) and [next-image-transformation](https://github.com/coollabsio/next-image-transformation) publicly available (then fill .env appropriately).
+- Coolify (Or any other hosting or self-hosted alternative that supports Docker).
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
 
-## Creating a project
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Deploying on Coolify
+Select repository and branch, then as Build pack choose `Dockerfile`.
+- Base Directory: `/`
+- Dockerfile location: `/Dockerfile`
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+**Add your Environment Variables in Coolify settings (Look at .env.example).**
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+
+### Environment Variables
+- Rename the .env.example file to .env and set the environment variables as needed.
 
 ## Developing
 
@@ -36,7 +37,7 @@ npm run build
 You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
-
+By default this project uses [Node adapter](https://svelte.dev/docs/kit/adapter-node).
 
 ## Running on VPS notes:
 Change environment variables for POST upload size limit of nodejs when running with PM2 (example with 2GB size limit):

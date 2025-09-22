@@ -54,17 +54,17 @@
     <div class="container-sm">
         <div class="row justify-content-center">
             <div class="col-12 col-lg-6">
-                <div class="card bg-dark bg-opacity-50 shadow rounded-4">
+                <div class="card bg-light shadow rounded-4">
                     <div class="card-body px-5">
                         <h1 class="card-title fw-bold fs-1 mb-4 mt-4 text-center">Login</h1>
                         <form method="POST" action="?/login" onsubmit={handleLogin}>
                             <div class="form-outline mb-3 text-start">
                                 <label class="form-label" for="username">Username:</label>
-                                <input class="form-control form-control-lg bg-dark bg-opacity-25" type="text" name="username" id="username" required/>
+                                <input class="form-control form-control-lg" type="text" name="username" id="username" required/>
                             </div>
                             <div class="form-outline mb-3 text-start">
                                 <label class="form-label" for="password">Password:</label>
-                                <input class="form-control form-control-lg bg-dark bg-opacity-25" type="password" name="password" id="password" required/>
+                                <input class="form-control form-control-lg" type="password" name="password" id="password" required/>
                             </div>
                             {#if message}
                                 <div class="alert {(status === 200) ? 'alert-success' : 'alert-danger'}">{message}</div>

@@ -139,10 +139,10 @@
     <div class="offcanvas-body small text-start">
         <label title="Nuovo titolo" class="form-label" for="nuovoNome{videoId}">Nuovo titolo</label>
         <input type="text" bind:value={newVideoName} class="form-control" placeholder="Nuovo titolo" name="nome" id="nuovoNome{videoId}" required>
-        <button class="btn btn-light border-light border-opacity-50 mt-3 w-100" onclick={renameVideo}>
+        <button class="btn btn-primary mt-3 w-100" onclick={renameVideo}>
             <i class="fa fa-check"></i> Salva Modifiche
         </button>
-        <button type="button" class="btn btn-outline-light border-light border-opacity-50 mt-2 w-100" data-bs-dismiss="offcanvas">
+        <button type="button" class="btn btn-outline-secondary mt-2 w-100" data-bs-dismiss="offcanvas">
             <i class="fa fa-times"></i> Annulla
         </button>
     </div>

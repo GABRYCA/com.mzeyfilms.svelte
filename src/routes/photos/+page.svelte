@@ -1,6 +1,6 @@
 <script>
     import {onMount} from "svelte";
-    import { getCollectionCoverImage, getPhotoThumbnail, getModalImage } from '$lib/utils/imageOptimization.js';
+    import {getCollectionCoverImage, getPhotoThumbnail, getModalImage} from '$lib/utils/imageOptimization.js';
     import Masonry from '$lib/components/Masonry.svelte';
     import PhotoMasonry from '$lib/components/PhotoMasonry.svelte';
 
@@ -19,7 +19,7 @@
     const minColWidth = 280;
     const gap = 20;
 
-    // Filter folders based on search
+    // Filter function search
     const filteredContent = $derived(
         content.filter(folder =>
             folder.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -210,11 +210,11 @@
     {@html `<script type="application/ld+json">${JSON.stringify(structuredData)}</script>`}
 </svelte:head>
 
-<div class="container-fluid px-3" data-aos="fade-up" data-aos-duration="600">
+<div class="container-fluid px-3 pt-lg-4" data-aos="fade-up" data-aos-duration="600">
     <!-- Header Section -->
     <div class="row justify-content-center mb-4 mt-4">
         <div class="col-12 col-lg-10">
-            <div class="modern-card p-4 text-center rounded-4">
+            <div class="p-4 text-center">
                 <h1 class="enhanced-text display-4 mb-3">Photos</h1>
                 <p class="theme-text-secondary mb-4">
                     Discover {data.totalImages} photos across {data.totalFolders} collections
@@ -244,7 +244,7 @@
     <div class="row justify-content-center g-4 mb-4">
         {#each filteredContent as folder (folder.id)}
             <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
-                <div class="collection-card modern-card rounded-4 overflow-hidden hover-lift"
+                <div class="collection-card modern-card overflow-hidden hover-lift"
                      class:active={selectedFolder?.id === folder.id}
                      role="button"
                      tabindex="0"
@@ -265,7 +265,7 @@
                             >
                             <div class="collection-overlay">
                                 <div class="collection-info text-center">
-                                    <h3 class="collection-title enhanced-text h4 mb-2">{folder.name}</h3>
+                                    <h3 class="enhanced-text-light h4 mb-2">{folder.name}</h3>
                                     <span class="badge theme-badge">
                                         {folder.expand.images_via_folder.length}
                                         {folder.expand.images_via_folder.length === 1 ? 'photo' : 'photos'}
@@ -275,7 +275,7 @@
                         {:else}
                             <div class="empty-collection">
                                 <i class="fas fa-folder-open theme-text-secondary display-1"></i>
-                                <h3 class="collection-title theme-text-primary h4 mt-3 mb-2">{folder.name}</h3>
+                                <h3 class="theme-text-primary h4 mt-3 mb-2">{folder.name}</h3>
                                 <p class="theme-text-secondary">Empty collection</p>
                             </div>
                         {/if}
@@ -289,21 +289,20 @@
     {#if selectedFolder?.expand?.images_via_folder?.length > 0}
         <div class="row justify-content-center mt-3" data-aos="fade-up" data-aos-duration="400">
             <div class="col-12">
-                <div class="modern-card p-4 rounded-4">
-                    <div class="collection-header mb-4">
-                        <div class="d-flex justify-content-lg-between align-items-start gap-3">
-                            <h2 class="enhanced-text text-center text-lg-start h3 mb-0">{selectedFolder.name}</h2>
-                            <button
-                                    class="btn theme-button rounded-pill px-3 py-2 mx-auto me-lg-1"
-                                    onclick={() => selectedFolder = null}>
-                                <i class="fas fa-times me-md-1 mx-auto"></i>
-                                <span class="d-none d-sm-inline">Close</span>
-                            </button>
-                        </div>
+                <div class="collection-header mb-4">
+                    <div class="d-flex justify-content-lg-between align-items-start gap-3">
+                        <h2 class="enhanced-text text-center text-lg-start h3 mb-0">{selectedFolder.name}</h2>
+                        <button
+                                class="btn theme-button rounded-pill px-3 py-2 mx-auto me-lg-1"
+                                onclick={() => selectedFolder = null}>
+                            <i class="fas fa-times me-md-1 mx-auto"></i>
+                            <span class="d-none d-sm-inline">Close</span>
+                        </button>
                     </div>
+                </div>
 
-                    <!-- Photos Masonry -->
-                    <Masonry
+                <!-- Photos Masonry -->
+                <Masonry
                         items={selectedFolder.expand.images_via_folder}
                         {minColWidth}
                         {gap}
@@ -311,25 +310,24 @@
                         class="col-12 px-0"
                         bind:masonryWidth
                         bind:masonryHeight
-                    >
-                        {#snippet children({item})}
-                            <PhotoMasonry 
-                                photo={item} 
+                >
+                    {#snippet children({item})}
+                        <PhotoMasonry
+                                photo={item}
                                 folderName={selectedFolder.name}
                                 onClick={(image) => openModal(image, selectedFolder.expand.images_via_folder)}
-                            />
-                        {/snippet}
-                    </Masonry>
-                </div>
+                        />
+                    {/snippet}
+                </Masonry>
             </div>
         </div>
     {/if}
 
     <!-- No Results Message -->
     {#if filteredContent.length === 0}
-        <div class="row justify-content-center">
+        <div class="row justify-content-center mb-3">
             <div class="col-12 col-md-6 text-center">
-                <div class="modern-card p-5 rounded-4">
+                <div class="modern-card p-5">
                     <i class="fas fa-search theme-text-secondary display-1 mb-3"></i>
                     <h3 class="theme-text-primary">No collections found</h3>
                     <p class="theme-text-secondary">Try adjusting your search terms</p>
@@ -417,7 +415,6 @@
         line-height: 1.2;
     }
 
-    /* Collection Cards */
     .collection-card {
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         height: 280px;
@@ -428,12 +425,12 @@
 
     .collection-card:hover {
         transform: translateY(-8px) scale(1.02);
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(255, 85, 85, 0.3);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 0 0 2px rgba(222, 226, 230, 0.8);
     }
 
     .collection-card.active {
-        border: 2px solid rgba(255, 85, 85, 0.6);
-        box-shadow: 0 15px 45px rgba(182, 0, 0, 0.4);
+        border: 2px solid rgba(255, 255, 255, 0.6);
+        box-shadow: 0 15px 45px rgba(255, 255, 255, 0.2);
     }
 
     .collection-cover {
@@ -447,11 +444,11 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transition: transform 1s ease;
+        transition: transform 1s ease !important;
         border-radius: inherit;
     }
 
-    .collection-card:hover {
+    .collection-card:hover .collection-cover-img {
         transform: scale(1.1);
     }
 
@@ -462,7 +459,7 @@
                 to bottom,
                 rgba(0, 0, 0, 0.1) 0%,
                 rgba(0, 0, 0, 0.3) 40%,
-                rgba(20, 0, 0, 0.8) 100%
+                rgba(0, 0, 0, 0.7) 100%
         );
         display: flex;
         align-items: flex-end;
@@ -475,7 +472,7 @@
                 to bottom,
                 rgba(0, 0, 0, 0.2) 0%,
                 rgba(0, 0, 0, 0.5) 30%,
-                rgba(20, 0, 0, 0.9) 100%
+                rgba(0, 0, 0, 0.8) 100%
         );
     }
 
@@ -493,43 +490,41 @@
         text-align: center;
     }
 
-    /* Theme Inputs */
     .theme-input-group .input-group-text {
-        background: linear-gradient(135deg, rgba(40, 0, 0, 0.6), rgba(20, 0, 0, 0.4));
-        border: 1px solid rgba(255, 85, 85, 0.3);
+        background: linear-gradient(135deg, rgba(248, 249, 250, 0.9), rgba(255, 255, 255, 0.7));
+        border: 1px solid rgba(222, 226, 230, 0.8);
         border-right: none;
-        color: #ff5555;
+        color: #212529;
     }
 
     .theme-input {
-        background: linear-gradient(135deg, rgba(30, 0, 0, 0.4), rgba(15, 0, 0, 0.2));
-        border: 1px solid rgba(255, 85, 85, 0.3);
+        background: linear-gradient(135deg, rgba(248, 249, 250, 0.9), rgba(255, 255, 255, 0.7));
+        border: 1px solid rgba(222, 226, 230, 0.8);
         border-left: none;
-        color: #ffffff;
+        color: #212529;
         backdrop-filter: blur(8px);
     }
 
     .theme-input:focus {
-        background: linear-gradient(135deg, rgba(30, 0, 0, 0.6), rgba(15, 0, 0, 0.4));
-        border-color: rgba(255, 85, 85, 0.5);
-        box-shadow: 0 0 0 2px rgba(255, 85, 85, 0.2);
-        color: #ffffff;
+        background: linear-gradient(135deg, rgba(248, 249, 250, 1), rgba(255, 255, 255, 0.9));
+        border-color: rgba(13, 110, 253, 0.5);
+        box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.2);
+        color: #212529;
     }
 
     .theme-input::placeholder {
-        color: rgba(255, 255, 255, 0.5);
+        color: rgba(108, 117, 125, 0.7);
     }
 
     .theme-badge {
-        background: linear-gradient(135deg, rgba(182, 0, 0, 0.8), rgba(145, 0, 0, 0.6));
-        color: #ffffff;
+        background: linear-gradient(135deg, rgba(248, 249, 250, 0.9), rgba(255, 255, 255, 0.8));
+        color: #212529;
         font-size: 0.875rem;
         padding: 0.5rem 1rem;
         border-radius: 1rem;
         backdrop-filter: blur(4px);
     }
 
-    /* Modal Styles */
     .modal-backdrop {
         position: fixed;
         inset: 0;
@@ -570,9 +565,9 @@
         position: fixed;
         top: 1rem;
         right: 1rem;
-        background: rgba(255, 85, 85, 0.3);
-        border: 1px solid rgba(255, 85, 85, 0.4);
-        color: #ffffff;
+        background: rgba(248, 249, 250, 0.9);
+        border: 1px solid rgba(222, 226, 230, 0.8);
+        color: #212529;
         width: 3rem;
         height: 3rem;
         border-radius: 50%;
@@ -587,23 +582,23 @@
     }
 
     .modal-close-btn:hover {
-        background: rgba(255, 85, 85, 0.5);
-        border-color: rgba(255, 85, 85, 0.7);
+        background: rgba(248, 249, 250, 1);
+        border-color: rgba(222, 226, 230, 1);
         transform: scale(1.1);
     }
 
     .modal-close-btn:active {
         transform: scale(0.95);
-        background: rgba(255, 85, 85, 0.6);
+        background: rgba(222, 226, 230, 0.9);
     }
 
     .modal-nav-btn {
         position: fixed;
         top: 50%;
         transform: translateY(-50%);
-        background: rgba(255, 85, 85, 0.3);
-        border: 1px solid rgba(255, 85, 85, 0.4);
-        color: #ffffff;
+        background: rgba(248, 249, 250, 0.9);
+        border: 1px solid rgba(222, 226, 230, 0.8);
+        color: #212529;
         width: 3rem;
         height: 3rem;
         border-radius: 50%;
@@ -618,14 +613,14 @@
     }
 
     .modal-nav-btn:hover {
-        background: rgba(255, 85, 85, 0.5);
-        border-color: rgba(255, 85, 85, 0.7);
+        background: rgba(248, 249, 250, 1);
+        border-color: rgba(222, 226, 230, 1);
         transform: translateY(-50%) scale(1.1);
     }
 
     .modal-nav-btn:active {
         transform: translateY(-50%) scale(0.95);
-        background: rgba(255, 85, 85, 0.6);
+        background: rgba(222, 226, 230, 0.9);
     }
 
     .modal-nav-prev {
@@ -642,16 +637,15 @@
         left: 1rem;
         right: 1rem;
         text-align: center;
-        color: #ffffff;
-        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
-        background: rgba(0, 0, 0, 0.5);
+        color: #212529;
+        text-shadow: 0 2px 8px rgba(255, 255, 255, 0.7);
+        background: rgba(248, 249, 250, 0.9);
         padding: 1rem;
         border-radius: 8px;
         backdrop-filter: blur(8px);
         z-index: 1052;
     }
 
-    /* Mobile Responsive */
     @media (max-width: 768px) {
         .collection-card {
             height: 240px;
@@ -659,7 +653,7 @@
 
         .collection-header .btn {
             font-size: 0.875rem;
-            padding: 0.5rem 1rem !important;
+            padding: 0.5rem 1rem;
         }
 
         .image-modal {
@@ -672,7 +666,7 @@
         }
 
         .modal-image {
-            max-width: calc(100vw - 4.5rem); /* Account for navigation buttons */
+            max-width: calc(100vw - 4.5rem);
             max-height: 75vh;
         }
 
@@ -761,22 +755,20 @@
         }
     }
 
-    /* Focus and accessibility */
     .collection-card:focus-visible {
-        outline: 2px solid rgba(255, 85, 85, 0.6);
+        outline: 2px solid rgba(13, 110, 253, 0.6);
         outline-offset: 4px;
     }
 
     .modal-close-btn:focus-visible,
     .modal-nav-btn:focus-visible {
-        outline: 2px solid rgba(255, 85, 85, 0.6);
+        outline: 2px solid rgba(13, 110, 253, 0.6);
         outline-offset: 2px;
     }
 
-    /* Loading states */
     .collection-cover-img,
     .modal-image {
-        background: linear-gradient(135deg, rgba(40, 0, 0, 0.3), rgba(20, 0, 0, 0.2));
+        background: linear-gradient(135deg, rgba(248, 249, 250, 0.5), rgba(255, 255, 255, 0.3));
         transition: opacity 0.3s ease;
     }
 
@@ -785,13 +777,11 @@
         opacity: 0;
     }
 
-    /* Aspect ratio preservation during loading */
     .collection-cover-img {
         aspect-ratio: 4/3;
         object-fit: cover;
     }
 
-    /* Improve image quality on high-DPI displays */
     @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
         .collection-cover-img {
             image-rendering: -webkit-optimize-contrast;
@@ -799,7 +789,6 @@
         }
     }
 
-    /* Smooth animations */
     @media (prefers-reduced-motion: no-preference) {
         .collection-card {
             animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) backwards;

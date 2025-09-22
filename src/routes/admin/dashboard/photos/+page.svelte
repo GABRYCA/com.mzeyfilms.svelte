@@ -140,7 +140,8 @@
             <p class="h1">Foto:</p>
         </div>
     </div>
-    <hr class="text-light">
+    <hr class="text-muted">.
+
     <!-- Upload Foto -->
     <div class="row bg-light bg-opacity-25 pt-3 pb-3 mx-2 rounded-4">
         <div class="col-12 text-center">
@@ -169,7 +170,7 @@
                     </form>
                 </div>
             </div>
-            <hr class="text-light">
+            <hr class="text-muted">
             <!-- Caricamento intere cartelle -->
             <p class="h3 mb-0">Caricamento cartella:</p>
             <p class="text-muted">Carica tutte le immagini da una cartella del tuo dispositivo</p>
@@ -205,7 +206,7 @@
             <div class="collapse mt-2" id="createFolderForm">
                 <!-- Creazione Cartella -->
                 <div class="row justify-content-center text-center">
-                    <hr class="text-light">
+                    <hr class="text-muted">
                     <div class="col">
                         <form method="post" use:enhance action="?/create">
                             <div class="row">
@@ -219,7 +220,7 @@
                         </form>
                     </div>
                 </div>
-                <hr class="text-light">
+                <hr class="text-muted">
                 <!-- Rinomina Cartella -->
                 <div class="row justify-content-center align-items-center text-center">
                     <div class="col">
@@ -244,7 +245,7 @@
                         </form>
                     </div>
                 </div>
-                <hr class="text-light">
+                <hr class="text-muted">
                 <!-- Cancella Cartella -->
                 <div class="row justify-content-center align-items-center text-center mt-3">
                     <div class="col">
@@ -268,7 +269,7 @@
             </div>
         </div>
     </div>
-    <hr class="text-light">
+    <hr class="text-muted">
     <!-- Sezione Foto e Cartelle -->
     <div class="row justify-content-evenly align-items-center text-center">
         <div class="col">

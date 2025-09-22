@@ -123,11 +123,10 @@
     .photo-masonry-item {
         position: relative;
         width: 100%;
-        border-radius: 12px;
         overflow: hidden;
         background: linear-gradient(135deg, rgba(40, 0, 0, 0.3), rgba(20, 0, 0, 0.2));
         backdrop-filter: blur(8px);
-        border: 1px solid rgba(255, 85, 85, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.15);
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         display: block;
         padding: 0;
@@ -139,12 +138,12 @@
 
     .photo-masonry-item.clickable:hover {
         transform: translateY(-4px) scale(1.02);
-        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 0 2px rgba(255, 85, 85, 0.3);
-        border-color: rgba(255, 85, 85, 0.4);
+        box-shadow: 0 12px 40px rgba(255, 255, 255, 0.4), 0 0 0 2px rgba(255, 255, 255, 0.3);
+        border-color: rgba(255, 255, 255, 0.4);
     }
 
     .photo-masonry-item:focus-visible {
-        outline: 2px solid rgba(255, 85, 85, 0.6);
+        outline: 2px solid rgba(255, 255, 255, 0.6);
         outline-offset: 4px;
     }
 
@@ -168,8 +167,8 @@
     .spinner-ring {
         width: 100%;
         height: 100%;
-        border: 3px solid rgba(255, 85, 85, 0.2);
-        border-top-color: #ff5555;
+        border: 3px solid rgba(255, 255, 255, 0.2);
+        border-top-color: #b6b6b6;
         border-radius: 50%;
         animation: spin 1s linear infinite;
     }
@@ -237,7 +236,6 @@
         }
     }
 
-    /* Mobile optimizations */
     @media (max-width: 768px) {
         .overlay-icon {
             font-size: 1.5rem;
@@ -253,7 +251,6 @@
         }
     }
 
-    /* Accessibility improvements */
     @media (prefers-reduced-motion: reduce) {
         .photo-masonry-item,
         .photo-image,
@@ -269,11 +266,10 @@
         }
     }
 
-    /* High contrast mode support */
     @media (prefers-contrast: more) {
         .photo-masonry-item {
             border-width: 2px;
-            border-color: rgba(255, 85, 85, 0.8);
+            border-color: rgba(255, 255, 255, 0.8);
         }
 
         .photo-overlay {

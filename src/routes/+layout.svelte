@@ -186,6 +186,8 @@
     </div>
 </nav>
 
+<br>
+
 {@render children?.()}
 
 <!-- Footer -->

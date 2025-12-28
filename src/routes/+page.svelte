@@ -2,7 +2,9 @@
     import {onMount} from "svelte";
     import noLightInDeepness from "$lib/img/MVI_7133-optimized.webp?enhanced";
     import naughtyLaundry from "$lib/img/naughty_laundry.webp?enhanced";
-    import homeBg from "$lib/img/home_bg.webp?enhanced";
+    /* import homeBgOld from "$lib/img/home_bg.webp?enhanced";*/
+    import homeBg from "$lib/img/Theo-132-optimized.webp?enhanced";
+    /* import homeBg2 from "$lib/img/Theo-168-optimized.webp?enhanced"; */
 
     let heroSection;
     let parallaxOffset = $state(0);

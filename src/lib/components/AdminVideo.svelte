@@ -4,10 +4,18 @@
     import {toast} from "@zerodevx/svelte-toast";
 
     let { src, videoName } = $props();
-    let newVideoName = $state(videoName);
-    let title = $state(videoName);
+    let newVideoName = $state('');
+    let title = $state('');
     // To get id, split at / and get the last element
-    const videoId = src.split('/').pop();
+    let videoId = $derived(src.split('/').pop());
+
+    // Initialize state from props
+    $effect(() => {
+        if (newVideoName === '') {
+            newVideoName = videoName;
+            title = videoName;
+        }
+    });
 
     let isRenaming = false;
     let isDeleting = false;

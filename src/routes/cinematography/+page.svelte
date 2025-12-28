@@ -5,7 +5,7 @@
     import PhotoMasonry from '$lib/components/PhotoMasonry.svelte';
 
     let {data} = $props();
-    const {content} = data;
+    let content = $derived(data.content);
 
     let showModal = $state(false);
     let selectedImage = $state(null);

@@ -1,7 +1,7 @@
 <script>
     let {src, title} = $props();
 
-    const videoId = src.split('/').pop();
+    let videoId = $derived(src.split('/').pop());
 </script>
 
 

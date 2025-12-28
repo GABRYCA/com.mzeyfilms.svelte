@@ -7,10 +7,7 @@
     import AdminVideoModern from "$lib/components/AdminVideoModern.svelte";
 
     let { data } = $props();
-    let { videos } = $state(data);
-    $effect(() => {
-        ({ videos } = data);
-    });
+    let videos = $derived(data.videos);
 
     let isUploading = false;
 

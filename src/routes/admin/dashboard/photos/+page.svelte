@@ -5,10 +5,8 @@
     import {toast} from "@zerodevx/svelte-toast";
     import {invalidateAll} from "$app/navigation";
     let { data } = $props();
-    let { folders, content } = $state(data);
-    $effect(() => {
-        ({folders, content} = data);
-    });
+    let folders = $derived(data.folders);
+    let content = $derived(data.content);
 
     onMount(() => {
         document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach((element) => {

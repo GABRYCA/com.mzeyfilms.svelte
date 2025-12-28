@@ -4,8 +4,13 @@
     import {deserialize} from "$app/forms";
 
     let {data} = $props();
-    let {videos} = $state(data);
+    let videos = $state([]);
     let isFetching = false;
+
+    // Sync videos state with data prop
+    $effect(() => {
+        videos = [...data.videos];
+    });
     let page = 1;
     let loadedAllPages = false;
     let y = $state(0);

@@ -9,6 +9,7 @@
         folderList,
         imageName
     } = $props();
+    // svelte-ignore state_referenced_locally
     let newFolder = $state(folder);
     let isLoading = $state(true);
 

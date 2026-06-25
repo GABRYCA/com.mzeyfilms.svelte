@@ -18,33 +18,31 @@
 
     let isExternal = $derived(href?.startsWith('http'));
     let loaded = $state(false);
+
+    let lowResSrc = $derived.by(() => {
+        if (!src) return '';
+        const lastDot = src.lastIndexOf('.');
+        const lastSlash = src.lastIndexOf('/');
+
+        if (lastDot > lastSlash) {
+            return src.substring(0, lastDot) + '-low' + src.substring(lastDot);
+        }
+        return src + '-low';
+    });
 </script>
 
 {#snippet cardContent()}
-
-    {#if !loaded}
-        <div class="placeholder-overlay position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center">
-            <div class="spinner-border text-secondary" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-        </div>
-    {/if}
-
-    <!--<img
-            src={src}
-            alt={alt}
-    class="animated-image w-100 h-auto"
-    loading="lazy"
-    decoding="async"
+    <img
+            src={lowResSrc}
+            alt=""
+            class="low-res-image w-100 h-auto"
+            aria-hidden="true"
     />
-    <div class="animated-image-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
-        <span class="animated-image-title">{title.toUpperCase()}</span>
-    </div>-->
 
     <img
             {src}
             {alt}
-            class="animated-image w-100 h-auto {loaded ? 'is-loaded' : ''}"
+            class="animated-image position-absolute top-0 start-0 w-100 h-100 {loaded ? 'is-loaded' : ''}"
             loading="lazy"
             decoding="async"
             onload={() => loaded = true}
@@ -63,16 +61,6 @@
             class="animated-image-card d-block position-relative overflow-hidden"
             aria-label={title}
     >
-        <!--<img
-                src={src}
-                alt={alt}
-                class="animated-image w-100 h-100"
-                loading="lazy"
-                decoding="async"
-        />
-        <div class="animated-image-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
-            <span class="animated-image-title">{title.toUpperCase()}</span>
-        </div>-->
         {@render cardContent()}
     </a>
 {:else}
@@ -80,16 +68,6 @@
             class="animated-image-card d-block position-relative overflow-hidden"
             aria-label={alt}
     >
-        <!--<img
-                src={src}
-                alt={alt}
-                class="animated-image w-100 h-100"
-                loading="lazy"
-                decoding="async"
-        />
-        <div class="animated-image-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
-            <span class="animated-image-title">{title.toUpperCase()}</span>
-        </div>-->
         {@render cardContent()}
     </div>
 {/if}
@@ -100,7 +78,6 @@
         cursor: default;
         text-decoration: none;
         display: block;
-        /* background: #000;*/
         background: #121212;
         min-height: 250px;
     }
@@ -109,23 +86,18 @@
         cursor: pointer;
     }
 
-    /*.animated-image {
+    .low-res-image {
         display: block;
         object-fit: cover;
-        width: 100%;
-        height: 100%;
-        transition: filter 0.45s cubic-bezier(0.4, 0, 0.2, 1),
-        transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
-        will-change: filter, transform;
-    }*/
+        filter: blur(10px);
+        transform: scale(1.05);
+    }
 
     .animated-image {
         display: block;
         object-fit: cover;
-        width: 100%;
-        height: 100%;
-        opacity: 0; /* Hidden initially */
-        /* Combined transitions for fade-in, hover filter, and hover scale */
+        opacity: 0;
+        z-index: 1;
         transition: opacity 0.5s ease-in-out,
         filter 0.45s cubic-bezier(0.4, 0, 0.2, 1),
         transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
@@ -135,17 +107,6 @@
     .animated-image.is-loaded {
         opacity: 1;
     }
-
-    .placeholder-overlay {
-        background-color: #1a1d20; /* Bootstrap dark gray tint */
-        z-index: 1;
-    }
-
-    /*.animated-image-overlay {
-        background: rgba(0, 0, 0, 0);
-        transition: background 0.45s cubic-bezier(0.4, 0, 0.2, 1);
-        pointer-events: none;
-    }*/
 
     .animated-image-overlay {
         background: rgba(0, 0, 0, 0);

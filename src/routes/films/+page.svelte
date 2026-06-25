@@ -73,9 +73,9 @@
         <div class="col">
             <div class="row text-center justify-content-center px-2 pt-4 pt-lg-2 mb-3">
                 <div class="col pt-4 pb-2 rounded-4">
-                    <h1 class="enhanced-text display-4 mb-3">Videos</h1>
+                    <h1 class="enhanced-text display-4 mb-3">Films</h1>
                     <p class="lead fs-3 theme-text-secondary mb-4 hero-subtitle">
-                        Browse my video portfolio
+                        Browse my films
                     </p>
                 </div>
             </div>

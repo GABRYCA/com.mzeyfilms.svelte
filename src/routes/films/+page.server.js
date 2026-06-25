@@ -13,7 +13,7 @@ export async function load({ locals: { pb }}) {
     return {
         videos: videos.items,
         title: 'MZEYFILMS - Videos',
-        description: 'MZEFILMS Videos. Watch my latest featured videos.',
+        description: 'MZEFILMS Videos. Watch my latest featured films.',
     }
 }
 
@@ -38,7 +38,7 @@ export const actions = {
             return {
                 status: 404,
                 body: {
-                    error: 'No videos found',
+                    error: 'No films found',
                 }
             }
         }

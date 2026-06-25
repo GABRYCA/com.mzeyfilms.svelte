@@ -199,14 +199,14 @@
 <div class="container-fluid pt-lg-2 homepage-content">
 
     <!-- Gallery Section -->
-    <section class="row g-0 py-4 py-lg-5" id="portfolio-gallery" aria-labelledby="gallery-heading">
+    <section class="row g-0 pb-4 pb-lg-5" id="portfolio-gallery" aria-labelledby="gallery-heading">
         <div class="col-12 text-center mb-4 mb-lg-5" data-aos="fade-down" data-aos-duration="500">
-            <h1 class="display-4 fw-bold theme-text-primary gallery-heading" id="gallery-heading">
+            <!--<h1 class="display-4 fw-bold theme-text-primary gallery-heading" id="gallery-heading">
                 MZEYFILMS
             </h1>
             <p class="lead theme-text-secondary gallery-subheading mt-2">
                 Hover to reveal — click to watch
-            </p>
+            </p>-->
         </div>
 
         <div class="col-12 px-2 px-md-4" data-aos="fade-up" data-aos-duration="600" data-aos-delay="100">
@@ -217,7 +217,7 @@
 </div>
 
 <style>
-    .gallery-heading {
+    /*.gallery-heading {
         letter-spacing: 0.08em;
         font-size: clamp(2rem, 6vw, 3.5rem);
     }
@@ -227,15 +227,15 @@
         font-size: clamp(0.85rem, 2vw, 1.1rem);
         text-transform: uppercase;
         opacity: 0.6;
-    }
+    }*/
 
     #portfolio-gallery {
         min-height: 60vh;
     }
 
-    @media (max-width: 575px) {
+    /*@media (max-width: 575px) {
         .gallery-heading {
             font-size: 2rem;
         }
-    }
+    }*/
 </style>

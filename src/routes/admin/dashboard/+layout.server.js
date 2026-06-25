@@ -10,7 +10,7 @@ export const load = async ({ cookies }) => {
 
     return {
         title: 'MZEYFILMS - Admin - Dashboard',
-        description: 'MZEFILMS Admin Dashboard. Manage your videos, photos, and more.',
+        description: 'MZEFILMS Admin Dashboard. Manage your films, photos, and more.',
         index: false
     }
 }

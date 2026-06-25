@@ -6,7 +6,7 @@ export async function load( { locals: { pb }}) {
     return {
         videos: videos,
         title: 'MZEYFILMS - Admin - Videos',
-        description: 'MZEFILMS Admin Videos. Manage your videos.',
+        description: 'MZEFILMS Admin Videos. Manage your films.',
         index: false
     }
 }

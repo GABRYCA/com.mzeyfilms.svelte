@@ -35,7 +35,7 @@
         <div class="container-fluid justify-content-evenly fs-5">
             <a class="navbar-link p-2 pb-1 px-3 rounded-4 text-decoration-none { page.url.pathname === '/admin/dashboard/videos' ? 'aperto border border-primary bg-primary bg-opacity-10' : '' }" href="/admin/dashboard/videos">
                 <i class="fas fa-video"></i>
-                <span class="ms-2">Video</span>
+                <span class="ms-2">Films</span>
             </a>
             <a class="navbar-link p-2 pb-1 px-3 rounded-4 text-decoration-none { page.url.pathname === '/admin/dashboard/photos' ? 'aperto border border-primary bg-primary bg-opacity-10' : '' }" href="/admin/dashboard/photos">
                 <i class="fas fa-image"></i>

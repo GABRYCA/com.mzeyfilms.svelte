@@ -132,20 +132,13 @@
             <div class="row align-items-center text-center justify-content-center w-100 mx-0 px-0 py-4 py-lg-0">
                 <ul class="col-12 col-lg-4 pe-0 justify-content-start navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link hover-lift { page.url.pathname === '/videos' ? 'active' : '' }"
-                           href="/videos">Videos</a>
+                        <a class="nav-link hover-lift { page.url.pathname === '/films' ? 'active' : '' }"
+                           href="/films">Films</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link hover-lift { page.url.pathname === '/cinematography' ? 'active' : '' }"
                            href="/cinematography">Cinematography</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link hover-lift { page.url.pathname === '/photos' ? 'active' : '' }"
-                           href="/photos">Photos</a>
-                    </li>
-                    <!--<li class="nav-item">
-                        <a class="nav-link hover-lift { page.url.pathname === '/about' ? 'active' : '' }" href="/about">About</a>
-                    </li>-->
                     <li class="nav-item">
                         <a class="nav-link hover-lift { page.url.pathname === '/contacts' ? 'active' : '' }"
                            href="/contacts">Contacts</a>
@@ -162,32 +155,12 @@
                 </div>
                 <!-- Navbar socials -->
                 <div class="col-12 col-lg-4 mt-4 mt-lg-0 justify-content-center justify-content-lg-end navbar-nav">
-
                     <div class="row justify-content-center">
                         <div class="col-auto">
                             <a class="nav-link navbar-icon px-0"
                                href="https://www.instagram.com/mzeyfilms/" target="_blank" aria-label="Instagram"
                                data-bs-toggle="tooltip" title="Follow me on Instagram"><i class="fab fa-instagram"></i></a>
                         </div>
-
-                        <!--<div class="col-auto">
-                            <a class="nav-link navbar-icon px-0"
-                               href="https://m.youtube.com/channel/UCx0Ih65Y_TU86li7eWuM4_g" target="_blank"
-                               aria-label="Youtube" data-bs-toggle="tooltip" title="Watch my videos"><i
-                                    class="fab fa-youtube"></i></a>
-                        </div>
-                        <div class="col-auto">
-                            <a class="nav-link navbar-icon px-0"
-                               href="https://open.spotify.com/show/22Nsi7J93FcN6kICu6hEaS" target="_blank"
-                               aria-label="Spotify" data-bs-toggle="tooltip" title="Listen to my podcast"><i
-                                    class="fab fa-spotify"></i></a>
-                        </div>
-                        <div class="col-auto">
-                            <a class="nav-link navbar-icon px-0"
-                               href="https://music.amazon.it/podcasts/1b46e8c5-0b6a-4882-b634-8d18ef578804/tachipistorie"
-                               target="_blank" aria-label="Amazon Music Podcast" data-bs-toggle="tooltip"
-                               title="Listen on Amazon"><i class="fab fa-amazon"></i></a>
-                        </div>-->
                     </div>
                 </div>
             </div>
@@ -271,7 +244,7 @@
         will-change: transform;
         background: rgba(0, 0, 0, 0.95) !important;
         backdrop-filter: blur(10px);
-        border-bottom: 2px solid var(--border-gray);
+        border-bottom: 0px solid var(--border-gray);
         box-shadow: 0 4px 30px var(--shadow-light);
     }
 
@@ -368,7 +341,7 @@
 
     .theme-main-container {
         background: #000000;
-        border-top: 2px solid var(--border-gray);
+        border-top: 0px solid var(--border-gray);
         box-shadow: 0 -2px 20px var(--shadow-light);
     }
 </style>

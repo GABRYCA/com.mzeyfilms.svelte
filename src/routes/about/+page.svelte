@@ -10,7 +10,7 @@
             name: "YouTube",
             url: "https://m.youtube.com/channel/UCx0Ih65Y_TU86li7eWuM4_g",
             icon: "fab fa-youtube",
-            description: "Watch my videos",
+            description: "Watch my films",
             color: "youtube-color",
             stats: "10K+ Views"
         },
@@ -232,7 +232,7 @@
                             <a href="/contacts" class="btn btn-lg theme-button-primary px-5 py-3">
                                 <i class="fas fa-envelope me-2"></i>Get In Touch
                             </a>
-                            <a href="/videos" class="btn btn-lg theme-button px-5 py-3">
+                            <a href="/films" class="btn btn-lg theme-button px-5 py-3">
                                 <i class="fas fa-play me-2"></i>View My Work
                             </a>
                         </div>

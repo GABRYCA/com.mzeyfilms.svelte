@@ -112,7 +112,7 @@
     <div class="row align-items-center min-vh-50 my-4 my-lg-5">
         <div class="col-lg-8 mx-auto text-center">
             <div class="hero-content" class:loaded={isLoaded}>
-                <h1 class="display-3 fw-bold theme-text-primary mb-1 mb-lg-4 hero-title">
+                <h1 class="enhanced-text display-4 mb-1 mb-lg-4">
                     Cinematography
                 </h1>
                 <p class="lead fs-3 theme-text-secondary mb-4 hero-subtitle">

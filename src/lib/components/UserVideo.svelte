@@ -4,12 +4,13 @@
     let videoId = $derived(src.split('/').pop());
 </script>
 
-
-<div class="row text-center justify-content-center">
-    <div class="col pt-3 pb-1 rounded-4">
-        <p class="h3 pt-1 theme-text-primary">{title}</p>
+{#if title}
+    <div class="row text-center justify-content-center">
+        <div class="col pt-3 pb-1 rounded-4">
+            <p class="h3 pt-1 theme-text-primary">{title}</p>
+        </div>
     </div>
-</div>
+{/if}
 <div class="row mt-3">
     <div class="col-12">
         <div class="embed-responsive embed-responsive-16by9">

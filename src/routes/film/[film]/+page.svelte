@@ -14,7 +14,7 @@
             </h1>
         {/if}
 
-        {#if film.credits}
+        {#if film.credits && !(Array.isArray(film.credits) && film.credits.length === 0)}
             <div class="hero-subtitle theme-text-secondary mx-auto" style="max-width: 700px;">
                 {#if Array.isArray(film.credits)}
                     {#each film.credits as credit}

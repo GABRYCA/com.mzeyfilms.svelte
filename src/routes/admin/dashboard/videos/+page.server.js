@@ -1,10 +1,17 @@
+export async function load({locals: {pb}}) {
+    const videos = await pb.collection('videos').getFullList({
+        sort: '-created'
+    });
 
-export async function load( { locals: { pb }}) {
-
-    const videos = await pb.collection('videos').getFullList();
+    const videosWithUrls = videos.map(video => ({
+        ...video,
+        animatedhighresUrl: video.animatedhighres ? `${pb.baseUrl}/api/files/${video.collectionId}/${video.id}/${video.animatedhighres}` : '',
+        animatedlowresUrl: video.animatedlowres ? `${pb.baseUrl}/api/files/${video.collectionId}/${video.id}/${video.animatedlowres}` : '',
+        credits: video.credits || []
+    }));
 
     return {
-        videos: videos,
+        videos: videosWithUrls,
         title: 'MZEYFILMS - Admin - Videos',
         description: 'MZEFILMS Admin Videos. Manage your films.',
         index: false
@@ -12,95 +19,106 @@ export async function load( { locals: { pb }}) {
 }
 
 export const actions = {
-    upload: async ({ request, locals: { pb } }) => {
-        const formData = Object.fromEntries(await request.formData());
+    upload: async ({request, locals: {pb}}) => {
+        const formData = await request.formData();
 
-        const name = formData.name;
-        const url = formData.url;
-
-        const video = await pb.collection('videos').getFullList({
-            filter: 'name = "' + name + '"',
+        const name = formData.get('name');
+        const existing = await pb.collection('videos').getFullList({
+            filter: `name = "${name}"`,
         });
 
-        if (video && video.length > 0) {
+        if (existing && existing.length > 0) {
             return {
                 status: 400,
-                body: {
-                    message: 'Video already exists'
-                }
+                body: {message: 'Video already exists'}
             }
         }
 
-        const data = {
-            name: name,
-            url: url
-        };
+        const highres = formData.get('animatedhighres');
+        if (!highres || highres.size === 0 || highres.name === 'undefined') {
+            formData.delete('animatedhighres');
+        }
 
-        await pb.collection('videos').create(data);
+        const lowres = formData.get('animatedlowres');
+        if (!lowres || lowres.size === 0 || lowres.name === 'undefined') {
+            formData.delete('animatedlowres');
+        }
 
-        return {
-            status: 200,
-            body: {
-                message: 'Video added successfully'
+        if (!formData.has('credits')) {
+            formData.append('credits', '[]');
+        }
+
+        try {
+            await pb.collection('videos').create(formData);
+            return {
+                status: 200,
+                body: {message: 'Video added successfully'}
+            }
+        } catch (err) {
+            console.error("Upload error:", err);
+            return {
+                status: 500,
+                body: {message: err.message || 'Error occurred during creation'}
             }
         }
     },
-    rename: async ({ request, locals: { pb } }) => {
-        const formData = Object.fromEntries(await request.formData());
 
-        const oldName = formData.oldName;
-        const newName = formData.newName;
+    update: async ({request, locals: {pb}}) => {
+        const formData = await request.formData();
 
-        const video = await pb.collection('videos').getFullList({
-            filter: 'name = "' + oldName + '"',
-        });
+        const id = formData.get('id');
+        formData.delete('id');
 
-        if (!video || video.length === 0) {
-            return {
-                status: 400,
-                body: {
-                    message: 'Video not found'
-                }
-            }
+        const highres = formData.get('animatedhighres');
+        if (!highres || highres.size === 0 || highres.name === 'undefined') {
+            formData.delete('animatedhighres');
         }
 
-        const data = {
-            name: newName,
-        };
+        const lowres = formData.get('animatedlowres');
+        if (!lowres || lowres.size === 0 || lowres.name === 'undefined') {
+            formData.delete('animatedlowres');
+        }
 
-        await pb.collection('videos').update(video[0].id, data);
+        if (formData.get('deleteHighres') === 'true') {
+            formData.set('animatedhighres', '');
+        }
+        formData.delete('deleteHighres');
 
-        return {
-            status: 200,
-            body: {
-                message: 'Video renamed successfully'
+        if (formData.get('deleteLowres') === 'true') {
+            formData.set('animatedlowres', '');
+        }
+        formData.delete('deleteLowres');
+
+        try {
+            await pb.collection('videos').update(id, formData);
+            return {
+                status: 200,
+                body: {message: 'Video updated successfully'}
+            }
+        } catch (err) {
+            console.error("Update error:", err);
+            return {
+                status: 500,
+                body: {message: err.message || 'Error updating video'}
             }
         }
     },
-    delete: async ({ request, locals: { pb } }) => {
-        const formData = Object.fromEntries(await request.formData());
 
-        const name = formData.name;
+    delete: async ({request, locals: {pb}}) => {
+        const formData = await request.formData();
+        const id = formData.get('id');
 
-        const video = await pb.collection('videos').getFullList({
-            filter: 'name = "' + name + '"',
-        });
-
-        if (!video || video.length === 0) {
+        try {
+            await pb.collection('videos').delete(id);
+            return {
+                status: 200,
+                body: {message: 'Video deleted successfully'}
+            }
+        } catch (err) {
+            console.error("Delete error:", err);
             return {
                 status: 400,
-                body: {
-                    message: 'Invalid video'
-                }
-            }
-        }
-
-        await pb.collection('videos').delete(video[0].id);
-
-        return {
-            status: 200,
-            body: {
-                message: 'Video deleted successfully'
+                body: {message: 'Unable to delete video'}
             }
         }
     }

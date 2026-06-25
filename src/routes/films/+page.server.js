@@ -1,10 +1,4 @@
-const pageSize = 2;
-
-async function fetchVideos(page, pb) {
-    return await pb.collection('videos').getList(page, pageSize, {
-        sort: '-created',
-    });
-}
+import {fetchVideos} from "$lib/utils/utils.js";
 
 export async function load({ locals: { pb }}) {
 
@@ -12,8 +6,8 @@ export async function load({ locals: { pb }}) {
 
     return {
         videos: videos.items,
-        title: 'MZEYFILMS - Videos',
-        description: 'MZEFILMS Videos. Watch my latest featured films.',
+        title: 'MZEYFILMS - Films',
+        description: 'MZEFILMS Films. Watch my latest featured films.',
     }
 }
 

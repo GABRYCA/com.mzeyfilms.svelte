@@ -1,16 +1,11 @@
 <script>
     /**
      * AnimatedImage — A single animated image card with noir hover effect.
-     *
-     * Props:
-     *   src    {string}       — URL or imported asset path to the animated image (avif/webp/gif)
-     *   title  {string}       — Title shown on hover (displayed uppercase)
-     *   href   {string|null}  — Optional link destination; if null, card is not clickable
-     *   alt    {string}       — Accessibility alt text (defaults to title)
      */
 
     let {
         src,
+        lowResSrc = null,
         title,
         href = null,
         alt = title,
@@ -19,7 +14,9 @@
     let isExternal = $derived(href?.startsWith('http'));
     let loaded = $state(false);
 
-    let lowResSrc = $derived.by(() => {
+    let computedLowResSrc = $derived.by(() => {
+        if (lowResSrc) return lowResSrc;
+
         if (!src) return '';
         const lastDot = src.lastIndexOf('.');
         const lastSlash = src.lastIndexOf('/');
@@ -33,7 +30,7 @@
 
 {#snippet cardContent()}
     <img
-            src={lowResSrc}
+            src={computedLowResSrc}
             alt=""
             class="low-res-image w-100 h-auto"
             aria-hidden="true"
@@ -60,6 +57,7 @@
             rel={isExternal ? "noopener noreferrer" : undefined}
             class="animated-image-card d-block position-relative overflow-hidden"
             aria-label={title}
+            data-sveltekit-preload-data="hover"
     >
         {@render cardContent()}
     </a>

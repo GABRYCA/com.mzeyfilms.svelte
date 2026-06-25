@@ -5,7 +5,7 @@
      * AnimatedMasonry — A responsive Bootstrap grid gallery of animated images.
      *
      * Props:
-     *   items  {Array<{ src: string, title: string, href?: string|null, alt?: string }>}
+     *   items  {Array<{ src: string, lowResSrc?: string, title: string, href?: string|null, alt?: string }>}
      *          — List of image data objects to display
      *   gap    {number}  — Gap between items in pixels (default 16)
      */
@@ -29,6 +29,7 @@
         >
             <AnimatedImage
                     src={item.src}
+                    lowResSrc={item.lowResSrc ?? null}
                     title={item.title}
                     href={item.href ?? null}
                     alt={item.alt ?? item.title}

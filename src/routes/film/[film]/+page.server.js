@@ -1,8 +1,8 @@
-import { error as errorx, redirect } from '@sveltejs/kit';
+import { error as errorx } from '@sveltejs/kit';
 import { extractId, isValidUrlParam } from '$lib/utils/slugify.js';
 
 
-export async function load({ locals: { pb }, url, params}) {
+export async function load({ locals: { pb }, params}) {
     if (!params.film) {
         throw errorx(400, 'Missing required fields');
     }
@@ -13,10 +13,17 @@ export async function load({ locals: { pb }, url, params}) {
 
     const filmId = extractId(params.film);
 
-    console.log('filmId', filmId);
-
     // Get from pocketbase book with id
-    const film = await pb.collection('videos').getOne(filmId);
+    let film = null;
+    try {
+        film = await pb.collection('videos').getOne(filmId)
+    } catch (e) {
+        throw errorx(e.status, 'Film not found');
+    }
+
+    if (!film) {
+        throw errorx(400, 'No film found for the given ID');
+    }
 
     return {
         film: film,

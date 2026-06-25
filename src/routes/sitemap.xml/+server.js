@@ -8,6 +8,7 @@ export const GET = async () => {
             /^\/admin.*/,
             /^\/about$/,
             /^\/photos$/,
+            /^\/film.*/, //TODO Add ParamValues to actually do this
         ],
     });
 };

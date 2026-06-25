@@ -132,16 +132,16 @@
     }
 </script>
 
-<div class="container-fluid mt-3 mb-2 pt-4 pb-4 bg-light bg-opacity-10 rounded-3">
+<div class="container-fluid mt-3 mb-2 pt-4 pb-4 bg-black bg-opacity-25 rounded-3">
     <div class="row">
         <div class="col text-center">
             <p class="h1">Foto:</p>
         </div>
     </div>
-    <hr class="text-muted">.
+    <hr class="text-secondary">.
 
     <!-- Upload Foto -->
-    <div class="row bg-light bg-opacity-25 pt-3 pb-3 mx-2 rounded-4">
+    <div class="row bg-black bg-opacity-50 pt-3 pb-3 mx-2 rounded-4">
         <div class="col-12 text-center">
             <p class="h3">Carica:</p>
             <!-- Caricamento singolo -->
@@ -168,10 +168,10 @@
                     </form>
                 </div>
             </div>
-            <hr class="text-muted">
+            <hr class="text-secondary">
             <!-- Caricamento intere cartelle -->
             <p class="h3 mb-0">Caricamento cartella:</p>
-            <p class="text-muted">Carica tutte le immagini da una cartella del tuo dispositivo</p>
+            <p class="text-secondary">Carica tutte le immagini da una cartella del tuo dispositivo</p>
             <div class="row justify-content-center text-center">
                 <div class="col">
                     <form method="post" enctype="multipart/form-data" action="?/upload" onsubmit={handleBulkUpload}>
@@ -198,13 +198,13 @@
         </div>
     </div>
     <!-- Gestione Cartelle -->
-    <div class="row bg-light bg-opacity-25 pt-3 pb-3 mt-2 mx-2 rounded-4">
+    <div class="row bg-black bg-opacity-50 pt-3 pb-3 mt-2 mx-2 rounded-4">
         <div class="col-12 text-center">
             <button class="btn btn-warning" type="button" data-bs-toggle="collapse" data-bs-target="#createFolderForm" aria-expanded="false" aria-controls="createFolderForm"><i class="fa fa-folder"></i> Gestisci cartelle</button>
             <div class="collapse mt-2" id="createFolderForm">
                 <!-- Creazione Cartella -->
                 <div class="row justify-content-center text-center">
-                    <hr class="text-muted">
+                    <hr class="text-secondary">
                     <div class="col">
                         <form method="post" use:enhance action="?/create">
                             <div class="row">
@@ -218,7 +218,7 @@
                         </form>
                     </div>
                 </div>
-                <hr class="text-muted">
+                <hr class="text-secondary">
                 <!-- Rinomina Cartella -->
                 <div class="row justify-content-center align-items-center text-center">
                     <div class="col">
@@ -243,7 +243,7 @@
                         </form>
                     </div>
                 </div>
-                <hr class="text-muted">
+                <hr class="text-secondary">
                 <!-- Cancella Cartella -->
                 <div class="row justify-content-center align-items-center text-center mt-3">
                     <div class="col">
@@ -267,7 +267,7 @@
             </div>
         </div>
     </div>
-    <hr class="text-muted">
+    <hr class="text-secondary">
     <!-- Sezione Foto e Cartelle -->
     <div class="row justify-content-evenly align-items-center text-center">
         <div class="col">
@@ -282,7 +282,7 @@
                         </h2>
                         <div id="collapse{folder.folder.name}" class="accordion-collapse collapse" aria-labelledby="heading{folder.folder.name}" data-bs-parent="#folderAccordion">
                             <div class="accordion-body">
-                                <div class="row bg-light bg-opacity-10 justify-content-evenly align-items-center text-center mx-1 py-3 rounded-4">
+                                <div class="row bg-black bg-opacity-25 justify-content-evenly align-items-center text-center mx-1 py-3 rounded-4">
                                     <div class="col-12 text-center">
                                         <p class="h3">{folder.folder.name}</p>
                                     </div>

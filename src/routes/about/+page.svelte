@@ -204,7 +204,7 @@
                                     <div class="flex-grow-1">
                                         <h4 class="theme-text-primary mb-2">{platform.name}</h4>
                                         <p class="theme-text-secondary mb-1">{platform.description}</p>
-                                        <small class="text-muted">{platform.stats}</small>
+                                        <small class="text-secondary">{platform.stats}</small>
                                     </div>
                                     <div class="social-arrow">
                                         <i class="fas fa-external-link-alt theme-text-secondary"></i>
@@ -229,10 +229,10 @@
                             Let's collaborate on your next project. Whether it's a cinematic story, promotional content, or creative consultation, I'm here to bring your vision to life.
                         </p>
                         <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center">
-                            <a href="/contacts" class="btn btn-lg btn-outline-dark px-5 py-3">
+                            <a href="/contacts" class="btn btn-lg theme-button-primary px-5 py-3">
                                 <i class="fas fa-envelope me-2"></i>Get In Touch
                             </a>
-                            <a href="/videos" class="btn btn-lg btn-outline-dark px-5 py-3">
+                            <a href="/videos" class="btn btn-lg theme-button px-5 py-3">
                                 <i class="fas fa-play me-2"></i>View My Work
                             </a>
                         </div>
@@ -333,7 +333,7 @@
     .skill-icon {
         width: 60px;
         height: 60px;
-        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        background: linear-gradient(135deg, var(--pure-white) 0%, var(--light-gray) 100%);
         border-radius: 16px;
         display: flex;
         align-items: center;

@@ -241,7 +241,7 @@
     </div>
 
     <!-- Collections Grid -->
-    <div class="row justify-content-center g-4 mb-4">
+    <div class="row justify-content-center g-4 {selectedFolder != null ? "mb-4" : "mb-5 pb-5"}">
         {#each filteredContent as folder (folder.id)}
             <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
                 <div class="collection-card modern-card overflow-hidden hover-lift"
@@ -491,34 +491,34 @@
     }
 
     .theme-input-group .input-group-text {
-        background: linear-gradient(135deg, rgba(248, 249, 250, 0.9), rgba(255, 255, 255, 0.7));
-        border: 1px solid rgba(222, 226, 230, 0.8);
+        background: var(--light-gray);
+        border: 1px solid var(--border-gray);
         border-right: none;
-        color: #212529;
+        color: var(--primary-black);
     }
 
     .theme-input {
-        background: linear-gradient(135deg, rgba(248, 249, 250, 0.9), rgba(255, 255, 255, 0.7));
-        border: 1px solid rgba(222, 226, 230, 0.8);
+        background: var(--light-gray);
+        border: 1px solid var(--border-gray);
         border-left: none;
-        color: #212529;
+        color: var(--primary-black);
         backdrop-filter: blur(8px);
     }
 
     .theme-input:focus {
-        background: linear-gradient(135deg, rgba(248, 249, 250, 1), rgba(255, 255, 255, 0.9));
-        border-color: rgba(13, 110, 253, 0.5);
-        box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.2);
-        color: #212529;
+        background: var(--pure-white);
+        border-color: var(--primary-black);
+        box-shadow: 0 0 0 2px var(--light-gray);
+        color: var(--primary-black);
     }
 
     .theme-input::placeholder {
-        color: rgba(108, 117, 125, 0.7);
+        color: var(--light-black);
     }
 
     .theme-badge {
-        background: linear-gradient(135deg, rgba(248, 249, 250, 0.9), rgba(255, 255, 255, 0.8));
-        color: #212529;
+        background: var(--light-gray);
+        color: var(--primary-black);
         font-size: 0.875rem;
         padding: 0.5rem 1rem;
         border-radius: 1rem;

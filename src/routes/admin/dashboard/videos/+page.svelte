@@ -62,18 +62,18 @@
 
 </script>
 
-<div class="container-fluid mt-3 pt-4 pb-4 bg-light bg-opacity-10 rounded-3">
+<div class="container-fluid mt-3 pt-4 pb-4 bg-black bg-opacity-25 rounded-3">
     <div class="row mb-auto mb-md-2">
         <div class="col text-start ms-2 ms-md-3">
             <p class="h1 mb-0">Video:</p>
-            <p class="text-muted">Gestisci i tuoi video</p>
+            <p class="text-secondary">Gestisci i tuoi video</p>
         </div>
     </div>
-    <div class="row bg-light bg-opacity-25 pt-3 pb-3 px-3 mx-1 rounded-4">
+    <div class="row bg-black bg-opacity-50 pt-3 pb-3 px-3 mx-1 rounded-4">
         <!-- Area form upload selezione file video -->
         <div class="col-12 text-start">
             <p class="h3 mb-0">Aggiungi <b>VIDEO</b>:</p>
-            <p class="text-muted">Aggiungi un video da YouTube</p>
+            <p class="text-secondary">Aggiungi un video da YouTube</p>
             <div class="row justify-content-center text-center">
                 <div class="col">
                     <form method="post" enctype="multipart/form-data" action="?/upload" onsubmit={handleUpload}>

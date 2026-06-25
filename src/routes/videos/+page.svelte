@@ -2,15 +2,12 @@
     import {onMount} from "svelte";
     import UserVideo from "$lib/components/UserVideo.svelte";
     import {deserialize} from "$app/forms";
+    import {slugify} from "$lib/utils/slugify.js";
 
     let {data} = $props();
-    let videos = $state([]);
+    let extraVideos = $state([]);
+    let videos = $derived([...data.videos, ...extraVideos]);
     let isFetching = false;
-
-    // Sync videos state with data prop
-    $effect(() => {
-        videos = [...data.videos];
-    });
     let page = 1;
     let loadedAllPages = false;
     let y = $state(0);
@@ -19,6 +16,18 @@
         document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach((element) => {
             new bootstrap.Tooltip(element);
         });
+
+        // Scroll to anchor if URL has a hash (/videos#video-cartomancer)
+        if (window.location.hash) {
+            const targetId = window.location.hash.slice(1);
+            // Slight delay to let the page render first
+            setTimeout(() => {
+                const el = document.getElementById(targetId);
+                if (el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 200);
+        }
     });
 
     async function loadMoreVideos() {
@@ -39,7 +48,7 @@
         if (results.type === 'success') {
             if (results.data.status === 200) {
                 if (results.data.body.videos.length > 0) {
-                    videos.push(...results.data.body.videos);
+                    extraVideos.push(...results.data.body.videos);
                 }
             } else if (results.data.status === 404) {
                 loadedAllPages = true;
@@ -76,7 +85,11 @@
                         <p class="h3 my-auto py-2 theme-text-primary">No videos found</p>
                     {:else}
                         {#each videos as video, index (video.id)}
-                            <div class="row" data-aos="zoom-in">
+                            <div
+                                id="video-{slugify(video.name)}"
+                                class="row video-anchor-target"
+                                data-aos="zoom-in"
+                            >
                                 <div class="col">
                                     <UserVideo src={video.url} title={video.name}/>
                                 </div>
@@ -92,7 +105,8 @@
 </div>
 
 <style>
-    p {
-        color: #212529;
+    /* Offset the anchor target so the fixed navbar doesn't cover the video */
+    .video-anchor-target {
+        scroll-margin-top: 80px;
     }
 </style>

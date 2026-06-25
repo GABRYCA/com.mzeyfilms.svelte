@@ -85,7 +85,7 @@
     {:else}
         <div class="col-12">
             <div class="placeholder-glow">
-                <div class="placeholder bg-light-subtle rounded-4 w-100 h-100"></div>
+                <div class="placeholder bg-dark-subtle rounded-4 w-100 h-100"></div>
             </div>
         </div>
     {/if}

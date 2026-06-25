@@ -1,371 +1,241 @@
 <script>
-    import {onMount} from "svelte";
-    import noLightInDeepness from "$lib/img/MVI_7133-optimized.webp?enhanced";
-    import naughtyLaundry from "$lib/img/naughty_laundry.webp?enhanced";
-    /* import homeBgOld from "$lib/img/home_bg.webp?enhanced";*/
-    /* import homeBg2 from "$lib/img/Theo-132-optimized.webp?enhanced"; */
-    import homeBg from "$lib/img/Theo-168-optimized.webp?enhanced";
+    import AnimatedMasonry from '$lib/components/AnimatedMasonry.svelte';
 
-    let heroSection;
-    let parallaxOffset = $state(0);
-
-    onMount(() => {
-        const handleScroll = () => {
-            if (heroSection) {
-                const rect = heroSection.getBoundingClientRect();
-                const scrolled = window.pageYOffset;
-                parallaxOffset = scrolled * 0.5;
-            }
-        };
-
-        window.addEventListener('scroll', handleScroll, { passive: true });
-
-        document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach((element) => {
-            new bootstrap.Tooltip(element);
-        });
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    });
+    const galleryItems = [
+        {
+            src: '/img/animated/CHIMERAE.avif',
+            title: 'CHIMERAE',
+            href: 'https://www.youtube.com/watch?v=wjgFUC5X_bA',
+        },
+        {
+            src: '/img/animated/thewrathofaniccocentman.avif',
+            title: 'The Wrath of An Innocent Man',
+            href: 'https://www.youtube.com/watch?v=xVwLTIkSX2A'
+        },
+        {
+            src: '/img/animated/vr46.avif',
+            title: 'VR 46 SAITN BARTH - Commercial',
+            href: 'https://www.youtube.com/watch?v=STnD6jFhMxo'
+        },
+        {
+            src: '/img/animated/usexperimental.avif',
+            title: 'US - EXPERIMENTAL',
+            href: 'https://www.youtube.com/watch?v=BB7oqF9xfME'
+        },
+        {
+            src: '/img/animated/vmakimacrom.avif',
+            title: 'VMAKI MACROM - LORD KNOWS',
+            href: 'https://www.youtube.com/watch?v=OPR3Y5Qx-L8'
+        },
+        {
+            src: '/img/animated/mostrono.avif',
+            title: 'MOSTRO - NO VABBE\' AMO',
+            href: 'https://www.youtube.com/watch?v=EfPjKEp9Yi8'
+        },
+        {
+            src: '/img/animated/promessa.avif',
+            title: 'PROMESSA - NON SEMBRIAMO FELICI',
+            href: 'https://www.youtube.com/watch?v=Dzc7ROPYsv0'
+        },
+        {
+            src: '/img/animated/vmakicashback.avif',
+            title: 'VMAKI - CASHBACK FREESTYLE',
+            href: 'https://www.youtube.com/watch?v=bVNJ-XqnEB8'
+        },
+        {
+            src: '/img/animated/visinobianco.avif',
+            title: 'VISINO BIANCO - SUL MURO DELLA MIA VIA',
+            href: 'https://www.youtube.com/watch?v=9cqCdl0xqQs'
+        },
+        {
+            src: '/img/animated/theosadboy.avif',
+            title: 'THEO - SADBOY\'S BACK',
+            href: 'https://www.youtube.com/watch?v=dPCIJuikV-k'
+        },
+        {
+            src: '/img/animated/theopolverine.avif',
+            title: 'THEO - POLVERINE',
+            href: 'https://www.youtube.com/watch?v=0hZW4xDh4gM'
+        },
+        {
+            src: '/img/animated/kemiolodio.avif',
+            title: 'KEMIO - L\'ODIO CHE HAI PER ME',
+            href: 'https://www.youtube.com/watch?v=1HlkUitcfBk'
+        },
+        {
+            src: '/img/animated/berkelcampagna.avif',
+            title: 'CAMPAGNA BERKEL',
+            href: 'https://www.youtube.com/watch?v=3TInHJbLQ_0'
+        },
+        {
+            src: '/img/animated/correre.avif',
+            title: 'CORRERE',
+            href: 'https://www.youtube.com/watch?v=zU_r0IXwogQ'
+        },
+        {
+            src: '/img/animated/reelstolendreams.avif',
+            title: 'REEL - STOLEN DREAMS',
+            href: 'https://www.youtube.com/watch?v=6qXnD-GtuPE'
+        },
+        {
+            src: '/img/animated/visinobiancononmia.avif',
+            title: 'VISINO BIANCO - NON E\' MIA',
+            href: 'https://www.youtube.com/watch?v=7Hyt-DA7j9A'
+        },
+        /*{
+            src: '/img/animated/belehashishgum.avif',
+            title: 'BELE\' HASHISH GUM',
+            href: 'https://www.youtube.com/watch?v=-s-BQ_rQEP4'
+        },*/
+        {
+            src: '/img/animated/interfinal.avif',
+            title: 'INTER THE FINAL CHAPTER',
+            href: 'https://www.youtube.com/watch?v=31l2fGPfmiU'
+        },
+        {
+            src: '/img/animated/18kkwest.avif',
+            title: '18K - K WEST',
+            href: 'https://www.youtube.com/watch?v=q4I4KYWKN8E'
+        },
+        {
+            src: '/img/animated/maxibanna.avif',
+            title: 'MAXI B - ANNA',
+            href: 'https://www.youtube.com/watch?v=Et6KXARQ3tA'
+        },
+        {
+            src: '/img/animated/silentbobwtf.avif',
+            title: 'SILENT BOB - WTF',
+            href: 'https://www.youtube.com/watch?v=Pc-4-yoMfWo'
+        },
+        {
+            src: '/img/animated/heretobe.avif',
+            title: 'HERE TO BE - GQxBOGGIMILANO',
+            href: 'https://www.youtube.com/watch?v=gWXnY9FjUhg'
+        },
+        {
+            src: '/img/animated/matchjonathan.avif',
+            title: 'MATCH JONATHAN - BOX FIGHTING',
+            href: 'https://www.youtube.com/watch?v=FRGqhhSh74U'
+        },
+        {
+            src: '/img/animated/18kbnkr44.avif',
+            title: '18K - BNKR44 - LONTANO',
+            href: 'https://www.youtube.com/watch?v=l6f2Ocw2dSk'
+        },
+        {
+            src: '/img/animated/naughtylaundry.avif',
+            title: 'Naughty Laundry',
+            href: 'https://www.youtube.com/watch?v=df2McE8HWAQ'
+        },
+        {
+            src: '/img/animated/beauty.avif',
+            title: 'BEAUTY - HORROR',
+            href: 'https://www.youtube.com/watch?v=dX-gVUVatfA'
+        },
+        {
+            src: '/img/animated/365.avif',
+            title: '365',
+            href: 'https://www.youtube.com/watch?v=GmCXYQkDTDc'
+        },
+        {
+            src: '/img/animated/cartomancer.avif',
+            title: 'Cartomancer',
+            href: 'https://www.youtube.com/watch?v=nB4wAcvS3BQ'
+        },
+        {
+            src: '/img/animated/hunkwick.avif',
+            title: 'Hunkwick',
+            href: 'https://www.youtube.com/watch?v=fIEVIOEgCBA'
+        },
+        {
+            src: '/img/animated/nolightindeepness.avif',
+            title: 'No Light in Deepness',
+            href: 'https://www.youtube.com/watch?v=kjOIvL3PduI'
+        },
+        {
+            src: '/img/animated/serpe.avif',
+            title: 'Serpe',
+            href: 'https://www.youtube.com/watch?v=i14DAZqbb4U'
+        },
+        {
+            src: '/img/animated/sonofuoco.avif',
+            title: 'Sono Fuoco',
+            href: 'https://www.youtube.com/watch?v=OyEEGCCFLqM'
+        },
+        {
+            src: '/img/animated/visione.avif',
+            title: 'Visione',
+            href: 'https://www.youtube.com/watch?v=w2rkjSlp604'
+        },
+        {
+            src: '/img/animated/possession.avif',
+            title: 'Possession',
+            href: 'https://www.youtube.com/watch?v=Jy-bTo98IE0'
+        },
+        {
+            src: '/img/animated/noescape.avif',
+            title: 'No Escape',
+            href: 'https://www.youtube.com/watch?v=YA6ITZEdgq8'
+        },
+        {
+            src: '/img/animated/kemiocuoreinarresto.avif',
+            title: 'KEMIO - CUORE IN ARRESTO',
+            href: 'https://www.youtube.com/watch?v=fsR0g5w7_oA'
+        },
+        {
+            src: '/img/animated/jemeldiva.avif',
+            title: 'Jemel - Diva',
+            href: 'https://www.youtube.com/watch?v=wW766XaiSkA'
+        },
+        {
+            src: '/img/animated/lacrimeesudore.avif',
+            title: 'Lacrime e Sudore',
+            href: 'https://www.youtube.com/watch?v=5gw4uN2MUSE'
+        },
+    ];
 </script>
 
-<!-- BODY -->
-<div class="container-fluid pt-lg-5 homepage-content">
+<!-- HOMEPAGE BODY -->
+<div class="container-fluid pt-lg-2 homepage-content">
 
-    <!-- Hero Section with Clean Typography -->
-        <section bind:this={heroSection} class="row g-0 py-5 d-flex align-items-center justify-content-center hero-section rounded-3">
-            <enhanced:img 
-                src={homeBg} 
-                alt="MZEYFILMS Background" 
-                class="hero-background" 
-                style="z-index: -2; transform: translateY({parallaxOffset}px);" 
-            />
-            <div class="hero-overlay" style="z-index: -1;"></div>
-            <div class="col-12 col-lg-8 text-center position-relative px-2">
-                <div class="pb-5">
-                    <h1 class="display-2 fw-bold theme-text-primary mb-4 hero-title">
-                        MZEYFILMS
-                    </h1>
-                    <p class="lead theme-text-secondary mb-5 fs-4 hero-subtitle">
-                        Professional cinematography and creative storytelling
-                    </p>
-
-                <div class="row justify-content-center g-4 mb-5">
-                    <div class="col-12 col-md-4">
-                        <a href="/videos" class="d-block text-decoration-none">
-                            <div class="modern-card p-4 h-100 hover-lift">
-                                <div class="mb-3">
-                                    <i class="fas fa-video fa-3x theme-text-primary"></i>
-                                </div>
-                                <h3 class="h4 theme-text-primary mb-2">Videos</h3>
-                                <p class="theme-text-secondary mb-0">Explore my video portfolio</p>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-12 col-md-4">
-                        <a href="/cinematography" class="d-block text-decoration-none">
-                            <div class="modern-card p-4 h-100 hover-lift">
-                                <div class="mb-3">
-                                    <i class="fas fa-clapperboard fa-3x theme-text-primary"></i>
-                                </div>
-                                <h3 class="h4 theme-text-primary mb-2">Cinematography</h3>
-                                <p class="theme-text-secondary mb-0">Browse my cinematography</p>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-12 col-md-4">
-                        <a href="/contacts" class="d-block text-decoration-none">
-                            <div class="modern-card p-4 h-100 hover-lift">
-                                <div class="mb-3">
-                                    <i class="fas fa-envelope fa-3x theme-text-primary"></i>
-                                </div>
-                                <h3 class="h4 theme-text-primary mb-2">Contact</h3>
-                                <p class="theme-text-secondary mb-0">Get in touch with me</p>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Featured Work Section -->
-    <section class="row g-4 py-5" id="featured-work">
-        <div class="col-12 text-center mb-5">
-            <h2 class="display-5 fw-bold theme-text-primary mb-3">Featured Work</h2>
-            <p class="lead theme-text-secondary">A selection of my award-winning projects</p>
-        </div>
-
-        <div class="col-12 col-lg-6 mb-4 mb-lg-0">
-            <div class="modern-card-enhanced overflow-hidden">
-                <enhanced:img class="img-fluid w-100" src={naughtyLaundry} alt="Naughty Laundry by MZEYFILMS"
-                              style="height: 400px; object-fit: cover;"/>
-                <div class="p-4">
-                    <h4 class="theme-text-primary mb-2">Naughty Laundry</h4>
-                    <!--<p class="theme-text-secondary mb-0">Creative cinematography project</p>-->
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12 col-lg-6">
-            <div class="modern-card-enhanced overflow-hidden">
-                <enhanced:img class="img-fluid w-100" src={noLightInDeepness} alt="No Light In Deepness by MZEYFILMS"
-                              style="height: 400px; object-fit: cover;"/>
-                <div class="p-4">
-                    <h4 class="theme-text-primary mb-2">No Light In Deepness</h4>
-                    <!--<p class="theme-text-secondary mb-0">Atmospheric storytelling</p>-->
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Preview Section -->
-    <section class="row g-0 py-5 mb-5 rounded-4" id="about-preview">
-        <div class="col-12 col-lg-8 mx-auto text-center">
-            <h2 class="display-5 fw-bold theme-text-primary mb-4">About MZEYFILMS</h2>
-            <p class="lead theme-text-secondary mb-4">
-                Always searching for new stories to tell.
+    <!-- Gallery Section -->
+    <section class="row g-0 py-4 py-lg-5" id="portfolio-gallery" aria-labelledby="gallery-heading">
+        <div class="col-12 text-center mb-4 mb-lg-5" data-aos="fade-down" data-aos-duration="500">
+            <h1 class="display-4 fw-bold theme-text-primary gallery-heading" id="gallery-heading">
+                MZEYFILMS
+            </h1>
+            <p class="lead theme-text-secondary gallery-subheading mt-2">
+                Hover to reveal — click to watch
             </p>
-            <a href="/about" class="btn theme-button btn-lg px-5 py-3">
-                Learn More About Me
-            </a>
+        </div>
+
+        <div class="col-12 px-2 px-md-4" data-aos="fade-up" data-aos-duration="600" data-aos-delay="100">
+            <AnimatedMasonry items={galleryItems} gap={12}/>
         </div>
     </section>
-
-    <!-- Contact Section -->
-    <!--<section class="row g-0 py-5" id="contact-section">
-        <div class="col-12 col-lg-10 mx-auto text-center">
-            <h2 class="display-5 fw-bold theme-text-primary mb-4">Get In Touch</h2>
-            <p class="lead theme-text-secondary mb-5">
-                Ready to bring your vision to life? Let's create something amazing together.
-            </p>
-            
-            <div class="row justify-content-center mb-5">
-                <div class="col-12 col-md-8">
-                    <div class="modern-card p-4 hover-lift">
-                        <div class="row align-items-center">
-                            <div class="col-12 col-md-8">
-                                <h4 class="theme-text-primary mb-2">Email Me</h4>
-                                <p class="theme-text-secondary mb-0">
-                                    <a href="mailto:manuel.zaffiro03@gmail.com" class="theme-text-secondary text-decoration-none">
-                                        manuel.zaffiro03@gmail.com
-                                    </a>
-                                </p>
-                            </div>
-                            <div class="col-12 col-md-4 text-center mt-3 mt-md-0">
-                                <a href="mailto:manuel.zaffiro03@gmail.com" aria-label="Email">
-                                    <i class="fas fa-envelope fa-3x theme-text-primary"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row justify-content-center">
-                <div class="col-12">
-                    <h4 class="theme-text-primary mb-4">Follow My Work</h4>
-                    <div class="row justify-content-center g-4">
-                        <div class="col-6 col-md-3">
-                            <a href="https://m.youtube.com/channel/UCx0Ih65Y_TU86li7eWuM4_g" target="_blank" 
-                               aria-label="YouTube" class="text-decoration-none">
-                                <div class="social-card text-center p-4 h-100">
-                                    <i class="fab fa-youtube fa-3x theme-text-primary mb-2"></i>
-                                    <p class="theme-text-secondary mb-0 small">YouTube</p>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-6 col-md-3">
-                            <a href="https://www.instagram.com/mzeyfilms/" target="_blank" 
-                               aria-label="Instagram" class="text-decoration-none">
-                                <div class="social-card text-center p-4 h-100">
-                                    <i class="fab fa-instagram fa-3x theme-text-primary mb-2"></i>
-                                    <p class="theme-text-secondary mb-0 small">Instagram</p>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-6 col-md-3">
-                            <a href="https://open.spotify.com/show/22Nsi7J93FcN6kICu6hEaS" target="_blank" 
-                               aria-label="Spotify" class="text-decoration-none">
-                                <div class="social-card text-center p-4 h-100">
-                                    <i class="fab fa-spotify fa-3x theme-text-primary mb-2"></i>
-                                    <p class="theme-text-secondary mb-0 small">Spotify</p>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-6 col-md-3">
-                            <a href="https://music.amazon.it/podcasts/1b46e8c5-0b6a-4882-b634-8d18ef578804/tachipistorie" 
-                               target="_blank" aria-label="Amazon Music" class="text-decoration-none">
-                                <div class="social-card text-center p-4 h-100">
-                                    <i class="fab fa-amazon fa-3x theme-text-primary mb-2"></i>
-                                    <p class="theme-text-secondary mb-0 small">Amazon Music</p>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>-->
 
 </div>
 
 <style>
-    .hero-section {
-        position: relative;
-        overflow: hidden;
+    .gallery-heading {
+        letter-spacing: 0.08em;
+        font-size: clamp(2rem, 6vw, 3.5rem);
     }
 
-    .hero-background {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        z-index: 1;
+    .gallery-subheading {
+        letter-spacing: 0.12em;
+        font-size: clamp(0.85rem, 2vw, 1.1rem);
+        text-transform: uppercase;
+        opacity: 0.6;
     }
 
-    .hero-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-            135deg,
-            rgba(0, 0, 0, 0.7) 0%,
-            rgba(0, 0, 0, 0.5) 50%,
-            rgba(0, 0, 0, 0.7) 100%
-        );
-        z-index: 2;
+    #portfolio-gallery {
+        min-height: 60vh;
     }
 
-    .hero-title {
-        color: #ffffff;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-        z-index: 3;
-    }
-
-    .hero-subtitle {
-        color: #f8f9fa;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-        z-index: 3;
-    }
-
-    #about-preview {
-        background: rgba(0, 0, 0, 0.13);
-    }
-
-    /*
-    .social-card {
-        border-radius: 12px;
-        border: 2px solid var(--border-gray);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        background: #ffffff;
-    }
-
-    .social-card:hover {
-        border-color: var(--primary-black);
-        transform: translateY(-4px);
-        box-shadow: 0 8px 25px var(--shadow-medium);
-    }
-
-    .social-card i {
-        transition: all 0.3s ease-in-out;
-    }
-
-    .social-card:hover i {
-        transform: scale(1.1);
-    }*/
-
-    .modern-card {
-        border-radius: 12px;
-        border: 2px solid var(--border-gray);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        background: #ffffff;
-    }
-
-    .modern-card:hover {
-        border-color: var(--primary-black);
-        transform: translateY(-8px);
-        box-shadow: 0 12px 40px var(--shadow-medium);
-    }
-
-    .modern-card-enhanced {
-        border-radius: 16px;
-        border: 2px solid var(--border-gray);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        background: #ffffff;
-    }
-
-    .modern-card-enhanced:hover {
-        border-color: var(--primary-black);
-        transform: translateY(-12px);
-        box-shadow: 0 20px 60px var(--shadow-strong);
-    }
-
-    .hover-lift {
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .hover-lift:hover {
-        transform: translateY(-4px);
-    }
-
-    .homepage-content .fas {
-        transition: all 0.3s ease-in-out;
-    }
-
-    .homepage-content .modern-card:hover .fas {
-        transform: scale(1.1);
-    }
-
-    .display-2 {
-        letter-spacing: -0.02em;
-    }
-
-    .display-5 {
-        letter-spacing: -0.01em;
-    }
-
-    .lead {
-        font-weight: 400;
-        line-height: 1.6;
-    }
-
-    @media (max-width: 768px) {
-        .display-2 {
-            font-size: 2.5rem;
-        }
-
-        .display-5 {
+    @media (max-width: 575px) {
+        .gallery-heading {
             font-size: 2rem;
         }
-
-        #featured-work,
-        #about-preview/*,
-        #contact-section*/ {
-            padding-top: 2rem;
-            padding-bottom: 2rem;
-        }
-
-        .hero-overlay {
-            background: linear-gradient(
-                135deg,
-                rgba(0, 0, 0, 0.8) 0%,
-                rgba(0, 0, 0, 0.6) 50%,
-                rgba(0, 0, 0, 0.8) 100%
-            );
-        }
-
-        /*.social-card {
-            padding: 1rem;
-        }
-
-        .social-card i {
-            font-size: 2rem;
-        }*/
     }
 </style>

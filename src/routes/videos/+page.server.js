@@ -2,7 +2,7 @@ const pageSize = 2;
 
 async function fetchVideos(page, pb) {
     return await pb.collection('videos').getList(page, pageSize, {
-        sort: '+created',
+        sort: '-created',
     });
 }
 

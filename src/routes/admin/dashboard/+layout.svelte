@@ -13,8 +13,8 @@
     const options = {
         duration: 3000,
         theme: {
-            '--toastBackground': '#ffffff',
-            '--toastColor': '#333333',
+            '--toastBackground': '#1a1a1a',
+            '--toastColor': '#ffffff',
             '--toastBarBackground': '#2196f3',
             '--toastBtnContent': '❌',
             '--toastBorderRadius': '0.5rem',
@@ -31,7 +31,7 @@
 </script>
 
 <div class="admin">
-    <nav class="navbar navbar-expand navbar-light bg-light bg-opacity-25 mt-2 mb-2 mx-1 text-center rounded-4">
+    <nav class="navbar navbar-expand navbar-dark bg-black bg-opacity-50 mt-2 mb-2 mx-1 text-center rounded-4">
         <div class="container-fluid justify-content-evenly fs-5">
             <a class="navbar-link p-2 pb-1 px-3 rounded-4 text-decoration-none { page.url.pathname === '/admin/dashboard/videos' ? 'aperto border border-primary bg-primary bg-opacity-10' : '' }" href="/admin/dashboard/videos">
                 <i class="fas fa-video"></i>

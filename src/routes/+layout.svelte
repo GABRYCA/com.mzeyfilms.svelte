@@ -282,15 +282,17 @@
 
     .navbar-title {
         font-size: 1.8rem;
-        font-weight: 700;
-        color: var(--primary-black) !important;
-        letter-spacing: -0.02em;
+        font-weight: 400 !important;
+        color: #d50000 !important;
+        letter-spacing: 0.1em;
+        text-shadow: 0 0 1px rgba(213, 0, 0, 0.8), 0 4px 12px rgba(213, 0, 0, 0.3) !important;
     }
 
     .navbar-subtitle {
         font-size: 0.9rem;
-        color: var(--light-black) !important;
-        font-weight: 400;
+        color: #e57373 !important;
+        font-weight: 400 !important;
+        letter-spacing: 0.08em;
     }
 
     .navbar-title-link {
@@ -298,12 +300,14 @@
     }
 
     .nav-link {
-        color: var(--primary-black) !important;
-        font-weight: 500;
+        color: #d50000 !important;
+        font-weight: 400 !important;
+        letter-spacing: 0.08em;
         position: relative;
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         padding: 0.75rem 1rem !important;
         overflow: hidden;
+        text-shadow: 0px 0px 1px rgba(213, 0, 0, 0.5);
     }
 
     .nav-link::before {
@@ -313,8 +317,8 @@
         left: 50%;
         transform: translateX(-50%);
         width: 0;
-        height: 3px;
-        background: linear-gradient(90deg, var(--primary-black), var(--soft-black));
+        height: 2px;
+        background: linear-gradient(90deg, #d50000, #ff5252);
         transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         border-radius: 2px;
     }
@@ -326,12 +330,18 @@
 
     .nav-link:hover,
     .nav-link.active {
-        color: var(--primary-black) !important;
+        color: #ff5252 !important;
         transform: translateY(-2px);
+        text-shadow: 0 0 10px rgba(255, 82, 82, 0.6), 0px 0px 1px rgba(255, 82, 82, 0.8);
     }
 
-    .nav-link.active {
-        font-weight: 600;
+    :global(.navbar-icon) {
+        color: #d50000 !important;
+        text-shadow: 0 0 1px rgba(213, 0, 0, 0.5);
+    }
+    :global(.navbar-icon:hover) {
+        color: #ff5252 !important;
+        text-shadow: 0 0 10px rgba(255, 82, 82, 0.6);
     }
 
     .nav-item {
@@ -341,7 +351,7 @@
 
     .theme-main-container {
         background: #000000;
-        border-top: 0px solid var(--border-gray);
+        border-top: 0 solid var(--border-gray);
         box-shadow: 0 -2px 20px var(--shadow-light);
     }
 </style>

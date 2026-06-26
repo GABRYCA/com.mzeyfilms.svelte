@@ -1,20 +1,9 @@
 <script>
     import AnimatedMasonry from '$lib/components/AnimatedMasonry.svelte';
     import { PUBLIC_POCKETBASE_URL_IMG_API } from '$env/static/public';
+    import {createSlug} from "$lib/utils/slugify.js";
 
     let { data } = $props();
-
-    function createSlug(title) {
-        if (!title) return '';
-        return title
-            .toLowerCase()
-            .trim()
-            .replace(/[\s_]+/g, '-')
-            .replace(/[^\w\-]+/g, '')
-            .replace(/\-\-+/g, '-')
-            .replace(/^-+/, '')
-            .replace(/-+$/, '');
-    }
 
     let galleryItems = $derived.by(() => {
         if (!data.videos) return [];

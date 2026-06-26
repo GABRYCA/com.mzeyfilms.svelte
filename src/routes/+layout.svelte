@@ -117,7 +117,7 @@
         <div class="d-flex justify-content-between w-100 d-lg-none">
             <!-- Navbar title Mobile -->
             <a class="text-decoration-none navbar-title-link my-auto pt-1 navbar-title d-lg-none hover-lift" href="/">
-                <p class="navbar-title mb-0 enhanced-text">MZEYFILMS</p>
+                <p class="navbar-title ms-3 mb-0 enhanced-text">MZEYFILMS</p>
                 <!--<p class="navbar-subtitle mb-0 theme-text-secondary">
                     {@html page.data.subtitle}
                 </p>-->
@@ -354,5 +354,17 @@
         background: #000000;
         border-top: 0 solid var(--border-gray);
         box-shadow: 0 -2px 20px var(--shadow-light);
+    }
+
+    .navbar-toggler {
+        border: none !important;
+    }
+
+    .navbar-toggler:focus,
+    .navbar-toggler:active,
+    .navbar-toggler:focus-visible {
+        outline: none !important;
+        box-shadow: none !important;
+        background-color: transparent !important;
     }
 </style>

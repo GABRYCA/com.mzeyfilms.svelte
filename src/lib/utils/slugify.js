@@ -67,3 +67,15 @@ export function extractId(param) {
 
     return null;
 }
+
+export function createSlug(title) {
+    if (!title) return '';
+    return title
+        .toLowerCase()
+        .trim()
+        .replace(/[\s_]+/g, '-')
+        .replace(/[^\w\-]+/g, '')
+        .replace(/\-\-+/g, '-')
+        .replace(/^-+/, '')
+        .replace(/-+$/, '');
+}

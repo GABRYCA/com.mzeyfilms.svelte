@@ -6,7 +6,7 @@
     let film = $derived(data.film);
 </script>
 
-<div class="container py-5 my-4 fade-in-up">
+<div class="container py-lg-5 pb-5 my-lg-5 mb-5 mt-4 fade-in-up">
     <header class="text-center mb-5">
         {#if film.name}
             <h1 class="enhanced-text display-6 mb-3">

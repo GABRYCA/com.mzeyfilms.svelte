@@ -20,8 +20,8 @@
 <!-- Contacts Page -->
 <div class="container-fluid">
 
-    <div class="container-fluid min-vh-100 d-flex flex-column pt-5">
-        <div class="container text-center text-container mt-4 hero-content" class:loaded={isLoaded}>
+    <div class="container-fluid min-vh-100 d-flex flex-column mt-lg-4 pt-lg-5">
+        <div class="container text-center text-container hero-content" class:loaded={isLoaded}>
             <h1 class="enhanced-text display-4 mb-4">Contact</h1>
 
             <p class="theme-text-secondary mx-auto mb-5 description-text">

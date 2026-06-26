@@ -141,7 +141,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link hover-lift { page.url.pathname === '/contacts' ? 'active' : '' }"
-                           href="/contacts">Contacts</a>
+                           href="/contacts">Contact</a>
                     </li>
                 </ul>
                 <!-- Navbar Title Desktop -->

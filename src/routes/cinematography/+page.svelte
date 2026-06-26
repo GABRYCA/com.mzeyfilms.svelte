@@ -109,7 +109,7 @@
 
 <div class="container-fluid px-3 pt-3 pt-lg-5" data-aos="fade-up" data-aos-duration="600">
     <!-- Header Section -->
-    <div class="row align-items-center min-vh-50 my-4 my-lg-5">
+    <!--<div class="row align-items-center min-vh-50 my-4 my-lg-5">
         <div class="col-lg-8 mx-auto text-center">
             <div class="hero-content" class:loaded={isLoaded}>
                 <h1 class="enhanced-text display-4 mb-1 mb-lg-4">
@@ -120,7 +120,7 @@
                 </p>
             </div>
         </div>
-    </div>
+    </div>-->
 
     <!-- Collection -->
     {#if content?.length > 0}

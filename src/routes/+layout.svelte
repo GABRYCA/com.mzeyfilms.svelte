@@ -118,9 +118,9 @@
             <!-- Navbar title Mobile -->
             <a class="text-decoration-none navbar-title-link my-auto pt-1 navbar-title d-lg-none hover-lift" href="/">
                 <p class="navbar-title mb-0 enhanced-text">MZEYFILMS</p>
-                <p class="navbar-subtitle mb-0 theme-text-secondary">
+                <!--<p class="navbar-subtitle mb-0 theme-text-secondary">
                     {@html page.data.subtitle}
-                </p>
+                </p>-->
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -145,12 +145,12 @@
                     </li>
                 </ul>
                 <!-- Navbar Title Desktop -->
-                <div class="col-12 col-lg-4 d-none d-lg-block">
+                <div class="col-12 col-lg-4 d-none d-lg-block py-4">
                     <a class="text-decoration-none navbar-title-link py-0 hover-lift" href="/">
                         <p class="navbar-title mb-0 enhanced-text text-glow">MZEYFILMS</p>
-                        <p class="navbar-subtitle mb-0 theme-text-secondary">
+                        <!--<p class="navbar-subtitle mb-0 theme-text-secondary">
                             {@html page.data.subtitle}
-                        </p>
+                        </p>-->
                     </a>
                 </div>
                 <!-- Navbar socials -->
@@ -281,19 +281,20 @@
     }
 
     .navbar-title {
-        font-size: 1.8rem;
-        font-weight: 400 !important;
+        font-family: "GloryCulture", serif;
+        font-size: 2.1rem;
+        font-weight: normal !important;
         color: #d50000 !important;
         letter-spacing: 0.1em;
         text-shadow: 0 0 1px rgba(213, 0, 0, 0.8), 0 4px 12px rgba(213, 0, 0, 0.3) !important;
     }
 
-    .navbar-subtitle {
+    /*.navbar-subtitle {
         font-size: 0.9rem;
         color: #e57373 !important;
         font-weight: 400 !important;
         letter-spacing: 0.08em;
-    }
+    }*/
 
     .navbar-title-link {
         word-wrap: break-word;

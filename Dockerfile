@@ -1,7 +1,7 @@
 FROM node:25-alpine AS builder
 WORKDIR /app
 
-RUN apk add --no-cache python3 && ln -s /usr/bin/python3 /usr/bin/python
+RUN apk add --no-cache python3 && ln -sf /usr/bin/python3 /usr/bin/python
 
 COPY package*.json ./
 RUN npm ci

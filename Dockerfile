@@ -13,6 +13,11 @@ RUN npm prune --production
 FROM node:25-alpine
 WORKDIR /app
 
+RUN apk add --no-cache ffmpeg python3 py3-pip \
+	&& pip3 install --no-cache-dir --break-system-packages -U yt-dlp \
+	&& ffmpeg -version \
+	&& yt-dlp --version
+
 COPY --from=builder /app/build ./build
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json

@@ -31,6 +31,22 @@
         newCredits = newCredits.filter((_, i) => i !== index);
     }
 
+    /**
+     * After background AVIF generation starts, re-fetch video list a few times
+     * so HD/SD badges update without a full page reload.
+     */
+    function pollForPreviewUpdates() {
+        let attempts = 0;
+        const maxAttempts = 12;
+        const intervalMs = 30_000;
+
+        const timer = setInterval(async () => {
+            attempts += 1;
+            await invalidateAll();
+            if (attempts >= maxAttempts) clearInterval(timer);
+        }, intervalMs);
+    }
+
     async function handleUpload(event) {
         event.preventDefault();
         if (isUploading) return;
@@ -56,14 +72,22 @@
         await invalidateAll();
 
         if (result.type === 'success') {
-            toast.push('Video aggiunto con successo', {
-                theme: { '--toastBackground': '#4caf50' }
-            });
+            const generating = result.data?.body?.generatingPreviews;
+            toast.push(
+                generating
+                    ? 'Video aggiunto. Generazione anteprime AVIF in corso in background (può richiedere alcuni minuti)...'
+                    : 'Video aggiunto con successo',
+                {
+                    theme: { '--toastBackground': '#4caf50' },
+                    duration: generating ? 12000 : 4000
+                }
+            );
+            if (generating) pollForPreviewUpdates();
             formEl.reset();
             newCredits = [];
             showAdvanced = false;
         } else {
-            toast.push('Errore durante il caricamento', {
+            toast.push(result.data?.body?.message || 'Errore durante il caricamento', {
                 theme: { '--toastBackground': '#f44336' }
             });
         }
@@ -84,7 +108,11 @@
     <div class="row bg-black bg-opacity-50 border border-secondary border-opacity-25 pt-4 pb-4 px-3 mx-1 rounded-4">
         <div class="col-12 text-start">
             <h3 class="h3 mb-1">Aggiungi <b>VIDEO</b>:</h3>
-            <p class="text-secondary mb-3">Aggiungi un filmato e configura opzioni avanzate</p>
+            <p class="text-secondary mb-3">
+                Aggiungi un filmato e configura opzioni avanzate.
+                Se non carichi le anteprime animate, verranno generate automaticamente dal video YouTube
+                (~7 secondi da t=2s di default, HD max 480px / SD max 240px).
+            </p>
 
             <form method="post" enctype="multipart/form-data" action="?/upload" onsubmit={handleUpload}>
                 <div class="row g-3">
@@ -116,18 +144,38 @@
 
                 {#if showAdvanced}
                     <div class="row mt-3 p-3 bg-dark bg-opacity-50 border border-secondary border-opacity-20 rounded-3 g-3">
-                        <div class="col-12 col-md-6">
-                            <label class="form-label small text-white">Preview Animata HD (.webp, .avif, .gif)</label>
-                            <input type="file" name="animatedhighres" accept=".webp,.avif,.gif" class="form-control bg-dark text-white border-secondary">
+                        <div class="col-12">
+                            <p class="small text-secondary mb-0">
+                                <i class="fa-solid fa-wand-magic-sparkles me-1"></i>
+                                Opzionale: lascia vuoto le anteprime per auto-generare AVIF animati da YouTube (richiede ffmpeg + yt-dlp sul server).
+                            </p>
                         </div>
-                        <div class="col-12 col-md-6">
-                            <label class="form-label small text-white">Preview Animata SD (.webp, .avif, .gif)</label>
-                            <input type="file" name="animatedlowres" accept=".webp,.avif,.gif" class="form-control bg-dark text-white border-secondary">
+                        <div class="col-12 col-md-4">
+                            <label class="form-label small text-white" for="previewStartUpload">Inizio clip auto-preview (secondi)</label>
+                            <input
+                                id="previewStartUpload"
+                                type="number"
+                                name="previewStart"
+                                min="0"
+                                step="0.5"
+                                value="2"
+                                class="form-control bg-dark text-white border-secondary"
+                                placeholder="2"
+                            >
+                            <div class="form-text text-secondary">Default 2s. Accetta anche mm:ss se digiti a mano altrove.</div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label class="form-label small text-white" for="animatedhighresUpload">Preview Animata HD (.webp, .avif, .gif)</label>
+                            <input id="animatedhighresUpload" type="file" name="animatedhighres" accept=".webp,.avif,.gif" class="form-control bg-dark text-white border-secondary">
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label class="form-label small text-white" for="animatedlowresUpload">Preview Animata SD (.webp, .avif, .gif)</label>
+                            <input id="animatedlowresUpload" type="file" name="animatedlowres" accept=".webp,.avif,.gif" class="form-control bg-dark text-white border-secondary">
                         </div>
                         <div class="col-12">
-                            <label class="form-label small text-white">Credits / Sottotitoli</label>
+                            <label class="form-label small text-white" for="newCreditInput">Credits / Sottotitoli</label>
                             <div class="input-group mb-2">
-                                <input type="text" bind:value={newCreditInput} class="form-control bg-dark text-white border-secondary" placeholder="Es: Regia: Alice Rossi">
+                                <input id="newCreditInput" type="text" bind:value={newCreditInput} class="form-control bg-dark text-white border-secondary" placeholder="Es: Regia: Alice Rossi">
                                 <button type="button" class="btn btn-primary" onclick={addQuickCredit}>Aggiungi</button>
                             </div>
 

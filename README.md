@@ -1,6 +1,7 @@
 ## Requirements:
 - Deployment of [Pocketbase](https://pocketbase.io/) and [next-image-transformation](https://github.com/coollabsio/next-image-transformation) publicly available (then fill .env appropriately).
 - Coolify (Or any other hosting or self-hosted alternative that supports Docker).
+- For automatic YouTube → animated AVIF previews (admin video upload): **ffmpeg** (with libaom-av1) and **yt-dlp** on the server. The production Dockerfile installs both. For local admin testing without Docker, install them on your machine (or rely on the bundled `yt-dlp-exec` binary + a system `ffmpeg`).
 
 
 

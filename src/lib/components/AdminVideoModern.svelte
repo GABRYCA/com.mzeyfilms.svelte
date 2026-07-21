@@ -17,15 +17,86 @@
 
     let isUpdating = $state(false);
     let isDeleting = $state(false);
+    let isGenerating = $state(false);
     let creditInputLine = $state('');
+    /** Clip start for auto AVIF generation (seconds). Default skips first 2s. */
+    let previewStart = $state(2);
 
     let videoId = $derived(getYoutubeId(url));
+    let missingPreviews = $derived(!video.animatedhighresUrl || !video.animatedlowresUrl);
 
     function getYoutubeId(urlPath) {
         if (!urlPath) return '';
         const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
         const match = urlPath.match(regExp);
         return (match && match[2].length === 11) ? match[2] : urlPath.split('/').pop();
+    }
+
+    function pollForPreviewUpdates() {
+        let attempts = 0;
+        const maxAttempts = 12;
+        const timer = setInterval(async () => {
+            attempts += 1;
+            await invalidateAll();
+            if (attempts >= maxAttempts) clearInterval(timer);
+        }, 30_000);
+    }
+
+    async function generatePreviews(force = false) {
+        if (isGenerating) return;
+
+        if (force) {
+            const ok = window.confirm(
+                'Rigenerare le anteprime animate da YouTube?\nLe anteprime esistenti verranno sovrascritte quando la generazione termina.'
+            );
+            if (!ok) return;
+        }
+
+        isGenerating = true;
+        const toastId = toast.push(
+            'Generazione anteprime AVIF avviata in background (può richiedere alcuni minuti)...',
+            { duration: 600000 }
+        );
+
+        const data = new FormData();
+        data.append('id', video.id);
+        data.append('previewStart', String(previewStart ?? 2));
+        if (force) data.append('force', 'true');
+
+        try {
+            const response = await fetch('?/generatePreviews', {
+                method: 'POST',
+                body: data
+            });
+            const result = deserialize(await response.text());
+            toast.pop(toastId);
+
+            if (result.type === 'success') {
+                const generating = result.data?.body?.generatingPreviews;
+                toast.push(
+                    generating
+                        ? 'Generazione in corso. Le badge HD/SD si aggiorneranno a breve.'
+                        : (result.data?.body?.message || 'Anteprime già presenti'),
+                    {
+                        theme: { '--toastBackground': '#28a745' },
+                        duration: generating ? 10000 : 4000
+                    }
+                );
+                if (generating) pollForPreviewUpdates();
+                await invalidateAll();
+            } else {
+                toast.push(result.data?.body?.message || 'Errore durante la generazione', {
+                    theme: { '--toastBackground': '#dc3545' }
+                });
+            }
+        } catch (err) {
+            toast.pop(toastId);
+            toast.push('Errore di rete durante la generazione', {
+                theme: { '--toastBackground': '#dc3545' }
+            });
+        }
+
+        isGenerating = false;
     }
 
     function addCreditLine() {
@@ -159,7 +230,23 @@
         </div>
     </div>
 
-    <div class="d-flex justify-content-end gap-2 border-top border-secondary border-opacity-25 pt-2 mt-2">
+    <div class="d-flex justify-content-end flex-wrap gap-2 border-top border-secondary border-opacity-25 pt-2 mt-2">
+        {#if missingPreviews}
+            <button
+                class="btn btn-outline-warning btn-sm border-0 bg-black bg-opacity-30 px-3"
+                onclick={() => generatePreviews(false)}
+                aria-label="Genera anteprime"
+                disabled={isGenerating}
+                title="Genera anteprime AVIF da YouTube"
+            >
+                {#if isGenerating}
+                    <span class="spinner-border spinner-border-sm me-1" role="status"></span>
+                {:else}
+                    <i class="fa-solid fa-wand-magic-sparkles me-1"></i>
+                {/if}
+                Genera
+            </button>
+        {/if}
         <button class="btn btn-outline-light btn-sm border-0 bg-black bg-opacity-30 px-3" data-bs-toggle="offcanvas" data-bs-target="#editVideo{video.id}" aria-label="Edit video">
             <i class="fa-solid fa-pen-to-square me-1"></i> Modifica
         </button>
@@ -195,6 +282,50 @@
 
             <div class="mb-4 text-start">
                 <h6 class="text-secondary small uppercase tracking-wide border-bottom border-secondary border-opacity-10 pb-1 mb-3">Anteprime Animate (GIF/WebP/Avif)</h6>
+
+                <div class="mb-3">
+                    <label class="form-label small text-secondary" for="previewStart{video.id}">Inizio clip (secondi)</label>
+                    <input
+                        id="previewStart{video.id}"
+                        type="number"
+                        min="0"
+                        step="0.5"
+                        bind:value={previewStart}
+                        class="form-control bg-dark text-white border-secondary"
+                        disabled={isGenerating}
+                    >
+                    <div class="form-text text-secondary">Default 2s. La preview dura ~7 secondi da questo punto.</div>
+                </div>
+
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                    <button
+                        type="button"
+                        class="btn btn-sm btn-outline-warning"
+                        onclick={() => generatePreviews(false)}
+                        disabled={isGenerating || !missingPreviews}
+                        title={missingPreviews ? 'Genera le anteprime mancanti da YouTube' : 'Anteprime già presenti — usa Rigenera'}
+                    >
+                        {#if isGenerating}
+                            <span class="spinner-border spinner-border-sm me-1" role="status"></span>
+                        {:else}
+                            <i class="fa-solid fa-wand-magic-sparkles me-1"></i>
+                        {/if}
+                        Genera mancanti
+                    </button>
+                    <button
+                        type="button"
+                        class="btn btn-sm btn-outline-secondary"
+                        onclick={() => generatePreviews(true)}
+                        disabled={isGenerating}
+                        title="Rigenera entrambe le anteprime da YouTube"
+                    >
+                        <i class="fa-solid fa-arrows-rotate me-1"></i>
+                        Rigenera
+                    </button>
+                </div>
+                <p class="small text-secondary mb-3">
+                    Auto da YouTube: ~7s da t={previewStart}s, HD max 480px, SD max 240px (.avif). Può richiedere alcuni minuti.
+                </p>
 
                 <div class="mb-3">
                     <label class="form-label small text-secondary">Anteprima Alta Risoluzione (HD)</label>

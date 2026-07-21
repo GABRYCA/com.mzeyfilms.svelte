@@ -113,6 +113,21 @@ export function getPhotoThumbnail(originalUrl) {
 }
 
 /**
+ * Tiny low-quality placeholder for blur-up loading.
+ * Loads almost instantly and reserves the real aspect ratio in the layout.
+ * @param {string} originalUrl - The original image URL
+ * @returns {string} - Placeholder image URL
+ */
+export function getPhotoPlaceholder(originalUrl) {
+    if (!originalUrl) return '';
+
+    return getOptimizedImageUrl(originalUrl, {
+        width: 24,
+        quality: 20
+    });
+}
+
+/**
  * Generate optimized image for modal/lightbox view
  * @param {string} originalUrl - The original image URL
  * @returns {Object} - Object with src and srcset

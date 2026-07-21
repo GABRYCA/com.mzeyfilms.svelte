@@ -1,6 +1,6 @@
 {
 	"name": "mzey-svelte",
-	"version": "0.2.7",
+	"version": "0.2.8",
 	"private": true,
 	"engines": {
 		"node": "25"
@@ -11,17 +11,17 @@
 		"preview": "vite preview"
 	},
 	"devDependencies": {
-		"@fortawesome/fontawesome-free": "^7.3.0",
+		"@fortawesome/fontawesome-free": "^7.3.1",
 		"@sveltejs/adapter-node": "^5.5.7",
 		"@sveltejs/enhanced-img": "^0.11.0",
 		"@sveltejs/kit": "2.69.0",
-		"@sveltejs/vite-plugin-svelte": "^7.1.2",
+		"@sveltejs/vite-plugin-svelte": "^7.2.0",
 		"@zerodevx/svelte-toast": "^0.9.6",
 		"aos": "^3.0.0-beta.6",
 		"bootstrap": "^5.3.8",
 		"jquery": "^4.0.0-beta.2",
 		"pocketbase": "^0.27.0",
-		"super-sitemap": "^2.0.4",
+		"super-sitemap": "^2.0.6",
 		"svelte": "5.56.4",
 		"uuid": "^14.0.1",
 		"vite": "8.1.3"

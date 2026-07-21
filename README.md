@@ -2,6 +2,7 @@
 - Deployment of [Pocketbase](https://pocketbase.io/) and [next-image-transformation](https://github.com/coollabsio/next-image-transformation) publicly available (then fill .env appropriately).
 - Coolify (Or any other hosting or self-hosted alternative that supports Docker).
 - For automatic YouTube → animated AVIF previews (admin video upload): **ffmpeg** (with libaom-av1) and **yt-dlp** on the server. The production Dockerfile installs both. For local admin testing without Docker, install them on your machine (or rely on the bundled `yt-dlp-exec` binary + a system `ffmpeg`).
+- On a VPS, YouTube often blocks datacenter IPs (`Sign in to confirm you're not a bot`). The app retries with android/ios/tv clients first. If that still fails, export Netscape cookies from a logged-in browser and set `YTDLP_COOKIES_FILE` (or `YTDLP_COOKIES`) — see `.env.example`.
 
 
 

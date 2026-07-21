@@ -1,5 +1,6 @@
 import { spawn } from 'node:child_process';
-import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { access, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { constants as fsConstants } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createRequire } from 'node:module';
@@ -17,6 +18,23 @@ const CPU_USED = 6;
 export const DEFAULT_PREVIEW_START_SECONDS = 2;
 
 const YT_REGEX = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\//i;
+
+/**
+ * Player clients tried in order when YouTube bot-checks datacenter IPs.
+ * Non-web clients (android/ios/tv) often work on VPS without browser cookies.
+ * @type {ReadonlyArray<{ label: string, extractorArgs?: string }>}
+ */
+const YT_PLAYER_STRATEGIES = [
+	{ label: 'android', extractorArgs: 'youtube:player_client=android' },
+	{ label: 'ios', extractorArgs: 'youtube:player_client=ios' },
+	{ label: 'tv', extractorArgs: 'youtube:player_client=tv' },
+	{ label: 'mweb', extractorArgs: 'youtube:player_client=mweb' },
+	{ label: 'default' }
+];
+
+/** Flexible format: prefer ≤720p video-only, then progressive, then anything */
+const YT_FORMAT =
+	'bestvideo[height<=720][ext=mp4]/bestvideo[height<=720]/best[height<=720]/best';
 
 /** @type {Promise<void>} */
 let generationQueue = Promise.resolve();
@@ -102,6 +120,88 @@ async function resolveYtDlpBinary() {
 }
 
 /**
+ * Optional auth / network args for yt-dlp (VPS bot detection workarounds).
+ *
+ * Env:
+ * - YTDLP_COOKIES_FILE: path to Netscape cookies.txt (recommended on VPS)
+ * - YTDLP_COOKIES: raw Netscape cookies content (written to a temp file)
+ * - YTDLP_PROXY: optional proxy URL (http://... or socks5://...)
+ * - YTDLP_EXTRA_ARGS: space-separated extra args (advanced)
+ *
+ * @param {string} [workDir] - temp dir for materializing YTDLP_COOKIES content
+ * @returns {Promise<{ args: string[], cleanup: () => Promise<void> }>}
+ */
+async function resolveYtDlpAuthArgs(workDir) {
+	/** @type {string[]} */
+	const args = [];
+	/** @type {string | null} */
+	let tempCookiesPath = null;
+
+	const cookiesFile = process.env.YTDLP_COOKIES_FILE?.trim();
+	const cookiesContent = process.env.YTDLP_COOKIES?.trim();
+	const proxy = process.env.YTDLP_PROXY?.trim();
+	const extra = process.env.YTDLP_EXTRA_ARGS?.trim();
+
+	if (cookiesFile) {
+		try {
+			await access(cookiesFile, fsConstants.R_OK);
+			args.push('--cookies', cookiesFile);
+			console.log(`[youtubePreview] Uso cookies da file: ${cookiesFile}`);
+		} catch {
+			console.warn(
+				`[youtubePreview] YTDLP_COOKIES_FILE non leggibile (${cookiesFile}); proseguo senza.`
+			);
+		}
+	} else if (cookiesContent && workDir) {
+		tempCookiesPath = join(workDir, 'youtube-cookies.txt');
+		// Support env values that used literal \n sequences
+		const normalized = cookiesContent.includes('\\n')
+			? cookiesContent.replace(/\\n/g, '\n')
+			: cookiesContent;
+		await writeFile(tempCookiesPath, normalized, 'utf8');
+		args.push('--cookies', tempCookiesPath);
+		console.log('[youtubePreview] Uso cookies da env YTDLP_COOKIES');
+	}
+
+	if (proxy) {
+		args.push('--proxy', proxy);
+		console.log(`[youtubePreview] Uso proxy: ${proxy}`);
+	}
+
+	if (extra) {
+		// Simple split; quote-aware parsing is unnecessary for known admin-set flags
+		// Example: YTDLP_EXTRA_ARGS=--js-runtimes node
+		args.push(...extra.split(/\s+/).filter(Boolean));
+	}
+
+	return {
+		args,
+		cleanup: async () => {
+			if (tempCookiesPath) {
+				await rm(tempCookiesPath, { force: true }).catch(() => {});
+			}
+		}
+	};
+}
+
+/**
+ * Build ordered download strategies. With cookies, try default client first;
+ * without cookies, prefer android/ios/tv which avoid web bot checks on VPS.
+ *
+ * @param {boolean} hasCookies
+ * @returns {ReadonlyArray<{ label: string, extractorArgs?: string }>}
+ */
+function buildPlayerStrategies(hasCookies) {
+	if (!hasCookies) return YT_PLAYER_STRATEGIES;
+
+	return [
+		{ label: 'cookies+default' },
+		{ label: 'cookies+android', extractorArgs: 'youtube:player_client=android' },
+		...YT_PLAYER_STRATEGIES
+	];
+}
+
+/**
  * @param {string} command
  * @param {string[]} args
  * @param {{ cwd?: string, timeoutMs?: number }} [options]
@@ -154,6 +254,27 @@ function runCommand(command, args, options = {}) {
 			}
 		});
 	});
+}
+
+/**
+ * Human-readable hint when YouTube blocks the VPS as a bot.
+ * @param {string} lastErrorMessage
+ */
+function botBlockHint(lastErrorMessage) {
+	const looksLikeBot =
+		/sign in to confirm|not a bot|cookies-from-browser|confirm you.re not a bot/i.test(
+			lastErrorMessage
+		);
+	if (!looksLikeBot) return '';
+
+	return (
+		'\n\nYouTube sta bloccando questo server (IP datacenter). Soluzioni:\n' +
+		'1) Esporta cookies Netscape da un browser loggato su YouTube e montali sul container:\n' +
+		'   - Env YTDLP_COOKIES_FILE=/run/secrets/youtube-cookies.txt\n' +
+		'   - Oppure YTDLP_COOKIES con il contenuto del file cookies.txt\n' +
+		'2) (Opzionale) YTDLP_PROXY verso un proxy residenziale\n' +
+		'Vedi: https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies'
+	);
 }
 
 /**
@@ -240,34 +361,158 @@ async function downscaleAnimatedAvif(inputPath, outputPath, width) {
 }
 
 /**
+ * Cut a short window from a remote stream URL into a local mp4.
+ * Tries libx264 first, then mpeg4 (some Alpine ffmpeg builds differ).
+ *
+ * @param {string} streamUrl
+ * @param {string} outputPath
+ * @param {number} start
+ * @param {number} duration
+ */
+async function cutStreamWithFfmpeg(streamUrl, outputPath, start, duration) {
+	const base = [
+		'-y',
+		'-hide_banner',
+		'-loglevel',
+		'error',
+		'-ss',
+		String(start),
+		'-i',
+		streamUrl,
+		'-t',
+		String(duration),
+		'-an',
+		'-pix_fmt',
+		'yuv420p',
+		'-movflags',
+		'+faststart'
+	];
+
+	try {
+		await runCommand(
+			'ffmpeg',
+			[...base, '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '23', outputPath],
+			{ timeoutMs: 5 * 60 * 1000 }
+		);
+	} catch {
+		await runCommand('ffmpeg', [...base, '-c:v', 'mpeg4', '-q:v', '6', outputPath], {
+			timeoutMs: 5 * 60 * 1000
+		});
+	}
+}
+
+/**
  * Download a short clip from YouTube for preview generation.
+ * Retries with multiple player clients so VPS / datacenter IPs can avoid
+ * the web "Sign in to confirm you're not a bot" check. Supports cookies via env.
+ *
  * @param {string} youtubeUrl
  * @param {string} outputPath
  * @param {number} startSeconds - absolute start in the source video
+ * @param {string} [workDir] - temp dir for cookie materialization
  */
-async function downloadYoutubeClip(youtubeUrl, outputPath, startSeconds = DEFAULT_PREVIEW_START_SECONDS) {
+async function downloadYoutubeClip(
+	youtubeUrl,
+	outputPath,
+	startSeconds = DEFAULT_PREVIEW_START_SECONDS,
+	workDir
+) {
 	const ytDlp = await resolveYtDlpBinary();
 	const start = Math.max(0, startSeconds);
 	const end = start + DURATION_SECONDS + DOWNLOAD_PAD_SECONDS;
+	const duration = DURATION_SECONDS + DOWNLOAD_PAD_SECONDS;
 
-	await runCommand(
-		ytDlp,
-		[
-			'--no-playlist',
-			'--no-warnings',
-			'--force-keyframes-at-cuts',
-			'--download-sections',
-			`*${start}-${end}`,
-			'-f',
-			'bestvideo[height<=720][ext=mp4]/bestvideo[height<=720]/best[height<=720]/best',
-			'--merge-output-format',
-			'mp4',
-			'-o',
-			outputPath,
-			youtubeUrl
-		],
-		{ timeoutMs: 5 * 60 * 1000 }
-	);
+	const { args: authArgs, cleanup } = await resolveYtDlpAuthArgs(workDir);
+	const hasCookies = authArgs.includes('--cookies');
+	const strategies = buildPlayerStrategies(hasCookies);
+
+	/** @type {Error | null} */
+	let lastError = null;
+
+	try {
+		for (const strategy of strategies) {
+			/** @type {string[]} */
+			const common = [
+				...authArgs,
+				'--no-playlist',
+				'--no-warnings',
+				'--force-overwrites',
+				'-f',
+				YT_FORMAT,
+				'--merge-output-format',
+				'mp4'
+			];
+			if (strategy.extractorArgs) {
+				common.push('--extractor-args', strategy.extractorArgs);
+			}
+
+			// 1) Preferred: yt-dlp section download (minimal bandwidth)
+			try {
+				console.log(
+					`[youtubePreview] Tentativo download (${strategy.label}, sections ${start}-${end}s)...`
+				);
+				await runCommand(
+					ytDlp,
+					[
+						...common,
+						'--force-keyframes-at-cuts',
+						'--download-sections',
+						`*${start}-${end}`,
+						'-o',
+						outputPath,
+						youtubeUrl
+					],
+					{ timeoutMs: 5 * 60 * 1000 }
+				);
+				console.log(`[youtubePreview] Download OK con strategia: ${strategy.label}`);
+				return;
+			} catch (err) {
+				lastError = err instanceof Error ? err : new Error(String(err));
+				console.warn(
+					`[youtubePreview] Sections fallita (${strategy.label}): ${lastError.message.split('\n')[0]}`
+				);
+			}
+
+			// 2) Fallback: resolve direct stream URL, let ffmpeg cut the window
+			try {
+				console.log(
+					`[youtubePreview] Tentativo stream URL + ffmpeg (${strategy.label}, start=${start}s)...`
+				);
+				// -g prints one URL per selected format (video first when video+audio)
+				const { stdout } = await runCommand(ytDlp, [...common, '-g', youtubeUrl], {
+					timeoutMs: 2 * 60 * 1000
+				});
+				const streamUrl = stdout
+					.trim()
+					.split(/\r?\n/)
+					.map((l) => l.trim())
+					.filter((l) => /^https?:\/\//i.test(l))
+					.at(0);
+
+				if (!streamUrl) {
+					throw new Error('Nessun URL stream restituito da yt-dlp -g');
+				}
+
+				await cutStreamWithFfmpeg(streamUrl, outputPath, start, duration);
+				console.log(
+					`[youtubePreview] Download OK con strategia: ${strategy.label} (ffmpeg stream)`
+				);
+				return;
+			} catch (err) {
+				lastError = err instanceof Error ? err : new Error(String(err));
+				console.warn(
+					`[youtubePreview] Stream+ffmpeg fallita (${strategy.label}): ${lastError.message.split('\n')[0]}`
+				);
+			}
+		}
+
+		const detail = lastError?.message || 'errore sconosciuto';
+		throw new Error(
+			`Impossibile scaricare clip YouTube dopo ${strategies.length} strategie: ${detail}${botBlockHint(detail)}`
+		);
+	} finally {
+		await cleanup();
+	}
 }
 
 /**
@@ -306,10 +551,11 @@ export async function generateAnimatedPreviews({
 			}
 
 			console.log(`[youtubePreview] Scarico clip da YouTube (start=${start}s)...`);
-			await downloadYoutubeClip(youtubeUrl, clipPath, start);
+			await downloadYoutubeClip(youtubeUrl, clipPath, start, workDir);
 
 			console.log('[youtubePreview] Codifico AVIF HD...');
-			// Clip already starts at `start`; encode from the beginning of the downloaded file
+			// Clip already starts at `start` for section downloads; for stream+ffmpeg
+			// the file also begins at the requested window — always encode from 0.
 			await encodeAnimatedAvif(clipPath, highPath, HIGH_WIDTH, 0);
 			const highBuffer = await readFile(highPath);
 			result.highres = new File([highBuffer], 'preview-hd.avif', { type: 'image/avif' });
@@ -342,7 +588,7 @@ export async function generateAnimatedPreviews({
 					throw new Error('URL YouTube valido richiesto per generare la preview SD');
 				}
 				console.log(`[youtubePreview] Scarico clip da YouTube per SD (start=${start}s)...`);
-				await downloadYoutubeClip(youtubeUrl, clipPath, start);
+				await downloadYoutubeClip(youtubeUrl, clipPath, start, workDir);
 				console.log('[youtubePreview] Codifico AVIF SD...');
 				await encodeAnimatedAvif(clipPath, lowPath, LOW_WIDTH, 0);
 			}

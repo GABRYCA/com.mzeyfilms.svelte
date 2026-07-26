@@ -281,11 +281,11 @@
     }
 
     .navbar-title {
-        font-family: "GloryCulture", serif;
+        font-family: "Cabinet Grotesk",sans-serif;
         font-size: 2.1rem;
-        font-weight: normal !important;
+        font-weight: 500 !important;
         color: #d50000 !important;
-        letter-spacing: 0.1em;
+        letter-spacing: 0.14em;
         text-shadow: 0 0 1px rgba(213, 0, 0, 0.8), 0 4px 12px rgba(213, 0, 0, 0.3) !important;
     }
 

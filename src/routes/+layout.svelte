@@ -242,10 +242,10 @@
         transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         margin-bottom: 0 !important;
         will-change: transform;
-        background: rgba(0, 0, 0, 0.95) !important;
-        backdrop-filter: blur(10px);
-        border-bottom: 0px solid var(--border-gray);
-        box-shadow: 0 4px 30px var(--shadow-light);
+        background: rgba(0, 0, 0, 0.82) !important;
+        backdrop-filter: blur(12px) saturate(0.85);
+        border-bottom: 1px solid rgba(197, 203, 212, 0.08);
+        box-shadow: 0 4px 28px rgba(0, 0, 0, 0.55);
     }
 
     .navbar-visible {
@@ -281,17 +281,22 @@
     }
 
     .navbar-title {
-        font-family: "Cabinet Grotesk",sans-serif;
+        font-family: "Cabinet Grotesk", sans-serif;
         font-size: 2.1rem;
         font-weight: 500 !important;
-        color: #d50000 !important;
+        color: var(--metal) !important;
         letter-spacing: 0.14em;
-        text-shadow: 0 0 1px rgba(213, 0, 0, 0.8), 0 4px 12px rgba(213, 0, 0, 0.3) !important;
+        /* Brushed-metal edge: bright top catch + dark undercut + soft steel bloom */
+        text-shadow:
+            0 1px 0 rgba(255, 255, 255, 0.38),
+            0 -1px 0 rgba(0, 0, 0, 0.55),
+            0 0 18px var(--metal-glow-soft),
+            0 4px 14px rgba(0, 0, 0, 0.55) !important;
     }
 
     /*.navbar-subtitle {
         font-size: 0.9rem;
-        color: #e57373 !important;
+        color: var(--metal-mid) !important;
         font-weight: 400 !important;
         letter-spacing: 0.08em;
     }*/
@@ -300,15 +305,26 @@
         word-wrap: break-word;
     }
 
+    .navbar-title-link:hover .navbar-title {
+        color: var(--metal-bright) !important;
+        text-shadow:
+            0 1px 0 rgba(255, 255, 255, 0.5),
+            0 -1px 0 rgba(0, 0, 0, 0.45),
+            0 0 24px var(--metal-glow),
+            0 4px 16px rgba(0, 0, 0, 0.5) !important;
+    }
+
     .nav-link {
-        color: #d50000 !important;
+        color: var(--metal-mid) !important;
         font-weight: 400 !important;
         letter-spacing: 0.08em;
         position: relative;
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         padding: 0.75rem 1rem !important;
         overflow: hidden;
-        text-shadow: 0px 0px 1px rgba(213, 0, 0, 0.5);
+        text-shadow:
+            0 1px 0 rgba(255, 255, 255, 0.12),
+            0 0 1px rgba(0, 0, 0, 0.4);
     }
 
     .nav-link::before {
@@ -318,10 +334,11 @@
         left: 50%;
         transform: translateX(-50%);
         width: 0;
-        height: 2px;
-        background: linear-gradient(90deg, #d50000, #ff5252);
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--metal), var(--metal-bright), var(--metal), transparent);
         transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        border-radius: 2px;
+        border-radius: 1px;
+        box-shadow: 0 0 8px var(--metal-glow-soft);
     }
 
     .nav-link:hover::before,
@@ -331,18 +348,21 @@
 
     .nav-link:hover,
     .nav-link.active {
-        color: #ff5252 !important;
+        color: var(--metal-bright) !important;
         transform: translateY(-2px);
-        text-shadow: 0 0 10px rgba(255, 82, 82, 0.6), 0px 0px 1px rgba(255, 82, 82, 0.8);
+        text-shadow:
+            0 1px 0 rgba(255, 255, 255, 0.35),
+            0 0 12px var(--metal-glow-soft),
+            0 0 1px rgba(232, 234, 237, 0.5);
     }
 
     :global(.navbar-icon) {
-        color: #d50000 !important;
-        text-shadow: 0 0 1px rgba(213, 0, 0, 0.5);
+        color: var(--metal-mid) !important;
+        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.12);
     }
     :global(.navbar-icon:hover) {
-        color: #ff5252 !important;
-        text-shadow: 0 0 10px rgba(255, 82, 82, 0.6);
+        color: var(--metal-bright) !important;
+        text-shadow: 0 0 12px var(--metal-glow);
     }
 
     .nav-item {
@@ -351,19 +371,21 @@
     }
 
     .theme-main-container {
-        background: #000000;
-        border-top: 0 solid var(--border-gray);
-        box-shadow: 0 -2px 20px var(--shadow-light);
+        background: rgba(0, 0, 0, 0.88);
+        border-top: 1px solid rgba(197, 203, 212, 0.08);
+        box-shadow: 0 -2px 24px rgba(0, 0, 0, 0.5);
     }
 
     .navbar-toggler {
         border: none !important;
+        filter: brightness(1.15) contrast(0.95);
     }
 
     .navbar-toggler:focus,
     .navbar-toggler:active,
     .navbar-toggler:focus-visible {
-        outline: none !important;
+        outline: 2px solid var(--metal-mid) !important;
+        outline-offset: 2px;
         box-shadow: none !important;
         background-color: transparent !important;
     }

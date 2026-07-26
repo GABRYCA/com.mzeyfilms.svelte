@@ -17,23 +17,64 @@
  }
 
 body {
-    background: linear-gradient(-45deg, #000000, #0a0a0a, #111111, #000000);
-    background-size: 400% 400%;
+    /* Deep black frame + soft white smoke volumes for cinematic depth */
+    background-color: #000000;
+    background-image:
+        radial-gradient(ellipse 90% 55% at 12% 28%, rgba(255, 255, 255, 0.07) 0%, transparent 58%),
+        radial-gradient(ellipse 70% 45% at 88% 72%, rgba(220, 228, 235, 0.055) 0%, transparent 52%),
+        radial-gradient(ellipse 55% 35% at 55% 18%, rgba(255, 255, 255, 0.045) 0%, transparent 48%),
+        radial-gradient(ellipse 80% 50% at 40% 88%, rgba(200, 210, 220, 0.04) 0%, transparent 55%),
+        radial-gradient(ellipse 40% 30% at 70% 40%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
+        linear-gradient(180deg, #050505 0%, #000000 40%, #030303 100%);
     background-attachment: fixed;
+    background-size: cover;
     overflow-x: hidden;
-    animation: gradientShift 15s ease infinite;
     color: #ffffff;
+    position: relative;
+    isolation: isolate;
 }
 
-@keyframes gradientShift {
+/* Fine dust / grain layer — white particulate on black for volume */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.55;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='dust'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23dust)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 180px 180px;
+    mix-blend-mode: screen;
+}
+
+/* Soft drifting smoke haze for depth (disabled when reduced motion) */
+body::after {
+    content: '';
+    position: fixed;
+    inset: -20%;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        radial-gradient(ellipse 35% 25% at 30% 40%, rgba(255, 255, 255, 0.06) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 30% at 70% 55%, rgba(210, 220, 230, 0.05) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 35% at 50% 80%, rgba(255, 255, 255, 0.035) 0%, transparent 60%);
+    animation: smokeDrift 28s ease-in-out infinite alternate;
+    will-change: transform, opacity;
+}
+
+@keyframes smokeDrift {
     0% {
-        background-position: 0% 50%;
+        transform: translate3d(-2%, 1%, 0) scale(1);
+        opacity: 0.85;
     }
     50% {
-        background-position: 100% 50%;
+        transform: translate3d(3%, -2%, 0) scale(1.05);
+        opacity: 1;
     }
     100% {
-        background-position: 0% 50%;
+        transform: translate3d(-1%, 2%, 0) scale(1.02);
+        opacity: 0.9;
     }
 }
 
@@ -58,6 +99,14 @@ html, body {
     --shadow-light: rgba(0, 0, 0, 0.4);
     --shadow-medium: rgba(0, 0, 0, 0.6);
     --shadow-strong: rgba(0, 0, 0, 0.8);
+
+    /* Photographer metallic — brushed steel on black */
+    --metal-bright: #e8eaed;
+    --metal: #c5cbd4;
+    --metal-mid: #9aa3b0;
+    --metal-dim: #7a8494;
+    --metal-glow: rgba(197, 203, 212, 0.35);
+    --metal-glow-soft: rgba(180, 190, 205, 0.18);
     
     --youtube-color: #ff0000;
     --youtube-hover: #cc0000;
@@ -637,22 +686,10 @@ html, body {
         scroll-behavior: auto !important;
     }
 
-    body {
+    body::after {
         animation: none !important;
-        background: #000000 !important;
-    }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-    body {
-        will-change: background-position;
-    }
-}
-
-@media (max-width: 768px) and (prefers-reduced-motion: no-preference) {
-    body {
-        animation-duration: 20s;
-        background-size: 200% 200%;
+        opacity: 0.75;
+        transform: none;
     }
 }
 

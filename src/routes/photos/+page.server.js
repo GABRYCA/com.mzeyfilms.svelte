@@ -1,6 +1,21 @@
 import { getOptimizedImageUrl } from '$lib/utils/imageOptimization.js';
 
 export async function load({ locals: { pb }, url}) {
+    if (!pb) {
+        return {
+            content: [],
+            title: 'MZEYFILMS - Photos',
+            description: 'Photography gallery by MZEYFILMS.',
+            totalImages: 0,
+            totalFolders: 0,
+            schemaOrg: false,
+            openGraph: false,
+            twitter: false,
+            canonical: 'https://mzeyfilms.com' + url.pathname,
+            author: 'MZEYFILMS',
+            imageURL: `${url.origin}/favicon.webp`
+        };
+    }
 
     let foldersWithImages = await pb.collection("folders").getFullList({
         fields: "name, id, expand",

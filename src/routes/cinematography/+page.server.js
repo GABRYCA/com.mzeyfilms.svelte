@@ -1,6 +1,21 @@
 import { getOptimizedImageUrl } from '$lib/utils/imageOptimization.js';
 
 export async function load({ locals: { pb }, url}) {
+    if (!pb) {
+        return {
+            content: [],
+            title: 'MZEYFILMS - Cinematography',
+            description: 'Professional cinematography gallery by MZEYFILMS.',
+            totalImages: 0,
+            schemaOrg: false,
+            openGraph: false,
+            twitter: false,
+            canonical: 'https://mzeyfilms.com' + url.pathname,
+            author: 'MZEYFILMS',
+            imageURL: `${url.origin}/favicon.webp`
+        };
+    }
+
     // Get images from images collection that have as folder "Cinematography"
     const cinematographyFolder = await pb.collection("folders").getFirstListItem('name="Cinematography"');
     const cinematographyImages = await pb.collection("images").getFullList({

@@ -31,7 +31,7 @@
     });
 </script>
 
-<div class="container-fluid pt-lg-2 homepage-content">
+<div class="container-fluid pt-lg-5 pt-xxl-2 homepage-content">
 
     <section class="row g-0 mb-4 pb-4 pb-lg-5" id="portfolio-gallery" aria-labelledby="gallery-heading">
 

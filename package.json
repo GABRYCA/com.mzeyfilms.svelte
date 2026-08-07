@@ -1,6 +1,6 @@
 {
 	"name": "mzey-svelte",
-	"version": "0.3.1",
+	"version": "0.3.2",
 	"private": true,
 	"engines": {
 		"node": "25"
@@ -20,7 +20,7 @@
 		"aos": "^3.0.0-beta.6",
 		"bootstrap": "^5.3.8",
 		"jquery": "^4.0.0-beta.2",
-		"pocketbase": "^0.27.0",
+		"pocketbase": "^0.27.1",
 		"super-sitemap": "^2.0.6",
 		"svelte": "5.56.4",
 		"uuid": "^14.0.1",

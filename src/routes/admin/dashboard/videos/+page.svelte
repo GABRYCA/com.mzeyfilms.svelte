@@ -117,12 +117,12 @@
             <form method="post" enctype="multipart/form-data" action="?/upload" onsubmit={handleUpload}>
                 <div class="row g-3">
                     <div class="col-12 col-md-5">
-                        <label class="form-label small text-secondary">Titolo</label>
-                        <input type="text" class="form-control bg-dark text-white border-secondary" name="name" placeholder="Titolo del video" required>
+                        <label class="form-label small text-secondary" for="newVideoName">Titolo</label>
+                        <input id="newVideoName" type="text" class="form-control bg-dark text-white border-secondary" name="name" placeholder="Titolo del video" required>
                     </div>
                     <div class="col-12 col-md-5">
-                        <label class="form-label small text-secondary">URL YouTube</label>
-                        <input type="text" class="form-control bg-dark text-white border-secondary" name="url" placeholder="https://www.youtube.com/..." required>
+                        <label class="form-label small text-secondary" for="newVideoUrl">URL YouTube</label>
+                        <input id="newVideoUrl" type="text" class="form-control bg-dark text-white border-secondary" name="url" placeholder="https://www.youtube.com/..." required>
                     </div>
                     <div class="col-12 col-md-2 d-flex align-items-end">
                         <button class="btn btn-lg btn-success w-100" type="submit" disabled={isUploading}>

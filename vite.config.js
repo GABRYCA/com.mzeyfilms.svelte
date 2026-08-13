@@ -7,6 +7,13 @@ export default defineConfig({
 		enhancedImages(),
 		sveltekit(),
 	],
+	build: {
+		rollupOptions: {
+			checks: {
+				pluginTimings: false
+			}
+		}
+	},
 	ssr: {
 		noExternal: ['super-sitemap']
 	}

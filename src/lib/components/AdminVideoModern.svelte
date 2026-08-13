@@ -328,7 +328,7 @@
                 </p>
 
                 <div class="mb-3">
-                    <label class="form-label small text-secondary">Anteprima Alta Risoluzione (HD)</label>
+                    <label class="form-label small text-secondary" for="highres{video.id}">Anteprima Alta Risoluzione (HD)</label>
                     {#if video.animatedhighresUrl && !deleteHighres}
                         <div class="position-relative border border-secondary border-opacity-25 rounded overflow-hidden mb-2 bg-black bg-opacity-40" style="height: 110px;">
                             <img src={video.animatedhighresUrl} class="w-100 h-100 object-fit-contain" alt="HD Pre">
@@ -342,11 +342,11 @@
                             <button type="button" class="btn btn-sm btn-link text-warning p-0" onclick={() => deleteHighres = false}>Annulla</button>
                         </div>
                     {/if}
-                    <input type="file" accept=".webp,.avif,.gif" class="form-control bg-dark text-white border-secondary" onchange={(e) => { localHighresFile = e.target.files[0]; deleteHighres = false; }}>
+                    <input id="highres{video.id}" type="file" accept=".webp,.avif,.gif" class="form-control bg-dark text-white border-secondary" onchange={(e) => { localHighresFile = e.target.files[0]; deleteHighres = false; }}>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label small text-secondary">Anteprima Bassa Risoluzione (SD)</label>
+                    <label class="form-label small text-secondary" for="lowres{video.id}">Anteprima Bassa Risoluzione (SD)</label>
                     {#if video.animatedlowresUrl && !deleteLowres}
                         <div class="position-relative border border-secondary border-opacity-25 rounded overflow-hidden mb-2 bg-black bg-opacity-40" style="height: 110px;">
                             <img src={video.animatedlowresUrl} class="w-100 h-100 object-fit-contain" alt="SD Pre">
@@ -360,7 +360,7 @@
                             <button type="button" class="btn btn-sm btn-link text-warning p-0" onclick={() => deleteLowres = false}>Annulla</button>
                         </div>
                     {/if}
-                    <input type="file" accept=".webp,.avif,.gif" class="form-control bg-dark text-white border-secondary" onchange={(e) => { localLowresFile = e.target.files[0]; deleteLowres = false; }}>
+                    <input id="lowres{video.id}" type="file" accept=".webp,.avif,.gif" class="form-control bg-dark text-white border-secondary" onchange={(e) => { localLowresFile = e.target.files[0]; deleteLowres = false; }}>
                 </div>
             </div>
 
@@ -369,7 +369,7 @@
 
                 <div class="input-group mb-3">
                     <input type="text" class="form-control bg-dark text-white border-secondary" placeholder="Esempio: Regista: Alice Rossi" bind:value={creditInputLine}>
-                    <button class="btn btn-outline-primary" type="button" onclick={addCreditLine}>
+                    <button class="btn btn-outline-primary" type="button" onclick={addCreditLine} aria-label="Aggiungi credito">
                         <i class="fa fa-plus"></i>
                     </button>
                 </div>

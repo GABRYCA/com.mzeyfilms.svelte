@@ -1,4 +1,5 @@
 import {fetchVideos} from "$lib/utils/utils.js";
+import {getPocketBasePublicFilesUrl} from '$lib/server/pocketbase.js';
 
 export async function load({ locals: { pb }}) {
 
@@ -6,6 +7,7 @@ export async function load({ locals: { pb }}) {
 
     return {
         videos: videos,
+        pocketBaseFilesUrl: getPocketBasePublicFilesUrl(),
         title: 'MZEYFILMS - Official',
     }
 }

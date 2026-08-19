@@ -13,22 +13,26 @@ export async function load({ locals: { pb }, params}) {
 
     const filmId = extractId(params.film);
 
+    if (!pb) {
+        throw errorx(503, 'PocketBase is currently unavailable. Please try again in a moment.');
+    }
+
     // Get from pocketbase book with id
     let film = null;
     try {
         film = await pb.collection('videos').getOne(filmId)
     } catch (e) {
-        throw errorx(e.status, 'Film not found');
+        throw errorx(e.status || 404, 'Film not found');
     }
 
     if (!film) {
-        throw errorx(400, 'No film found for the given ID');
+        throw errorx(404, 'No film found for the given ID');
     }
 
     return {
         film: film,
         title: film.name,
-        description: film.description + " a film by MZEYFILMS",
+        description: (film.description ? film.description + ' — ' : '') + 'A film by MZEYFILMS',
         index: true,
     }
 }

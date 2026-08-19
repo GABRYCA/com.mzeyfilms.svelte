@@ -58,11 +58,10 @@
         isFetching = false;
     }
 
-    function handleScroll(event) {
-        const target = event.target.body;
-        if (y >= target.clientHeight / 4) {
-            if (!loadedAllPages) loadMoreVideos();
-        }
+    function handleScroll() {
+        const doc = document.scrollingElement || document.documentElement;
+        const nearBottom = window.innerHeight + y >= doc.scrollHeight - 300;
+        if (nearBottom && !loadedAllPages) loadMoreVideos();
     }
 </script>
 

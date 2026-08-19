@@ -1,7 +1,9 @@
 <script>
+    import {getYoutubeId} from '$lib/utils/utils.js';
+
     let {src, title} = $props();
 
-    let videoId = $derived(src.split('/').pop());
+    let videoId = $derived(getYoutubeId(src));
 </script>
 
 {#if title}

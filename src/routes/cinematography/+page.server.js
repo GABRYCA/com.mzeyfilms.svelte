@@ -17,7 +17,27 @@ export async function load({ locals: { pb }, url}) {
     }
 
     // Get images from images collection that have as folder "Cinematography"
-    const cinematographyFolder = await pb.collection("folders").getFirstListItem('name="Cinematography"');
+    let cinematographyFolder;
+    try {
+        cinematographyFolder = await pb.collection("folders").getFirstListItem('name="Cinematography"');
+    } catch (error) {
+        if (error?.status === 404) {
+            return {
+                content: [],
+                title: 'MZEYFILMS - Cinematography',
+                description: 'Professional cinematography gallery by MZEYFILMS.',
+                totalImages: 0,
+                schemaOrg: false,
+                openGraph: false,
+                twitter: false,
+                canonical: 'https://mzeyfilms.com' + url.pathname,
+                author: 'MZEYFILMS',
+                imageURL: `${url.origin}/favicon.webp`
+            };
+        }
+        throw error;
+    }
+
     const cinematographyImages = await pb.collection("images").getFullList({
         filter: `folder="${cinematographyFolder.id}"`,
         sort: '-created',

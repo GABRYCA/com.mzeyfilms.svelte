@@ -2,6 +2,7 @@
     import { deserialize } from "$app/forms";
     import { invalidateAll } from "$app/navigation";
     import { toast } from "@zerodevx/svelte-toast";
+    import { getYoutubeId } from "$lib/utils/utils.js";
 
     let { video } = $props();
 
@@ -24,13 +25,6 @@
 
     let videoId = $derived(getYoutubeId(url));
     let missingPreviews = $derived(!video.animatedhighresUrl || !video.animatedlowresUrl);
-
-    function getYoutubeId(urlPath) {
-        if (!urlPath) return '';
-        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-        const match = urlPath.match(regExp);
-        return (match && match[2].length === 11) ? match[2] : urlPath.split('/').pop();
-    }
 
     function pollForPreviewUpdates() {
         let attempts = 0;
@@ -376,7 +370,7 @@
 
                 {#if credits.length > 0}
                     <div class="d-flex flex-wrap gap-2 py-2 px-1 rounded bg-black bg-opacity-30 border border-secondary border-opacity-20" style="max-height: 200px; overflow-y: auto;">
-                        {#each credits as credit, index}
+                        {#each credits as credit, index (index)}
                             <span class="badge bg-secondary bg-opacity-70 d-flex align-items-center gap-2 py-2 px-3 rounded-pill text-white" style="font-size: 0.8rem;">
                                 {credit}
                                 <button type="button" class="btn-close btn-close-white" style="font-size: 0.65rem;" onclick={() => removeCreditLine(index)} aria-label="Rimuovi"></button>

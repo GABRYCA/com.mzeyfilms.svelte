@@ -2,20 +2,13 @@
     import {deserialize} from "$app/forms";
     import {invalidateAll} from "$app/navigation";
     import {toast} from "@zerodevx/svelte-toast";
+    import {getYoutubeId} from '$lib/utils/utils.js';
 
     let { src, videoName } = $props();
-    let newVideoName = $state('');
-    let title = $state('');
-    // To get id, split at / and get the last element
-    let videoId = $derived(src.split('/').pop());
-
-    // Initialize state from props
-    $effect(() => {
-        if (newVideoName === '') {
-            newVideoName = videoName;
-            title = videoName;
-        }
-    });
+    // svelte-ignore state_referenced_locally
+    let newVideoName = $state(videoName);
+    let title = $derived(videoName);
+    let videoId = $derived(getYoutubeId(src));
 
     let isRenaming = false;
     let isDeleting = false;

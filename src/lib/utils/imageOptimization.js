@@ -1,4 +1,6 @@
-import { PUBLIC_IMAGE_PROXY_URL } from '$env/static/public';
+import { env } from '$env/dynamic/public';
+
+const IMAGE_PROXY_URL = env.PUBLIC_IMAGE_PROXY_URL || '/image/';
 
 /**
  * Generate optimized image URL using next-image-transformation service
@@ -10,7 +12,7 @@ import { PUBLIC_IMAGE_PROXY_URL } from '$env/static/public';
  * @returns {string} - Optimized image URL
  */
 export function getOptimizedImageUrl(originalUrl, options = {}) {
-    if (!PUBLIC_IMAGE_PROXY_URL || !originalUrl) {
+    if (!originalUrl) {
         return originalUrl;
     }
 
@@ -23,7 +25,9 @@ export function getOptimizedImageUrl(originalUrl, options = {}) {
         if (quality && quality > 0 && quality <= 100) params.set('quality', Math.round(quality).toString());
 
         const queryString = params.toString();
-        const proxyUrl = `${PUBLIC_IMAGE_PROXY_URL}${originalUrl}`;
+        const base = IMAGE_PROXY_URL.replace(/\/+$/, '');
+        const source = originalUrl.startsWith('/') ? originalUrl : `/${originalUrl}`;
+        const proxyUrl = `${base}${source}`;
         
         return queryString ? `${proxyUrl}?${queryString}` : proxyUrl;
     } catch (error) {
@@ -40,7 +44,7 @@ export function getOptimizedImageUrl(originalUrl, options = {}) {
  * @returns {string} - Srcset string
  */
 export function generateSrcset(originalUrl, sizes = [320, 640, 960, 1280, 1920], quality = 85) {
-    if (!PUBLIC_IMAGE_PROXY_URL || !originalUrl) {
+    if (!originalUrl) {
         return originalUrl;
     }
 

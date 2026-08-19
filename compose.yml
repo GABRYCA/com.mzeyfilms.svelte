@@ -1,0 +1,62 @@
+services:
+  website:
+    build: .
+    env_file: .env
+    environment:
+      # Leave empty unless you start the optional image services (--profile images)
+      # or use an external transformer. The app falls back to original images.
+      IMAGE_PROXY_INTERNAL_URL: ${IMAGE_PROXY_INTERNAL_URL:-}
+      IMAGE_PROXY_LOCAL_ORIGIN: ${IMAGE_PROXY_LOCAL_ORIGIN:-http://website:3000}
+    ports:
+      - "3000:3000"
+    volumes:
+      - pocketbase_data:/app/pb_data
+    restart: unless-stopped
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run --token ${TUNNEL_TOKEN}
+    depends_on:
+      - website
+
+  # Optional image optimization stack. It is NOT started by the normal
+  # `docker compose up -d --build` command, so imgproxy problems can never
+  # block the website. To enable it use:
+  #   docker compose --profile images up -d --build
+  # and set IMAGE_PROXY_INTERNAL_URL=http://image-transformer:3000 in .env.
+  image-transformer:
+    profiles: ["images"]
+    image: ghcr.io/coollabsio/next-image-transformation:latest
+    environment:
+      ALLOWED_REMOTE_DOMAINS: website,${IMAGE_PROXY_ALLOWED_REMOTE_DOMAINS:-}
+      IMGPROXY_URL: http://imgproxy:8080
+    depends_on:
+      imgproxy:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  imgproxy:
+    profiles: ["images"]
+    image: ghcr.io/imgproxy/imgproxy:latest
+    environment:
+      IMGPROXY_BIND: ":8080"
+      IMGPROXY_ENABLE_WEBP_DETECTION: "true"
+      IMGPROXY_ENABLE_AVIF_DETECTION: "true"
+      IMGPROXY_JPEG_PROGRESSIVE: "true"
+      IMGPROXY_USE_ETAG: "true"
+    healthcheck:
+      test: ["CMD", "imgproxy", "health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+    restart: unless-stopped
+
+volumes:
+  pocketbase_data:

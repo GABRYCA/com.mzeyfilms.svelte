@@ -1,5 +1,5 @@
 import sharp from 'sharp';
-import { PUBLIC_POCKETBASE_URL_IMG_API } from '$env/static/public';
+import {getPocketBasePublicFilesUrl} from '$lib/server/pocketbase.js';
 
 const uploadImage = async (image, folder, pb) => {
 
@@ -20,7 +20,8 @@ const uploadImage = async (image, folder, pb) => {
 
     const createdRecord = await pb.collection('images').create(formData);
 
-    const url = PUBLIC_POCKETBASE_URL_IMG_API + createdRecord.collectionId + '/' + createdRecord.id + '/' + createdRecord.image;
+    const filesUrl = getPocketBasePublicFilesUrl();
+    const url = filesUrl + createdRecord.collectionId + '/' + createdRecord.id + '/' + createdRecord.image;
 
     // Update created record with new url
     const data = {
@@ -29,7 +30,7 @@ const uploadImage = async (image, folder, pb) => {
 
     await pb.collection('images').update(createdRecord.id, data);
 
-    return PUBLIC_POCKETBASE_URL_IMG_API + createdRecord.collectionId + '/' + createdRecord.id + '/' + createdRecord.image;
+    return filesUrl + createdRecord.collectionId + '/' + createdRecord.id + '/' + createdRecord.image;
 }
 
 export async function load( { locals: { pb }} ){

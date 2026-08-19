@@ -1,6 +1,5 @@
 <script>
     import AnimatedMasonry from '$lib/components/AnimatedMasonry.svelte';
-    import { PUBLIC_POCKETBASE_URL_IMG_API } from '$env/static/public';
     import {createSlug} from "$lib/utils/slugify.js";
 
     let { data } = $props();
@@ -8,26 +7,26 @@
     let galleryItems = $derived.by(() => {
         if (!data.videos) return [];
 
-        const baseUrl = PUBLIC_POCKETBASE_URL_IMG_API.endsWith('/')
-            ? PUBLIC_POCKETBASE_URL_IMG_API
-            : `${PUBLIC_POCKETBASE_URL_IMG_API}/`;
+        const baseUrl = data.pocketBaseFilesUrl;
 
-        return data.videos.map(video => {
-            const slug = createSlug(video.name);
-            const href = `/film/${slug}-${video.id}`;
+        return data.videos
+            .filter(video => video.animatedhighres)
+            .map(video => {
+                const slug = createSlug(video.name);
+                const href = `/film/${slug}-${video.id}`;
 
-            const src = `${baseUrl}${video.collectionId}/${video.id}/${video.animatedhighres}`;
-            const lowResSrc = video.animatedlowres
-                ? `${baseUrl}${video.collectionId}/${video.id}/${video.animatedlowres}`
-                : null;
+                const src = `${baseUrl}${video.collectionId}/${video.id}/${video.animatedhighres}`;
+                const lowResSrc = video.animatedlowres
+                    ? `${baseUrl}${video.collectionId}/${video.id}/${video.animatedlowres}`
+                    : null;
 
-            return {
-                src,
-                lowResSrc,
-                title: video.name,
-                href
-            };
-        });
+                return {
+                    src,
+                    lowResSrc,
+                    title: video.name,
+                    href
+                };
+            });
     });
 </script>
 

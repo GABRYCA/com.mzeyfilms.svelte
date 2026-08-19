@@ -1,4 +1,4 @@
-import {PRIVATE_LOGIN_USERNAME, PRIVATE_LOGIN_PASSWORD} from '$env/static/private';
+import { env } from '$env/dynamic/private';
 import { v4 as uuidv4 } from 'uuid';
 import { redirect } from "@sveltejs/kit";
 
@@ -22,7 +22,7 @@ export const actions = {
         const formData = Object.fromEntries(await request.formData());
         const username = formData.username;
         const password = formData.password;
-        if (username !== PRIVATE_LOGIN_USERNAME || password !== PRIVATE_LOGIN_PASSWORD) {
+        if (username !== env.PRIVATE_LOGIN_USERNAME || password !== env.PRIVATE_LOGIN_PASSWORD) {
             return {
                 status: 401,
                 body: {

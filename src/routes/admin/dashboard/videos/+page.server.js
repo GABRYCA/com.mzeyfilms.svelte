@@ -5,8 +5,10 @@ import {
 	parsePreviewStartSeconds,
 	schedulePreviewGeneration
 } from '$lib/server/youtubePreview.js';
+import {getPocketBasePublicFilesUrl} from '$lib/server/pocketbase.js';
 
 export async function load({ locals: { pb } }) {
+	const filesUrl = getPocketBasePublicFilesUrl();
 	const videos = await pb.collection('videos').getFullList({
 		sort: '-created'
 	});
@@ -14,10 +16,10 @@ export async function load({ locals: { pb } }) {
 	const videosWithUrls = videos.map((video) => ({
 		...video,
 		animatedhighresUrl: video.animatedhighres
-			? `${pb.baseUrl}/api/files/${video.collectionId}/${video.id}/${video.animatedhighres}`
+			? `${filesUrl}${video.collectionId}/${video.id}/${video.animatedhighres}`
 			: '',
 		animatedlowresUrl: video.animatedlowres
-			? `${pb.baseUrl}/api/files/${video.collectionId}/${video.id}/${video.animatedlowres}`
+			? `${filesUrl}${video.collectionId}/${video.id}/${video.animatedlowres}`
 			: '',
 		credits: video.credits || []
 	}));

@@ -1,0 +1,25 @@
+ARG POCKETBASE_VERSION=0.27.2
+
+FROM alpine:3.21 AS pocketbase
+ARG POCKETBASE_VERSION
+ARG TARGETARCH
+
+RUN apk add --no-cache ca-certificates unzip wget \
+	&& case "$TARGETARCH" in \
+		amd64) PB_ARCH=amd64 ;; \
+		arm64) PB_ARCH=arm64 ;; \
+		*) echo "Unsupported PocketBase architecture: $TARGETARCH" >&2; exit 1 ;; \
+	   esac \
+	&& wget -q "https://github.com/pocketbase/pocketbase/releases/download/v${POCKETBASE_VERSION}/pocketbase_${POCKETBASE_VERSION}_linux_${PB_ARCH}.zip" -O /tmp/pocketbase.zip \
+	&& unzip -q /tmp/pocketbase.zip -d /tmp/pocketbase \
+	&& install -m 0755 /tmp/pocketbase/pocketbase /usr/local/bin/pocketbase
+
+FROM alpine:3.21
+RUN apk add --no-cache ca-certificates
+COPY --from=pocketbase /usr/local/bin/pocketbase /usr/local/bin/pocketbase
+COPY docker/pocketbase-entrypoint.sh /usr/local/bin/pocketbase-entrypoint
+RUN chmod +x /usr/local/bin/pocketbase-entrypoint
+
+VOLUME ["/pb/pb_data"]
+EXPOSE 8090
+ENTRYPOINT ["pocketbase-entrypoint"]

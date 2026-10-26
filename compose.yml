@@ -2,28 +2,35 @@ services:
   website:
     build:
       context: .
+      dockerfile: Dockerfile
       args:
         # Baked into SvelteKit's paths.origin at build time.
         ORIGIN: ${ORIGIN:-https://mzeyfilms.com}
-    env_file: .env
     environment:
+      # SvelteKit & Runtime
+      NODE_ENV: production
+      ORIGIN: ${ORIGIN:-https://mzeyfilms.com}
       # adapter-bun defaults to 512K; admin uploads need 15 MB.
       BODY_SIZE_LIMIT: ${BODY_SIZE_LIMIT:-15728640}
-      # Leave empty unless you start the optional image services (--profile images)
-      # or use an external transformer. The app falls back to original images.
+
+      # Embedded PocketBase Settings
+      POCKETBASE_EMBEDDED: "true"
+      POCKETBASE_INTERNAL_URL: "http://127.0.0.1:8090"
+      PUBLIC_POCKETBASE_URL: "/pb"
+
+      # Coolify Traefik routing variable
+      SERVICE_FQDN_WEBSITE_3000: ${SERVICE_FQDN_WEBSITE_3000:-https://mzeyfilms.com}
+
+      # Optional image services (only used if with --profile images)
       IMAGE_PROXY_INTERNAL_URL: ${IMAGE_PROXY_INTERNAL_URL:-}
       IMAGE_PROXY_LOCAL_ORIGIN: ${IMAGE_PROXY_LOCAL_ORIGIN:-http://website:3000}
-    ports:
-      - "3000:3000"
+    expose:
+      - "3000"
     volumes:
       - pocketbase_data:/app/pb_data
     restart: unless-stopped
 
-  # Optional image optimization stack. It is NOT started by the normal
-  # `docker compose up -d --build` command, so imgproxy problems can never
-  # block the website. To enable it use:
-  #   docker compose --profile images up -d --build
-  # and set IMAGE_PROXY_INTERNAL_URL=http://image-transformer:3000 in .env.
+  # Optional image optimization stack.
   image-transformer:
     profiles: ["images"]
     image: ghcr.io/coollabsio/next-image-transformation:latest
@@ -59,3 +66,4 @@ services:
 
 volumes:
   pocketbase_data:
+    name: mzeyfilms_pocketbase_data

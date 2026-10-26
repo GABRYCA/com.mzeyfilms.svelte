@@ -1,9 +1,9 @@
 <script>
     import { onMount } from "svelte";
     import { deserialize } from '$app/forms';
-    import { invalidateAll } from "$app/navigation";
+    import { refreshAll } from "$app/navigation";
     import { toast } from "@zerodevx/svelte-toast";
-    import AdminVideoModern from "$lib/components/AdminVideoModern.svelte";
+    import AdminVideoModern from "#lib/components/AdminVideoModern.svelte";
 
     let { data } = $props();
     let videos = $derived(data.videos);
@@ -42,7 +42,7 @@
 
         const timer = setInterval(async () => {
             attempts += 1;
-            await invalidateAll();
+            await refreshAll();
             if (attempts >= maxAttempts) clearInterval(timer);
         }, intervalMs);
     }
@@ -69,7 +69,7 @@
         toast.pop(toastId);
 
         const result = deserialize(await response.text());
-        await invalidateAll();
+        await refreshAll();
 
         if (result.type === 'success') {
             const generating = result.data?.body?.generatingPreviews;

@@ -1,5 +1,5 @@
 import {error, redirect} from "@sveltejs/kit";
-import {ensurePocketBaseSchema} from '$lib/server/pocketbase.js';
+import {ensurePocketBaseSchema} from '#lib/server/pocketbase.js';
 
 export const load = async ({ cookies, locals: { pb } }) => {
     // Check if user found

@@ -1,5 +1,5 @@
 <script>
-    import {getPhotoThumbnail, getPhotoPlaceholder} from '$lib/utils/imageOptimization.js';
+    import {getPhotoThumbnail, getPhotoPlaceholder} from '#lib/utils/imageOptimization.js';
 
     let {photo, folderName, onClick = null} = $props();
 

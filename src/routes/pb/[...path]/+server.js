@@ -2,7 +2,7 @@ import { error } from '@sveltejs/kit';
 import {
 	getPocketBaseInternalUrl,
 	isPocketBaseProxyEnabled
-} from '$lib/server/pocketbase.js';
+} from '#lib/server/pocketbase.js';
 
 const HOP_BY_HOP_HEADERS = [
 	'connection',

@@ -1,6 +1,13 @@
 import PocketBase from 'pocketbase';
-import { env } from '$env/dynamic/private';
-import { env as publicEnv } from '$env/dynamic/public';
+import {
+	PB_INTERNAL_URL,
+	POCKETBASE_EMBEDDED,
+	POCKETBASE_INTERNAL_URL,
+	POCKETBASE_PROXY_ENABLED,
+	PRIVATE_POCKETBASE_EMAIL,
+	PRIVATE_POCKETBASE_PASSWORD
+} from '$app/env/private';
+import { PUBLIC_POCKETBASE_URL, PUBLIC_POCKETBASE_URL_IMG_API } from '$app/env/public';
 
 const EMBEDDED_DEFAULT_URL = 'http://127.0.0.1:8090';
 
@@ -13,47 +20,45 @@ function withoutTrailingSlash(value) {
 	return String(value || '').trim().replace(/\/+$/, '');
 }
 
-function requiredEnv(name) {
-	const value = String(env[name] || '').trim();
-	if (!value) {
+function requiredEnv(value, name) {
+	const trimmed = String(value || '').trim();
+	if (!trimmed) {
 		throw new Error(`${name} must be set to manage PocketBase from the admin dashboard.`);
 	}
-	return value;
+	return trimmed;
 }
 
 function isPocketBaseEmbedded() {
 	// The combined Docker image explicitly sets this to true. Keeping local
 	// development opt-in makes a separately started PocketBase convenient.
-	return env.POCKETBASE_EMBEDDED === 'true';
+	return POCKETBASE_EMBEDDED === 'true';
 }
 
 /** The address used by SvelteKit on the server. */
 export function getPocketBaseInternalUrl() {
-	return withoutTrailingSlash(
-		env.POCKETBASE_INTERNAL_URL ||
-			env.PB_INTERNAL_URL ||
-			(isPocketBaseEmbedded() ? EMBEDDED_DEFAULT_URL : publicEnv.PUBLIC_POCKETBASE_URL || EMBEDDED_DEFAULT_URL)
-	);
+	return withoutTrailingSlash(POCKETBASE_INTERNAL_URL || PB_INTERNAL_URL || (isPocketBaseEmbedded()
+		? EMBEDDED_DEFAULT_URL
+		: PUBLIC_POCKETBASE_URL || EMBEDDED_DEFAULT_URL));
 }
 
 /** The address browsers use for PocketBase files. */
 export function getPocketBasePublicUrl() {
-	return withoutTrailingSlash(
-		isPocketBaseEmbedded() ? '/pb' : publicEnv.PUBLIC_POCKETBASE_URL || getPocketBaseInternalUrl()
-	);
+	return withoutTrailingSlash(isPocketBaseEmbedded()
+		? '/pb'
+		: PUBLIC_POCKETBASE_URL || getPocketBaseInternalUrl());
 }
 
 export function getPocketBasePublicFilesUrl() {
 	const configuredLegacyUrl = isPocketBaseEmbedded()
 		? ''
-		: withoutTrailingSlash(publicEnv.PUBLIC_POCKETBASE_URL_IMG_API);
+		: withoutTrailingSlash(PUBLIC_POCKETBASE_URL_IMG_API);
 	return configuredLegacyUrl
 		? `${configuredLegacyUrl}/`
 		: `${getPocketBasePublicUrl()}/api/files/`;
 }
 
 export function isPocketBaseProxyEnabled() {
-	return env.POCKETBASE_PROXY_ENABLED !== 'false';
+	return POCKETBASE_PROXY_ENABLED !== 'false';
 }
 
 function getClient() {
@@ -77,8 +82,8 @@ function getClient() {
 async function authenticate(pb) {
 	if (!pb.authStore.isValid) {
 		if (!authenticationPromise) {
-			const email = requiredEnv('PRIVATE_POCKETBASE_EMAIL');
-			const password = requiredEnv('PRIVATE_POCKETBASE_PASSWORD');
+			const email = requiredEnv(PRIVATE_POCKETBASE_EMAIL, 'PRIVATE_POCKETBASE_EMAIL');
+			const password = requiredEnv(PRIVATE_POCKETBASE_PASSWORD, 'PRIVATE_POCKETBASE_PASSWORD');
 			authenticationPromise = pb
 				.collection('_superusers')
 				.authWithPassword(email, password)

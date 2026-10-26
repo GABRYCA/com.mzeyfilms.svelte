@@ -1,8 +1,8 @@
 <script>
     import {deserialize} from "$app/forms";
-    import {invalidateAll} from "$app/navigation";
+    import {refreshAll} from "$app/navigation";
     import {toast} from "@zerodevx/svelte-toast";
-    import {getYoutubeId} from '$lib/utils/utils.js';
+    import {getYoutubeId} from '#lib/utils/utils.js';
 
     let { src, videoName } = $props();
     // svelte-ignore state_referenced_locally
@@ -30,7 +30,7 @@
         });
 
         const result = deserialize(await response.text());
-        await invalidateAll();
+        await refreshAll();
         if (result.type === 'success') {
             toast.push("Video rinominato con successo", {
                 theme: {
@@ -77,7 +77,7 @@
         });
 
         const result = deserialize(await response.text());
-        await invalidateAll();
+        await refreshAll();
         if (result.type === 'success') {
             toast.push("Video cancellato con successo!", {
                 theme: {

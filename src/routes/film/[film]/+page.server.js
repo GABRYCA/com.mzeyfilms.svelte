@@ -1,5 +1,5 @@
 import { error as errorx } from '@sveltejs/kit';
-import { extractId, isValidUrlParam } from '$lib/utils/slugify.js';
+import { extractId, isValidUrlParam } from '#lib/utils/slugify.js';
 
 
 export async function load({ locals: { pb }, params}) {

@@ -1,9 +1,9 @@
 <script>
     import {onMount} from "svelte";
     import {deserialize, enhance} from '$app/forms';
-    import AdminPhoto from "$lib/components/AdminPhoto.svelte";
+    import AdminPhoto from "#lib/components/AdminPhoto.svelte";
     import {toast} from "@zerodevx/svelte-toast";
-    import {invalidateAll} from "$app/navigation";
+    import {refreshAll} from "$app/navigation";
     let { data } = $props();
     let folders = $derived(data.folders);
     let content = $derived(data.content);
@@ -39,7 +39,7 @@
         toast.pop(toastId);
 
         const result = deserialize(await response.text());
-        await invalidateAll();
+        await refreshAll();
         if (result.type === 'success') {
             if (result.data.status === 200){
                 toast.push('Upload completato con successo!', {
@@ -127,7 +127,7 @@
 
         event.target.reset();
 
-        await invalidateAll();
+        await refreshAll();
         isUploading = false;
     }
 </script>

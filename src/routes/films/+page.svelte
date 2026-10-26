@@ -1,8 +1,8 @@
 <script>
     import {onMount} from "svelte";
-    import UserVideo from "$lib/components/UserVideo.svelte";
+    import UserVideo from "#lib/components/UserVideo.svelte";
     import {deserialize} from "$app/forms";
-    import {slugify} from "$lib/utils/slugify.js";
+    import {slugify} from "#lib/utils/slugify.js";
 
     let {data} = $props();
     let extraVideos = $state([]);

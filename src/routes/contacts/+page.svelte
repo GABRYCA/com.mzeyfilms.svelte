@@ -1,5 +1,5 @@
 <script>
-    import profileImage from "$lib/img/IMG_20260625_101458-optimized.webp?enhanced";
+    import profileImage from "#lib/img/IMG_20260625_101458-optimized.webp?enhanced";
 
     const email = "manuel.zaffiro03@gmail.com";
     let isLoaded = $state(false);

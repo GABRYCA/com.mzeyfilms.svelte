@@ -1,8 +1,8 @@
 <script>
     import { deserialize } from "$app/forms";
-    import { invalidateAll } from "$app/navigation";
+    import { refreshAll } from "$app/navigation";
     import { toast } from "@zerodevx/svelte-toast";
-    import { getYoutubeId } from "$lib/utils/utils.js";
+    import { getYoutubeId } from "#lib/utils/utils.js";
 
     let { video } = $props();
 
@@ -31,7 +31,7 @@
         const maxAttempts = 12;
         const timer = setInterval(async () => {
             attempts += 1;
-            await invalidateAll();
+            await refreshAll();
             if (attempts >= maxAttempts) clearInterval(timer);
         }, 30_000);
     }
@@ -77,7 +77,7 @@
                     }
                 );
                 if (generating) pollForPreviewUpdates();
-                await invalidateAll();
+                await refreshAll();
             } else {
                 toast.push(result.data?.body?.message || 'Errore durante la generazione', {
                     theme: { '--toastBackground': '#dc3545' }
@@ -134,7 +134,7 @@
 
         toast.pop(toastId);
         const result = deserialize(await response.text());
-        await invalidateAll();
+        await refreshAll();
 
         if (result.type === 'success') {
             toast.push("Video salvato con successo!", {
@@ -175,7 +175,7 @@
         });
 
         const result = deserialize(await response.text());
-        await invalidateAll();
+        await refreshAll();
 
         if (result.type === 'success') {
             toast.push("Video cancellato correttamente!", {

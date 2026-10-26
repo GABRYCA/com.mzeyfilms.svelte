@@ -1,8 +1,14 @@
 services:
   website:
-    build: .
+    build:
+      context: .
+      args:
+        # Baked into SvelteKit's paths.origin at build time.
+        ORIGIN: ${ORIGIN:-https://mzeyfilms.com}
     env_file: .env
     environment:
+      # adapter-bun defaults to 512K; admin uploads need 15 MB.
+      BODY_SIZE_LIMIT: ${BODY_SIZE_LIMIT:-15728640}
       # Leave empty unless you start the optional image services (--profile images)
       # or use an external transformer. The app falls back to original images.
       IMAGE_PROXY_INTERNAL_URL: ${IMAGE_PROXY_INTERNAL_URL:-}
@@ -12,13 +18,6 @@ services:
     volumes:
       - pocketbase_data:/app/pb_data
     restart: unless-stopped
-
-  cloudflared:
-    image: cloudflare/cloudflared:latest
-    restart: unless-stopped
-    command: tunnel --no-autoupdate run --token ${TUNNEL_TOKEN}
-    depends_on:
-      - website
 
   # Optional image optimization stack. It is NOT started by the normal
   # `docker compose up -d --build` command, so imgproxy problems can never

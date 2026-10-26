@@ -1,6 +1,6 @@
-import { env } from '$env/dynamic/public';
+import { PUBLIC_IMAGE_PROXY_URL } from '$app/env/public';
 
-const IMAGE_PROXY_URL = env.PUBLIC_IMAGE_PROXY_URL || '/image/';
+const IMAGE_PROXY_URL = PUBLIC_IMAGE_PROXY_URL || '/image/';
 
 /**
  * Generate optimized image URL using next-image-transformation service
@@ -49,12 +49,8 @@ export function generateSrcset(originalUrl, sizes = [320, 640, 960, 1280, 1920],
     }
 
     try {
-        return sizes
-            .filter(size => size > 0)
-            .sort((a, b) => a - b)
-            .map(size => `${getOptimizedImageUrl(originalUrl, { width: size, quality })} ${size}w`)
-            .join(', ');
-    } catch (error) {
+        return sizes.filter((size) => size > 0).sort((a, b) => a - b).map((size) => `${getOptimizedImageUrl(originalUrl, { width: size, quality })} ${size}w`).join(', ');
+    } catch(error) {
         console.warn('Error generating srcset:', error);
         return originalUrl;
     }

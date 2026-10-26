@@ -1,4 +1,4 @@
-import {fetchVideos} from "$lib/utils/utils.js";
+import {fetchVideos} from "#lib/utils/utils.js";
 
 export async function load({ locals: { pb }}) {
 

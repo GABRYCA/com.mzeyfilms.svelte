@@ -7,7 +7,7 @@ PB_HTTP_ADDRESS="${POCKETBASE_HTTP_ADDRESS:-0.0.0.0:8090}"
 if [ "${POCKETBASE_EMBEDDED:-true}" = "false" ]; then
 	# Frontend-only mode: point POCKETBASE_INTERNAL_URL and
 	# PUBLIC_POCKETBASE_URL to the separate PocketBase machine.
-	exec node build
+	exec bun ./build
 fi
 
 mkdir -p "$PB_DATA_DIR"
@@ -33,7 +33,7 @@ trap shutdown INT TERM EXIT
 # starts; server loads already fail open when locals.pb is unavailable.
 PB_STARTUP_TIMEOUT="${POCKETBASE_STARTUP_TIMEOUT:-30}"
 PB_WAITED=0
-until node -e "fetch('http://127.0.0.1:8090/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"; do
+until bun -e "const response = await fetch('http://127.0.0.1:8090/api/health').catch(() => null); process.exit(response?.ok ? 0 : 1)"; do
 	PB_WAITED=$((PB_WAITED + 1))
 	if [ "$PB_WAITED" -ge "$PB_STARTUP_TIMEOUT" ]; then
 		echo "[PocketBase] not ready after ${PB_STARTUP_TIMEOUT}s; starting website anyway."
@@ -45,6 +45,6 @@ if [ "$PB_WAITED" -lt "$PB_STARTUP_TIMEOUT" ]; then
 	echo "[PocketBase] ready after ${PB_WAITED}s."
 fi
 
-node build &
+bun ./build &
 APP_PID=$!
 wait "$APP_PID"

@@ -1,7 +1,7 @@
 <script>
     import {onMount} from "svelte";
     import {deserialize} from "$app/forms";
-    import {invalidateAll} from "$app/navigation";
+    import {refreshAll} from "$app/navigation";
 
     onMount(() => {
         document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach((element) => {
@@ -31,7 +31,7 @@
         if (result.type === 'success') {
             status = result.data.status;
             if (result.data.status === 200) {
-                await invalidateAll();
+                await refreshAll();
             }
             if (result.data.status === 401) {
                 message = result.data.body.message;

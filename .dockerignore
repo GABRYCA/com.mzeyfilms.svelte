@@ -1,10 +1,17 @@
 .DS_Store
 .env
 .env.*
+.env.old
 .git
 .gitignore
+.idea
 .vscode
+.agents
+.claude
+.impeccable
+.svelte-kit/
 build/
 node_modules/
+yt-converter/
 npm-debug.log*
 README.md

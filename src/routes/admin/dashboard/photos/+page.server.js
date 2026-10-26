@@ -1,5 +1,5 @@
 import sharp from 'sharp';
-import {getPocketBasePublicFilesUrl} from '$lib/server/pocketbase.js';
+import {getPocketBasePublicFilesUrl} from '#lib/server/pocketbase.js';
 
 const uploadImage = async (image, folder, pb) => {
 

@@ -1,5 +1,5 @@
 <script>
-    import UserVideo from '$lib/components/UserVideo.svelte';
+    import UserVideo from '#lib/components/UserVideo.svelte';
 
     let { data } = $props();
 

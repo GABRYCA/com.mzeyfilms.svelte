@@ -1,5 +1,5 @@
 <script>
-    import {getYoutubeId} from '$lib/utils/utils.js';
+    import {getYoutubeId} from '#lib/utils/utils.js';
 
     let {src, title} = $props();
 

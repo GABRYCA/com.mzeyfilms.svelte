@@ -1,9 +1,10 @@
 <script>
     import {onMount} from "svelte";
     import AOS from "aos";
-    import "$lib/css/style.css";
+    import "aos/dist/aos.css";
+    import "#lib/css/style.css";
     import {page} from "$app/state";
-    import Seo from "$lib/components/Seo.svelte";
+    import Seo from "#lib/components/Seo.svelte";
     import 'bootstrap/dist/css/bootstrap.min.css';
     import scriptSrc from 'bootstrap/dist/js/bootstrap.bundle.min.js?url';
     import '@fortawesome/fontawesome-free/css/all.min.css';

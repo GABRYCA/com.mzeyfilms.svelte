@@ -1,5 +1,5 @@
 import { error, redirect } from '@sveltejs/kit';
-import { getImageProxyInternalUrl, getImageProxyLocalOrigin } from '$lib/server/imageProxy.js';
+import { getImageProxyInternalUrl, getImageProxyLocalOrigin } from '#lib/server/imageProxy.js';
 
 const HOP_BY_HOP_HEADERS = [
 	'connection',
@@ -34,7 +34,7 @@ async function transform({ params, request, url, fetch }) {
 	// Image optimization is deliberately optional outside compose.yml. Falling
 	// back to the original image keeps a frontend-only deployment functional.
 	if (!imageProxyUrl) {
-		throw redirect(302, source.href);
+		throw redirect(302, source.href, { external: true });
 	}
 
 	let transformerSource = source;
@@ -59,7 +59,7 @@ async function transform({ params, request, url, fetch }) {
 		});
 	} catch (proxyError) {
 		console.error('[image proxy] transformation service is unavailable:', proxyError);
-		throw redirect(302, source.href);
+		throw redirect(302, source.href, { external: true });
 	}
 
 	const responseHeaders = new Headers(response.headers);

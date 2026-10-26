@@ -4,8 +4,8 @@ import {
 	isYoutubeUrl,
 	parsePreviewStartSeconds,
 	schedulePreviewGeneration
-} from '$lib/server/youtubePreview.js';
-import {getPocketBasePublicFilesUrl} from '$lib/server/pocketbase.js';
+} from '#lib/server/youtubePreview.js';
+import {getPocketBasePublicFilesUrl} from '#lib/server/pocketbase.js';
 
 export async function load({ locals: { pb } }) {
 	const filesUrl = getPocketBasePublicFilesUrl();

@@ -1,6 +1,6 @@
 <script>
-    import AnimatedMasonry from '$lib/components/AnimatedMasonry.svelte';
-    import {createSlug} from "$lib/utils/slugify.js";
+    import AnimatedMasonry from '#lib/components/AnimatedMasonry.svelte';
+    import {createSlug} from "#lib/utils/slugify.js";
 
     let { data } = $props();
 

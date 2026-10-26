@@ -1,4 +1,5 @@
-import { env } from '$env/dynamic/private';
+import { dev } from '$app/env';
+import { PRIVATE_LOGIN_USERNAME, PRIVATE_LOGIN_PASSWORD } from '$app/env/private';
 import { v4 as uuidv4 } from 'uuid';
 import { redirect } from "@sveltejs/kit";
 
@@ -22,13 +23,9 @@ export const actions = {
         const formData = Object.fromEntries(await request.formData());
         const username = formData.username;
         const password = formData.password;
-        if (username !== env.PRIVATE_LOGIN_USERNAME || password !== env.PRIVATE_LOGIN_PASSWORD) {
-            return {
-                status: 401,
-                body: {
-                    message: 'Unauthorized'
-                }
-            }
+
+        if (username !== PRIVATE_LOGIN_USERNAME || password !== PRIVATE_LOGIN_PASSWORD) {
+            return { status: 401, body: { message: 'Unauthorized' } };
         }
 
         const sessionId = uuidv4();
@@ -36,7 +33,7 @@ export const actions = {
             path: '/',
             httpOnly: true,
             sameSite: 'strict',
-            secure: process.env.NODE_ENV === 'production',
+            secure: !dev,
             maxAge: 60 * 60 * 24 // 1 day
         });
 

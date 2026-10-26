@@ -1,6 +1,6 @@
 import * as sitemap from 'super-sitemap/sveltekit'
-import {fetchVideos} from "$lib/utils/utils.js";
-import {createSlug} from "$lib/utils/slugify.js";
+import {fetchVideos} from "#lib/utils/utils.js";
+import {createSlug} from "#lib/utils/slugify.js";
 
 export const prerender = true;
 

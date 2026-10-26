@@ -1,5 +1,5 @@
 <script>
-    import AnimatedImage from '$lib/components/AnimatedImage.svelte';
+    import AnimatedImage from '#lib/components/AnimatedImage.svelte';
 
     /**
      * AnimatedMasonry — A responsive Bootstrap grid gallery of animated images.
@@ -53,15 +53,4 @@
         width: 100%;
     }
 
-    @media (min-width: 992px) {
-        .animated-masonry-item :global(.animated-image-card) {
-            /* aspect-ratio: 2 / 3; */
-        }
-    }
-
-    @media (max-width: 575px) {
-        .animated-masonry-item :global(.animated-image-card) {
-            /* aspect-ratio: 4 / 5; */
-        }
-    }
 </style>

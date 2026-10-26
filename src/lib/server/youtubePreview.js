@@ -4,6 +4,12 @@ import { constants as fsConstants } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createRequire } from 'node:module';
+import {
+	YTDLP_COOKIES,
+	YTDLP_COOKIES_FILE,
+	YTDLP_EXTRA_ARGS,
+	YTDLP_PROXY
+} from '$app/env/private';
 
 const HIGH_WIDTH = 480;
 const LOW_WIDTH = 240;
@@ -137,10 +143,10 @@ async function resolveYtDlpAuthArgs(workDir) {
 	/** @type {string | null} */
 	let tempCookiesPath = null;
 
-	const cookiesFile = process.env.YTDLP_COOKIES_FILE?.trim();
-	const cookiesContent = process.env.YTDLP_COOKIES?.trim();
-	const proxy = process.env.YTDLP_PROXY?.trim();
-	const extra = process.env.YTDLP_EXTRA_ARGS?.trim();
+	const cookiesFile = YTDLP_COOKIES_FILE;
+	const cookiesContent = YTDLP_COOKIES;
+	const proxy = YTDLP_PROXY;
+	const extra = YTDLP_EXTRA_ARGS;
 
 	if (cookiesFile) {
 		try {
@@ -621,7 +627,7 @@ export async function attachPreviewsToVideo(pb, videoId, files) {
 
 /**
  * Queue preview generation so only one heavy encode runs at a time.
- * Fire-and-forget safe for adapter-node long-running process.
+ * Fire-and-forget safe for the long-running Bun server process.
  *
  * @param {object} options
  * @param {import('pocketbase').default} options.pb

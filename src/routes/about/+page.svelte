@@ -1,6 +1,6 @@
 <script>
     import { onMount } from "svelte";
-    import profileImage from "$lib/img/home_bg.webp?enhanced";
+    import profileImage from "#lib/img/home_bg.webp?enhanced";
 
     let isLoaded = $state(false);
 

@@ -1,6 +1,6 @@
 <script>
     import {deserialize} from "$app/forms";
-    import {invalidateAll} from "$app/navigation";
+    import {refreshAll} from "$app/navigation";
     import {toast} from "@zerodevx/svelte-toast";
 
     let {
@@ -28,7 +28,7 @@
         });
 
         const result = deserialize(await response.text());
-        await invalidateAll();
+        await refreshAll();
         if (result.type === 'success') {
             // Success toast
             toast.push("Immagine spostata con successo!", {
@@ -64,7 +64,7 @@
         });
 
         const result = deserialize(await response.text());
-        await invalidateAll();
+        await refreshAll();
         if (result.type === 'success'){
             // Success toast
             toast.push("Immagine eliminata con successo!", {

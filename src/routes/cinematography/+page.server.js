@@ -1,4 +1,4 @@
-import { getOptimizedImageUrl } from '$lib/utils/imageOptimization.js';
+import { getOptimizedImageUrl } from '#lib/utils/imageOptimization.js';
 
 export async function load({ locals: { pb }, url}) {
     if (!pb) {

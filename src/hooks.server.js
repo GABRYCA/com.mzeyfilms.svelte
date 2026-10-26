@@ -1,6 +1,6 @@
-import { getAuthenticatedPocketBase } from '$lib/server/pocketbase.js';
+import { getAuthenticatedPocketBase } from '#lib/server/pocketbase.js';
 
-/** @type {import('@sveltejs/kit').Handle} */
+/** @type {import('@sveltejs/kit/hooks').Handle} */
 export const handle = async ({ event, resolve }) => {
 	try {
 		event.locals.pb = await getAuthenticatedPocketBase();

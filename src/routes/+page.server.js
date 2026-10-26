@@ -1,5 +1,5 @@
-import {fetchVideos} from "$lib/utils/utils.js";
-import {getPocketBasePublicFilesUrl} from '$lib/server/pocketbase.js';
+import {fetchVideos} from "#lib/utils/utils.js";
+import {getPocketBasePublicFilesUrl} from '#lib/server/pocketbase.js';
 
 export async function load({ locals: { pb }}) {
 

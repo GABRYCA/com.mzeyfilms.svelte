@@ -1,4 +1,4 @@
-import { env } from '$env/dynamic/private';
+import { IMAGE_PROXY_INTERNAL_URL, IMAGE_PROXY_LOCAL_ORIGIN } from '$app/env/private';
 
 function withoutTrailingSlash(value) {
 	return String(value || '').trim().replace(/\/+$/, '');
@@ -10,7 +10,7 @@ function withoutTrailingSlash(value) {
  * makes the /image route redirect to the original file without transforming it.
  */
 export function getImageProxyInternalUrl() {
-	return withoutTrailingSlash(env.IMAGE_PROXY_INTERNAL_URL);
+        return withoutTrailingSlash(IMAGE_PROXY_INTERNAL_URL);
 }
 
 /**
@@ -18,5 +18,5 @@ export function getImageProxyInternalUrl() {
  * when the source is this website's own /pb/ file URL.
  */
 export function getImageProxyLocalOrigin() {
-	return withoutTrailingSlash(env.IMAGE_PROXY_LOCAL_ORIGIN);
+        return withoutTrailingSlash(IMAGE_PROXY_LOCAL_ORIGIN);
 }

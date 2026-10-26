@@ -1,8 +1,8 @@
 <script>
     import {onMount} from "svelte";
-    import {getModalImage} from '$lib/utils/imageOptimization.js';
-    import Masonry from '$lib/components/Masonry.svelte';
-    import PhotoMasonry from '$lib/components/PhotoMasonry.svelte';
+    import {getModalImage} from '#lib/utils/imageOptimization.js';
+    import Masonry from '#lib/components/Masonry.svelte';
+    import PhotoMasonry from '#lib/components/PhotoMasonry.svelte';
 
     let {data} = $props();
     let content = $derived(data.content);

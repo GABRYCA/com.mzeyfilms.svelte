@@ -1,12 +1,10 @@
-import {redirect} from "@sveltejs/kit";
+import { redirect } from '@sveltejs/kit';
+import { getAdminSession } from '#lib/server/adminAuth.js';
 
 export const load = async ({ cookies }) => {
-    // Check if user found
-    const sessionId = cookies.get('session_id');
+	if (getAdminSession(cookies)) {
+		redirect(303, '/admin/dashboard');
+	}
 
-    if (sessionId && global.sessions && global.sessions[sessionId]) {
-        return redirect(303, '/admin/dashboard');
-    } else {
-        return redirect(303, '/admin/login')
-    }
-}
+	redirect(303, '/admin/login');
+};

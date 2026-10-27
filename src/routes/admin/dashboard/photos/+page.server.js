@@ -1,5 +1,9 @@
+import { fail } from '@sveltejs/kit';
 import sharp from 'sharp';
 import {getPocketBasePublicFilesUrl} from '#lib/server/pocketbase.js';
+
+const OFFLINE_MESSAGE =
+    'PocketBase non è disponibile. Riprova quando il backend è online: la conversione YouTube resta utilizzabile.';
 
 const uploadImage = async (image, folder, pb) => {
 
@@ -35,6 +39,17 @@ const uploadImage = async (image, folder, pb) => {
 
 export async function load( { locals: { pb }} ){
 
+    if (!pb) {
+        return {
+            folders: [],
+            content: [],
+            pocketbaseAvailable: false,
+            title: 'MZEYFILMS - Admin - Photos',
+            description: 'MZEFILMS Admin Photos. Manage your photos.',
+            index: false
+        }
+    }
+
     const folders = await pb.collection('folders').getFullList();
     const foldersWithImages = [];
 
@@ -51,6 +66,7 @@ export async function load( { locals: { pb }} ){
     return {
         folders: folders,
         content: foldersWithImages,
+        pocketbaseAvailable: true,
         title: 'MZEYFILMS - Admin - Photos',
         description: 'MZEFILMS Admin Photos. Manage your photos.',
         index: false
@@ -59,6 +75,8 @@ export async function load( { locals: { pb }} ){
 
 export const actions = {
     upload: async ({ request, locals: { pb } }) => {
+        if (!pb) return fail(503, { message: OFFLINE_MESSAGE });
+
         const formData = Object.fromEntries(await request.formData());
 
         let folder = formData.folder;
@@ -114,6 +132,8 @@ export const actions = {
         }
     },
     create: async ({ request, locals: { pb } }) => {
+        if (!pb) return fail(503, { message: OFFLINE_MESSAGE });
+
         const formData = Object.fromEntries(await request.formData());
 
         const folderName = formData.folderName;
@@ -154,6 +174,8 @@ export const actions = {
         }
     },
     renameFolder: async ({ request, locals: { pb } }) => {
+        if (!pb) return fail(503, { message: OFFLINE_MESSAGE });
+
         const formData = Object.fromEntries(await request.formData());
 
         const oldFolderName = formData.folderName;
@@ -187,6 +209,8 @@ export const actions = {
         }
     },
     deleteFolder: async ({ request, locals: { pb } }) => {
+        if (!pb) return fail(503, { message: OFFLINE_MESSAGE });
+
         const formData = Object.fromEntries(await request.formData());
 
         const folderName = formData.folderName;
@@ -215,6 +239,8 @@ export const actions = {
         }
     },
     move: async ({ request, locals: { pb } }) => {
+        if (!pb) return fail(503, { message: OFFLINE_MESSAGE });
+
         const formData = Object.fromEntries(await request.formData());
 
         const folderName = formData.newFolder;
@@ -263,6 +289,8 @@ export const actions = {
         }
     },
     delete: async ({ request, locals: { pb } }) => {
+        if (!pb) return fail(503, { message: OFFLINE_MESSAGE });
+
         const formData = Object.fromEntries(await request.formData());
 
         const image = formData.imageName;

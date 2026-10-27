@@ -140,6 +140,7 @@
     </div>
     <hr class="text-secondary">.
 
+    {#if data.pocketbaseAvailable}
     <!-- Upload Foto -->
     <div class="row bg-black bg-opacity-50 pt-3 pb-3 mx-2 rounded-4">
         <div class="col-12 text-center">
@@ -306,5 +307,25 @@
             </div>
         </div>
     </div>
+    {:else}
+        <div class="alert alert-warning border-warning border-opacity-25 bg-warning bg-opacity-10 text-warning-emphasis mx-2 mt-3 mb-3 d-flex align-items-start gap-2" role="alert">
+            <i class="fa-solid fa-triangle-exclamation mt-1"></i>
+            <div>
+                <strong>PocketBase non disponibile.</strong>
+                Non puoi caricare o organizzare le foto finché il backend non torna online.
+                Puoi comunque usare la <a class="alert-link" href="/admin/dashboard/conversion">conversione YouTube</a>.
+            </div>
+        </div>
+
+        <div class="text-center py-5">
+            <i class="fa-solid fa-plug-circle-xmark fa-3x text-warning mb-3"></i>
+            <h2 class="h3 text-warning">Foto non disponibili</h2>
+            <p class="text-secondary mb-4">PocketBase è offline: le cartelle e le immagini non possono essere caricate.</p>
+            <a class="btn btn-primary" href="/admin/dashboard/conversion">
+                <i class="fa-solid fa-wand-magic-sparkles me-1"></i>
+                Vai alla conversione YouTube
+            </a>
+        </div>
+    {/if}
 
 </div>

@@ -87,7 +87,7 @@
             newCredits = [];
             showAdvanced = false;
         } else {
-            toast.push(result.data?.body?.message || 'Errore durante il caricamento', {
+            toast.push(result.data?.body?.message || result.data?.message || 'Errore durante il caricamento', {
                 theme: { '--toastBackground': '#f44336' }
             });
         }
@@ -104,6 +104,18 @@
         </div>
     </div>
 
+    {#if !data.pocketbaseAvailable}
+        <div class="alert alert-warning border-warning border-opacity-25 bg-warning bg-opacity-10 text-warning-emphasis mx-1 mb-3 d-flex align-items-start gap-2" role="alert">
+            <i class="fa-solid fa-triangle-exclamation mt-1"></i>
+            <div>
+                <strong>PocketBase non disponibile.</strong>
+                Non puoi caricare o modificare i film finché il backend non torna online.
+                Puoi comunque usare la <a class="alert-link" href="/admin/dashboard/conversion">conversione YouTube</a>.
+            </div>
+        </div>
+    {/if}
+
+    {#if data.pocketbaseAvailable}
     <!-- Upload Section styled in translucent dark theme -->
     <div class="row bg-black bg-opacity-50 border border-secondary border-opacity-25 pt-4 pb-4 px-3 mx-1 rounded-4">
         <div class="col-12 text-start">
@@ -195,6 +207,7 @@
             </form>
         </div>
     </div>
+    {/if}
 
     <!-- Active Videos Section -->
     <div class="row w-100 mx-auto justify-content-start align-items-stretch text-center gy-4 mt-2">
@@ -202,7 +215,17 @@
             <h4 class="h4 text-start ms-auto ms-md-2 mt-2 mb-0 border-bottom border-secondary border-opacity-25 pb-2">I tuoi video:</h4>
         </div>
 
-        {#if !videos || videos.length === 0}
+        {#if !data.pocketbaseAvailable}
+            <div class="col-12 mt-5 py-5 text-center">
+                <i class="fa-solid fa-plug-circle-xmark fa-3x text-warning mb-3"></i>
+                <h3 class="h3 text-warning">Film non disponibili</h3>
+                <p class="text-secondary mb-4">PocketBase è offline: la lista dei film non può essere caricata.</p>
+                <a class="btn btn-primary" href="/admin/dashboard/conversion">
+                    <i class="fa-solid fa-wand-magic-sparkles me-1"></i>
+                    Vai alla conversione YouTube
+                </a>
+            </div>
+        {:else if !videos || videos.length === 0}
             <div class="col-12 mt-5 py-5 text-center">
                 <i class="fa-solid fa-film fa-3x text-secondary mb-3"></i>
                 <h3 class="h3 text-secondary">Non hai ancora aggiunto video...</h3>

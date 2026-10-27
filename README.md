@@ -16,12 +16,23 @@ cp .env.example .env
 bun run dev
 ```
 
-The dev server runs on `http://localhost:5173`. For local form submissions, make
-sure `ORIGIN` matches that address, for example:
+The dev server runs on `http://localhost:5173`. CSRF checks are disabled in
+development. To preview a production build locally, build it with `ORIGIN`
+matching the preview address:
 
 ```bash
-ORIGIN=http://localhost:5173 bun run dev
+ORIGIN=http://localhost:4173 bun run build
+bun run preview
 ```
+
+You can also put `ORIGIN=http://localhost:4173` in `.env.local`; Vite gives it
+priority over `.env`, and Docker ignores `.env.*` files. `ORIGIN` is baked into
+the build, so changing it always requires rebuilding. If it is not set,
+SvelteKit derives the origin from each request at runtime.
+
+`bun run build` deletes `.svelte-kit` and `build` before running Vite. Without
+that clean step SvelteKit can reuse a server bundle compiled with the previous
+`paths.origin`, so the old origin keeps causing 403 errors even after a rebuild.
 
 Run PocketBase separately (for example with `pocketbase serve`) and set
 `POCKETBASE_INTERNAL_URL` and `PUBLIC_POCKETBASE_URL` in `.env`. The backend
@@ -31,14 +42,15 @@ needs the same superuser credentials configured in the app. If you do not set
 Useful commands:
 
 ```bash
-bun run check        # svelte-check
-bun run --bun build  # production build (must run under Bun)
-bun ./build          # start the production server
+bun run check  # svelte-check
+bun run build  # clean production build (must run under Bun)
+bun ./build    # start the production server
 ```
 
-`@sveltejs/adapter-bun` calls Bun's build API, so the build command must use
-`--bun`. The build output lives in `build/` and expects `package.json` plus the
-production dependencies in `node_modules`.
+`@sveltejs/adapter-bun` calls Bun's build API, so the build must run under Bun.
+The `build` script cleans the old output and then invokes Vite. The build output
+lives in `build/` and expects `package.json` plus the production dependencies in
+`node_modules`.
 
 ## Deployment with Coolify (Dockerfile)
 
@@ -95,7 +107,7 @@ Without it, `/image/...` redirects to the original file.
 
 | Variable | Purpose |
 | --- | --- |
-| `ORIGIN` | Public URL of the site. Baked in at build time (`paths.origin`). |
+| `ORIGIN` | Public URL of the site. Read at build time and baked into `paths.origin` for CSRF checks and prerendering. If omitted, the origin is derived from each request. |
 | `BODY_SIZE_LIMIT` | Maximum request body size. Use `15728640` (15 MB) for uploads. |
 | `PRIVATE_LOGIN_USERNAME` / `PRIVATE_LOGIN_PASSWORD` | Site admin credentials. |
 | `PRIVATE_POCKETBASE_EMAIL` / `PRIVATE_POCKETBASE_PASSWORD` | PocketBase superuser used by the server and schema bootstrap. |
@@ -157,9 +169,36 @@ docker run --rm -v pocketbase_data:/data -v "$PWD":/backup alpine \
 Keep a copy off the machine. Restore only into a stopped deployment with a
 deliberately selected target volume.
 
+## Admin dashboard
+
+Sign in at `/admin` with `PRIVATE_LOGIN_USERNAME` and `PRIVATE_LOGIN_PASSWORD`.
+The admin session is independent of PocketBase, so `/admin/dashboard` and its
+tools stay reachable when PocketBase is offline (for example with
+`bun run preview`). In that state the dashboard shows an offline banner and the
+video/photo pages disable their content and actions until PocketBase responds
+again.
+
+If login fails with `403 Cross-site POST form submissions are forbidden`, the
+build's `ORIGIN` does not match the URL in the browser. Rebuild with the correct
+`ORIGIN` (for example `http://localhost:4173`); the build log prints the value
+that was baked in. Changing `.env` without rebuilding has no effect.
+
 ## YouTube animated previews
 
 The production image installs `ffmpeg` and `yt-dlp` for automatic YouTube to
 AVIF previews. Datacenter IPs can be blocked by YouTube; see the commented
 `YTDLP_*` variables in `.env.example` when that happens. The app tries non-web
 player clients first and falls back to cookies or a proxy when configured.
+
+Video uploads generate the HD and SD previews automatically. The same pipeline
+is available without PocketBase from **Admin → Conversione**
+(`/admin/dashboard/conversion`): paste a YouTube URL, optionally choose the clip
+start in seconds, and start the conversion. The job runs in the background and
+the page polls its progress, then shows animated previews, file sizes, and
+download buttons for both versions.
+
+Conversions produce the same files as uploads: HD AVIF at 720px/24 fps and SD
+AVIF at 320px/15 fps. Generated files are kept in the OS temporary directory
+for 24 hours and then deleted; restarting the server also clears stale jobs.
+Downloads and inline previews are served through authenticated endpoints, so
+they are only available to a signed-in admin.

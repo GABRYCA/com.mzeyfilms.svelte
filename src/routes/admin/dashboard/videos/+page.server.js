@@ -1,3 +1,4 @@
+import { fail } from '@sveltejs/kit';
 import {
 	DEFAULT_PREVIEW_START_SECONDS,
 	hasUploadedFile,
@@ -7,8 +8,22 @@ import {
 } from '#lib/server/youtubePreview.js';
 import {getPocketBasePublicFilesUrl} from '#lib/server/pocketbase.js';
 
+const OFFLINE_MESSAGE =
+	'PocketBase non è disponibile. Riprova quando il backend è online: la conversione YouTube resta utilizzabile.';
+
 export async function load({ locals: { pb } }) {
 	const filesUrl = getPocketBasePublicFilesUrl();
+
+	if (!pb) {
+		return {
+			videos: [],
+			pocketbaseAvailable: false,
+			title: 'MZEYFILMS - Admin - Videos',
+			description: 'MZEFILMS Admin Videos. Manage your films.',
+			index: false
+		};
+	}
+
 	const videos = await pb.collection('videos').getFullList({
 		sort: '-created'
 	});
@@ -26,6 +41,7 @@ export async function load({ locals: { pb } }) {
 
 	return {
 		videos: videosWithUrls,
+		pocketbaseAvailable: true,
 		title: 'MZEYFILMS - Admin - Videos',
 		description: 'MZEFILMS Admin Videos. Manage your films.',
 		index: false
@@ -49,6 +65,8 @@ function stripEmptyPreviewFields(formData) {
 
 export const actions = {
 	upload: async ({ request, locals: { pb } }) => {
+		if (!pb) return fail(503, { message: OFFLINE_MESSAGE });
+
 		const formData = await request.formData();
 
 		const name = formData.get('name');
@@ -120,6 +138,8 @@ export const actions = {
 	},
 
 	update: async ({ request, locals: { pb } }) => {
+		if (!pb) return fail(503, { message: OFFLINE_MESSAGE });
+
 		const formData = await request.formData();
 
 		const id = formData.get('id');
@@ -157,6 +177,8 @@ export const actions = {
 	 * Runs in background to avoid reverse-proxy timeouts (AVIF encode is slow).
 	 */
 	generatePreviews: async ({ request, locals: { pb } }) => {
+		if (!pb) return fail(503, { message: OFFLINE_MESSAGE });
+
 		const formData = await request.formData();
 		const id = String(formData.get('id') || '');
 
@@ -237,6 +259,8 @@ export const actions = {
 	},
 
 	delete: async ({ request, locals: { pb } }) => {
+		if (!pb) return fail(503, { message: OFFLINE_MESSAGE });
+
 		const formData = await request.formData();
 		const id = formData.get('id');
 

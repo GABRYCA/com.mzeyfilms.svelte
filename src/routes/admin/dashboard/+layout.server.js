@@ -1,28 +1,31 @@
-import {error, redirect} from "@sveltejs/kit";
-import {ensurePocketBaseSchema} from '#lib/server/pocketbase.js';
+import { ensurePocketBaseSchema } from '#lib/server/pocketbase.js';
+import { requireAdmin } from '#lib/server/adminAuth.js';
 
 export const load = async ({ cookies, locals: { pb } }) => {
-    // Check if user found
-    const sessionId = cookies.get('session_id');
+	requireAdmin(cookies);
 
-    if (!(sessionId && global.sessions && global.sessions[sessionId])) {
-        return redirect(303, '/admin/login')
-    }
+	let pocketbaseAvailable = Boolean(pb);
+	let pocketbaseMessage = '';
 
-    if (!pb) {
-        throw error(503, 'PocketBase is unavailable. Check its connection and superuser environment variables.');
-    }
+	if (pb) {
+		try {
+			await ensurePocketBaseSchema(pb);
+		} catch (schemaError) {
+			console.error('[PocketBase] schema bootstrap failed:', schemaError);
+			pocketbaseAvailable = false;
+			pocketbaseMessage =
+				'PocketBase è raggiungibile, ma non è stato possibile preparare le collezioni predefinite.';
+		}
+	} else {
+		pocketbaseMessage =
+			'PocketBase non è raggiungibile. La dashboard e la conversione YouTube restano disponibili; Films e Foto richiedono PocketBase.';
+	}
 
-    try {
-        await ensurePocketBaseSchema(pb);
-    } catch (schemaError) {
-        console.error('[PocketBase] schema bootstrap failed:', schemaError);
-        throw error(503, 'PocketBase is connected but its default collections could not be created.');
-    }
-
-    return {
-        title: 'MZEYFILMS - Admin - Dashboard',
-        description: 'MZEFILMS Admin Dashboard. Manage your films, photos, and more.',
-        index: false
-    }
-}
+	return {
+		title: 'MZEYFILMS - Admin - Dashboard',
+		description: 'MZEFILMS Admin Dashboard. Manage your films, photos, and more.',
+		index: false,
+		pocketbaseAvailable,
+		pocketbaseMessage
+	};
+};

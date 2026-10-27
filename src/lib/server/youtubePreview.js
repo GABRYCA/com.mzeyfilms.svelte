@@ -22,6 +22,12 @@ const HIGH_CRF = 28;
 const LOW_CRF = 32;
 const CPU_USED = 5;
 
+/** Metadata shared by the upload pipeline and the manual conversion page. */
+export const PREVIEW_SPECS = {
+	high: { width: HIGH_WIDTH, fps: HIGH_FPS, crf: HIGH_CRF, durationSeconds: DURATION_SECONDS },
+	low: { width: LOW_WIDTH, fps: LOW_FPS, crf: LOW_CRF, durationSeconds: DURATION_SECONDS }
+};
+
 /** Default clip start: skip intro black frames / channel bumpers */
 export const DEFAULT_PREVIEW_START_SECONDS = 2;
 
@@ -49,6 +55,39 @@ const YT_FORMAT =
 
 /** @type {Promise<void>} */
 let generationQueue = Promise.resolve();
+
+/**
+ * Queue an async preview task so only one heavy yt-dlp/ffmpeg encode runs at a
+ * time. A rejected task never blocks the queue.
+ *
+ * @template T
+ * @param {() => Promise<T>} task
+ * @returns {Promise<T>}
+ */
+export function enqueuePreviewTask(task) {
+	const result = generationQueue.then(task);
+	generationQueue = result.then(
+		() => undefined,
+		() => undefined
+	);
+	return result;
+}
+
+/**
+ * Fail early with a clear message when the local conversion tools are missing.
+ * The production image installs both; `bun run preview` uses the host binaries.
+ */
+export async function checkPreviewTools() {
+	try {
+		await runCommand('ffmpeg', ['-version'], { timeoutMs: 10_000 });
+	} catch {
+		throw new Error(
+			'ffmpeg non trovato. Installalo e assicurati che sia disponibile nel PATH.'
+		);
+	}
+
+	await resolveYtDlpBinary();
+}
 
 /**
  * @param {unknown} url
@@ -544,6 +583,7 @@ async function downloadYoutubeClip(
  * @param {boolean} options.needsLow
  * @param {File | Buffer | null} [options.existingHighres] - when only low-res is missing
  * @param {number} [options.startSeconds] - absolute start time in the YouTube video (default 2s)
+ * @param {(stage: string) => void} [options.onStage] - progress callback (human readable)
  * @returns {Promise<{ highres?: File, lowres?: File }>}
  */
 export async function generateAnimatedPreviews({
@@ -551,9 +591,19 @@ export async function generateAnimatedPreviews({
 	needsHigh,
 	needsLow,
 	existingHighres = null,
-	startSeconds = DEFAULT_PREVIEW_START_SECONDS
+	startSeconds = DEFAULT_PREVIEW_START_SECONDS,
+	onStage
 }) {
 	if (!needsHigh && !needsLow) return {};
+
+	/** @param {string} stage */
+	const reportStage = (stage) => {
+		try {
+			onStage?.(stage);
+		} catch {
+			// Progress reporting must never break the conversion itself.
+		}
+	};
 
 	const start = parsePreviewStartSeconds(startSeconds);
 	const workDir = await mkdtemp(join(tmpdir(), 'mzey-preview-'));
@@ -572,10 +622,12 @@ export async function generateAnimatedPreviews({
 			}
 
 			console.log(`[youtubePreview] Scarico clip da YouTube (start=${start}s)...`);
+			reportStage(`Scarico la clip da YouTube (da ${start}s)...`);
 			await downloadYoutubeClip(youtubeUrl, clipPath, start, workDir);
 			clipDownloaded = true;
 
 			console.log('[youtubePreview] Codifico AVIF HD...');
+			reportStage('Codifico la preview AVIF HD (720px)...');
 			// Clip already starts at `start` for section downloads; for stream+ffmpeg
 			// the file also begins at the requested window — always encode from 0.
 			await encodeAnimatedAvif(clipPath, highPath, {
@@ -593,6 +645,7 @@ export async function generateAnimatedPreviews({
 					// Encode SD from the same source clip instead of shrinking the
 					// freshly encoded HD AVIF, avoiding a second lossy generation.
 					console.log('[youtubePreview] Codifico AVIF SD dalla clip sorgente...');
+					reportStage('Codifico la preview AVIF SD (320px)...');
 					await encodeAnimatedAvif(clipPath, lowPath, {
 						width: LOW_WIDTH,
 						fps: LOW_FPS,
@@ -615,14 +668,17 @@ export async function generateAnimatedPreviews({
 					}
 
 					console.log('[youtubePreview] Codifico AVIF SD da preview HD esistente...');
+					reportStage('Ridimensiono la preview HD in AVIF SD (320px)...');
 					await downscaleAnimatedAvif(fullSource, lowPath, LOW_WIDTH);
 				} else {
 					if (!youtubeUrl || !isYoutubeUrl(youtubeUrl)) {
 						throw new Error('URL YouTube valido richiesto per generare la preview SD');
 					}
 					console.log(`[youtubePreview] Scarico clip da YouTube per SD (start=${start}s)...`);
+					reportStage(`Scarico la clip da YouTube (da ${start}s)...`);
 					await downloadYoutubeClip(youtubeUrl, clipPath, start, workDir);
 					console.log('[youtubePreview] Codifico AVIF SD...');
+					reportStage('Codifico la preview AVIF SD (320px)...');
 					await encodeAnimatedAvif(clipPath, lowPath, {
 						width: LOW_WIDTH,
 						fps: LOW_FPS,
@@ -688,26 +744,22 @@ export function schedulePreviewGeneration(options) {
 
 	const start = parsePreviewStartSeconds(startSeconds);
 
-	generationQueue = generationQueue
-		.then(async () => {
-			console.log(
-				`[youtubePreview] Avvio generazione anteprime per video ${videoId} (HD=${needsHigh}, SD=${needsLow}, start=${start}s)`
-			);
-			const files = await generateAnimatedPreviews({
-				youtubeUrl,
-				needsHigh,
-				needsLow,
-				existingHighres,
-				startSeconds: start
-			});
-			await attachPreviewsToVideo(pb, videoId, files);
-			console.log(`[youtubePreview] Anteprime allegate al video ${videoId}`);
-		})
-		.catch((err) => {
-			console.error(`[youtubePreview] Generazione fallita per video ${videoId}:`, err);
+	return enqueuePreviewTask(async () => {
+		console.log(
+			`[youtubePreview] Avvio generazione anteprime per video ${videoId} (HD=${needsHigh}, SD=${needsLow}, start=${start}s)`
+		);
+		const files = await generateAnimatedPreviews({
+			youtubeUrl,
+			needsHigh,
+			needsLow,
+			existingHighres,
+			startSeconds: start
 		});
-
-	return generationQueue;
+		await attachPreviewsToVideo(pb, videoId, files);
+		console.log(`[youtubePreview] Anteprime allegate al video ${videoId}`);
+	}).catch((err) => {
+		console.error(`[youtubePreview] Generazione fallita per video ${videoId}:`, err);
+	});
 }
 
 /**

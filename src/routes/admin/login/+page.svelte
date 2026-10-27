@@ -1,48 +1,19 @@
 <script>
-    import {onMount} from "svelte";
-    import {deserialize} from "$app/forms";
-    import {refreshAll} from "$app/navigation";
+    import { enhance } from '$app/forms';
 
-    onMount(() => {
-        document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach((element) => {
-            new bootstrap.Tooltip(element);
-        });
-    });
+    /** @type {import('./$types').PageProps} */
+    let { form } = $props();
 
-    let message = $state('');
-    let status = $state(0);
-    let isLoggingIn = false;
+    let isLoggingIn = $state(false);
 
-    async function handleLogin(event) {
-        event.preventDefault();
-
-        if (isLoggingIn) return;
-
+    function enhanceLogin() {
         isLoggingIn = true;
 
-        const formData = new FormData(event.target);
-
-        const response = await fetch('?/login', {
-            method: 'POST',
-            body: formData
-        });
-
-        const result = deserialize(await response.text());
-        if (result.type === 'success') {
-            status = result.data.status;
-            if (result.data.status === 200) {
-                await refreshAll();
-            }
-            if (result.data.status === 401) {
-                message = result.data.body.message;
-            }
-        } else {
-            message = result.data.body.message;
-        }
-
-        isLoggingIn = false;
+        return async ({ update }) => {
+            await update();
+            isLoggingIn = false;
+        };
     }
-
 </script>
 
 <svelte:head>
@@ -57,19 +28,41 @@
                 <div class="card bg-dark shadow rounded-4">
                     <div class="card-body px-5">
                         <h1 class="card-title fw-bold fs-1 mb-4 mt-4 text-center">Login</h1>
-                        <form method="POST" action="?/login" onsubmit={handleLogin}>
+                        <form method="POST" action="?/login" use:enhance={enhanceLogin}>
                             <div class="form-outline mb-3 text-start">
                                 <label class="form-label" for="username">Username:</label>
-                                <input class="form-control form-control-lg bg-dark text-white border-secondary" type="text" name="username" id="username" required/>
+                                <input
+                                    class="form-control form-control-lg bg-dark text-white border-secondary"
+                                    type="text"
+                                    name="username"
+                                    id="username"
+                                    autocomplete="username"
+                                    value={form?.username ?? ''}
+                                    required
+                                />
                             </div>
                             <div class="form-outline mb-3 text-start">
                                 <label class="form-label" for="password">Password:</label>
-                                <input class="form-control form-control-lg bg-dark text-white border-secondary" type="password" name="password" id="password" required/>
+                                <input
+                                    class="form-control form-control-lg bg-dark text-white border-secondary"
+                                    type="password"
+                                    name="password"
+                                    id="password"
+                                    autocomplete="current-password"
+                                    required
+                                />
                             </div>
-                            {#if message}
-                                <div class="alert {(status === 200) ? 'alert-success' : 'alert-danger'}">{message}</div>
+                            {#if form?.message}
+                                <div class="alert alert-danger" role="alert">{form.message}</div>
                             {/if}
-                            <button class="btn btn-primary btn-lg mb-3" type="submit">Login</button>
+                            <button class="btn btn-primary btn-lg mb-3" type="submit" disabled={isLoggingIn}>
+                                {#if isLoggingIn}
+                                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                    Accesso...
+                                {:else}
+                                    Login
+                                {/if}
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -77,7 +70,3 @@
         </div>
     </div>
 </div>
-
-<style>
-
-</style>

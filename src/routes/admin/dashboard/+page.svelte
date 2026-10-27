@@ -21,7 +21,7 @@
             href: '/admin/dashboard/conversion',
             icon: 'fa-wand-magic-sparkles',
             title: 'Conversione YouTube',
-            description: 'Genera e scarica le anteprime AVIF HD e SD senza PocketBase.',
+            description: 'Genera e scarica le anteprime AVIF HD e SD (FUNZIONA SOLO IN LOCALHOST, NON USARE!).',
             requiresPocketBase: false
         }
     ];
@@ -33,7 +33,7 @@
             <div class="text-center mb-4">
                 <p class="h1 mb-2">
                     <i class="fa-solid fa-arrow-up fa-2x"></i>
-                    Benvenuto sulla dashboard!
+                    Benvenuto nella dashboard!
                     <i class="fa-solid fa-arrow-up fa-2x"></i>
                 </p>
                 <p class="fs-5 text-secondary mb-2">Seleziona un'opzione per iniziare.</p>
@@ -50,21 +50,10 @@
                             class="card h-100 bg-black bg-opacity-50 text-white border border-secondary border-opacity-25 rounded-4 text-decoration-none dashboard-card {section.requiresPocketBase && !data.pocketbaseAvailable ? 'opacity-75' : ''}"
                             href={section.href}
                         >
-                            <div class="card-body d-flex flex-column text-center p-4">
+                            <div class="card-body d-flex flex-column text-center p-4 align-items-center">
                                 <i class="fa-solid {section.icon} fa-3x mb-3 text-primary"></i>
                                 <h2 class="h4">{section.title}</h2>
                                 <p class="text-secondary mb-3">{section.description}</p>
-                                <div class="mt-auto d-flex flex-wrap justify-content-center gap-2">
-                                    {#if section.requiresPocketBase}
-                                        <span class="badge {data.pocketbaseAvailable ? 'bg-success bg-opacity-25 text-success-emphasis border border-success border-opacity-25' : 'bg-warning bg-opacity-25 text-warning border border-warning border-opacity-25'}">
-                                            {data.pocketbaseAvailable ? 'Disponibile' : 'Richiede PocketBase'}
-                                        </span>
-                                    {:else}
-                                        <span class="badge bg-info bg-opacity-25 text-info border border-info border-opacity-25">
-                                            Disponibile anche offline
-                                        </span>
-                                    {/if}
-                                </div>
                             </div>
                         </a>
                     </div>

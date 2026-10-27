@@ -234,11 +234,6 @@
                             {/if}
                         </button>
                     </form>
-
-                    <p class="text-secondary small mt-3 mb-0">
-                        <i class="fa-solid fa-terminal me-1"></i>
-                        Richiede <code>ffmpeg</code> e <code>yt-dlp</code> disponibili sul server.
-                    </p>
                 </div>
             </div>
         </div>
@@ -370,9 +365,9 @@
                 <div class="card h-100 bg-black bg-opacity-50 text-white border border-secondary border-opacity-25 rounded-4">
                     <div class="card-body d-flex flex-column align-items-center justify-content-center text-center p-5">
                         <i class="fa-solid fa-wand-magic-sparkles fa-3x text-primary mb-3"></i>
-                        <h2 class="h4">Nessuna conversione attiva</h2>
+                        <h2 class="h4">Nessuna conversione in corso</h2>
                         <p class="text-secondary mb-0">
-                            Inserisci un URL YouTube nel modulo per creare le anteprime AVIF HD e SD.
+                            Inserisci l'URL YouTube per creare le anteprime AVIF.
                         </p>
                     </div>
                 </div>

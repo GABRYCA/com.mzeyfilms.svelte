@@ -111,7 +111,7 @@
             <p class="text-secondary mb-3">
                 Aggiungi un filmato e configura opzioni avanzate.
                 Se non carichi le anteprime animate, verranno generate automaticamente dal video YouTube
-                (~7 secondi da t=2s di default, HD max 480px / SD max 240px).
+                (~7 secondi da t=2s di default, HD max 720px / SD max 320px).
             </p>
 
             <form method="post" enctype="multipart/form-data" action="?/upload" onsubmit={handleUpload}>

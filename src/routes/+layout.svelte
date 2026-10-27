@@ -114,11 +114,11 @@
 
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark text-center mb-1 theme-main-container theme-shadow rounded-bottom-3 navbar-autohide {isNavbarVisible ? 'navbar-visible' : 'navbar-hidden'}">
-    <div class="container-fluid py-2">
+    <div class="container-fluid py-1 py-lg-2">
         <div class="d-flex justify-content-between w-100 d-lg-none">
             <!-- Navbar title Mobile -->
             <a class="text-decoration-none navbar-title-link my-auto pt-1 navbar-title d-lg-none hover-lift" href="/">
-                <p class="navbar-title ms-3 mb-0 enhanced-text">MZEYFILMS</p>
+                <p class="navbar-title ms-2 mb-0 enhanced-text">MZEYFILMS</p>
                 <!--<p class="navbar-subtitle mb-0 theme-text-secondary">
                     {@html page.data.subtitle}
                 </p>-->
@@ -130,7 +130,7 @@
             </button>
         </div>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <div class="row align-items-center text-center justify-content-center w-100 mx-0 px-0 py-4 py-lg-0">
+            <div class="row align-items-center text-center justify-content-center w-100 mx-0 px-0 py-2 py-lg-0">
                 <ul class="col-12 col-lg-4 pe-0 justify-content-start navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link hover-lift { page.url.pathname === '/films' ? 'active' : '' }"
@@ -155,7 +155,7 @@
                     </a>
                 </div>
                 <!-- Navbar socials -->
-                <div class="col-12 col-lg-4 mt-4 mt-lg-0 justify-content-center justify-content-lg-end navbar-nav">
+                <div class="col-12 col-lg-4 mt-2 mt-lg-0 justify-content-center justify-content-lg-end navbar-nav">
                     <div class="row justify-content-center">
                         <div class="col-auto">
                             <a class="nav-link navbar-icon px-0"
@@ -174,7 +174,7 @@
 {@render children?.()}
 
 <!-- Footer -->
-<div class="row py-3 mx-auto mt-1 justify-content-center align-items-center theme-main-container theme-shadow rounded-top-3">
+<div class="row py-2 py-md-3 mx-auto mt-1 justify-content-center align-items-center theme-main-container theme-shadow rounded-top-3">
     <!--<div class="col-12 col-md-4 text-center pb-2">
         <div class="row justify-content-center">
             <div class="col-12">
@@ -204,10 +204,10 @@
             </div>
         </div>
     </div>-->
-    <div class="col-12 col-md-4 text-center pb-2 mt-2 mt-md-0">
-        <p class="h5 mt-2 theme-text-primary">© Copyright:</p>
-        <p class="h6 theme-text-secondary">MZEYFILMS {currentYear}</p>
-        <p class="h6 pt-1">Made by: <a class="theme-text-secondary text-decoration-none hover-lift"
+    <div class="col-12 col-md-4 text-center pb-1 mt-1 mt-md-0">
+        <p class="h5 footer-heading mt-0 mt-md-2 theme-text-primary">© Copyright:</p>
+        <p class="h6 footer-line theme-text-secondary">MZEYFILMS {currentYear}</p>
+        <p class="h6 footer-line footer-credit pt-0 pt-md-1">Made by: <a class="theme-text-secondary text-decoration-none hover-lift"
                                        href="https://anonymousgca.eu/" data-bs-toggle="tooltip"
                                        data-bs-placement="top" title="Visit Developer" target="_blank">AnonymousGCA/GABRYCA</a>
         </p>
@@ -268,11 +268,30 @@
 
     @media (max-width: 991px) {
         :global(body) {
-            padding-top: 13vh;
+            padding-top: 4.25rem;
         }
 
         .navbar-autohide {
             transition: transform 0.4s ease-in-out;
+        }
+
+    }
+
+    @media (max-width: 767.98px) {
+        .footer-heading {
+            font-size: 0.95rem;
+            line-height: 1.2;
+            margin-bottom: 0.15rem;
+        }
+
+        .footer-line {
+            font-size: 0.8rem;
+            line-height: 1.35;
+            margin-bottom: 0.1rem;
+        }
+
+        .footer-credit {
+            margin-bottom: 0;
         }
     }
 
@@ -494,5 +513,38 @@
         outline-offset: 2px;
         box-shadow: none !important;
         background-color: transparent !important;
+    }
+
+    @media (max-width: 991px) {
+        .navbar-title {
+            font-size: 1.55rem;
+            line-height: 1.2;
+            letter-spacing: 0.12em;
+        }
+
+        .navbar-toggler {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 2.75rem;
+            min-height: 2.75rem;
+            padding: 0.25rem;
+            font-size: 1rem;
+            line-height: 1;
+        }
+
+        .navbar-toggler-icon {
+            width: 1.4em;
+            height: 1.4em;
+        }
+
+        .navbar-collapse .nav-link {
+            padding: 0.5rem 0.75rem !important;
+            font-size: 0.95rem;
+        }
+
+        .navbar-collapse .navbar-icon {
+            font-size: 1.15rem;
+        }
     }
 </style>

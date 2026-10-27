@@ -318,7 +318,7 @@
                     </button>
                 </div>
                 <p class="small text-secondary mb-3">
-                    Auto da YouTube: ~7s da t={previewStart}s, HD max 480px, SD max 240px (.avif). Può richiedere alcuni minuti.
+                    Auto da YouTube: ~7s da t={previewStart}s, HD max 720px, SD max 320px (.avif). Può richiedere alcuni minuti.
                 </p>
 
                 <div class="mb-3">

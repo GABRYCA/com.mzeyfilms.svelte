@@ -11,14 +11,16 @@ import {
 	YTDLP_PROXY
 } from '$app/env/private';
 
-const HIGH_WIDTH = 480;
-const LOW_WIDTH = 240;
-const FPS = 15;
+const HIGH_WIDTH = 720;
+const LOW_WIDTH = 320;
+const HIGH_FPS = 24;
+const LOW_FPS = 15;
 const DURATION_SECONDS = 7;
 /** Extra seconds downloaded past the encode window for keyframe / seek safety */
 const DOWNLOAD_PAD_SECONDS = 3;
-const CRF = 32;
-const CPU_USED = 6;
+const HIGH_CRF = 28;
+const LOW_CRF = 32;
+const CPU_USED = 5;
 
 /** Default clip start: skip intro black frames / channel bumpers */
 export const DEFAULT_PREVIEW_START_SECONDS = 2;
@@ -38,9 +40,12 @@ const YT_PLAYER_STRATEGIES = [
 	{ label: 'default' }
 ];
 
-/** Flexible format: prefer ≤720p video-only, then progressive, then anything */
+/**
+ * Flexible format: prefer ≤1080p video-only, then progressive, then anything.
+ * 1080p gives the AVIF encoder enough detail for a crisp 720px preview.
+ */
 const YT_FORMAT =
-	'bestvideo[height<=720][ext=mp4]/bestvideo[height<=720]/best[height<=720]/best';
+	'bestvideo[height<=1080][ext=mp4]/bestvideo[height<=1080]/best[height<=1080]/best';
 
 /** @type {Promise<void>} */
 let generationQueue = Promise.resolve();
@@ -290,12 +295,19 @@ function botBlockHint(lastErrorMessage) {
  *
  * @param {string} inputPath
  * @param {string} outputPath
- * @param {number} width
- * @param {number} [clipSeekSeconds=0] - seek within the downloaded clip (usually 0)
+ * @param {object} options
+ * @param {number} options.width
+ * @param {number} options.fps
+ * @param {number} options.crf
+ * @param {number} [options.clipSeekSeconds=0] - seek within the downloaded clip (usually 0)
  */
-async function encodeAnimatedAvif(inputPath, outputPath, width, clipSeekSeconds = 0) {
+async function encodeAnimatedAvif(
+	inputPath,
+	outputPath,
+	{ width, fps, crf, clipSeekSeconds = 0 }
+) {
 	// libaom-av1 produces animated AVIF compatible with browsers.
-	// cpu-used 6 balances encode time vs quality for server-side generation.
+	// cpu-used 5 keeps the encode reasonable while preserving preview quality.
 	await runCommand(
 		'ffmpeg',
 		[
@@ -311,13 +323,13 @@ async function encodeAnimatedAvif(inputPath, outputPath, width, clipSeekSeconds 
 			inputPath,
 			'-an',
 			'-vf',
-			`fps=${FPS},scale=${width}:-2:flags=lanczos`,
+			`fps=${fps},scale=${width}:-2:flags=lanczos`,
 			'-c:v',
 			'libaom-av1',
 			'-strict',
 			'experimental',
 			'-crf',
-			String(CRF),
+			String(crf),
 			'-b:v',
 			'0',
 			'-cpu-used',
@@ -347,13 +359,13 @@ async function downscaleAnimatedAvif(inputPath, outputPath, width) {
 			inputPath,
 			'-an',
 			'-vf',
-			`scale=${width}:-2:flags=lanczos`,
+			`fps=${LOW_FPS},scale=${width}:-2:flags=lanczos`,
 			'-c:v',
 			'libaom-av1',
 			'-strict',
 			'experimental',
 			'-crf',
-			String(CRF + 4),
+			String(LOW_CRF + 2),
 			'-b:v',
 			'0',
 			'-cpu-used',
@@ -452,7 +464,10 @@ async function downloadYoutubeClip(
 				common.push('--extractor-args', strategy.extractorArgs);
 			}
 
-			// 1) Preferred: yt-dlp section download (minimal bandwidth)
+			// 1) Preferred: yt-dlp section download (minimal bandwidth).
+			// Do NOT pass --force-keyframes-at-cuts: that makes yt-dlp re-encode
+			// the section to H.264 before we encode it to AVIF. Without it the
+			// original stream is copied and we transcode only once.
 			try {
 				console.log(
 					`[youtubePreview] Tentativo download (${strategy.label}, sections ${start}-${end}s)...`
@@ -461,7 +476,6 @@ async function downloadYoutubeClip(
 					ytDlp,
 					[
 						...common,
-						'--force-keyframes-at-cuts',
 						'--download-sections',
 						`*${start}-${end}`,
 						'-o',
@@ -550,6 +564,7 @@ export async function generateAnimatedPreviews({
 	try {
 		/** @type {{ highres?: File, lowres?: File }} */
 		const result = {};
+		let clipDownloaded = false;
 
 		if (needsHigh) {
 			if (!youtubeUrl || !isYoutubeUrl(youtubeUrl)) {
@@ -558,48 +573,70 @@ export async function generateAnimatedPreviews({
 
 			console.log(`[youtubePreview] Scarico clip da YouTube (start=${start}s)...`);
 			await downloadYoutubeClip(youtubeUrl, clipPath, start, workDir);
+			clipDownloaded = true;
 
 			console.log('[youtubePreview] Codifico AVIF HD...');
 			// Clip already starts at `start` for section downloads; for stream+ffmpeg
 			// the file also begins at the requested window — always encode from 0.
-			await encodeAnimatedAvif(clipPath, highPath, HIGH_WIDTH, 0);
+			await encodeAnimatedAvif(clipPath, highPath, {
+				width: HIGH_WIDTH,
+				fps: HIGH_FPS,
+				crf: HIGH_CRF
+			});
 			const highBuffer = await readFile(highPath);
 			result.highres = new File([highBuffer], 'preview-hd.avif', { type: 'image/avif' });
-		} else if (needsLow && existingHighres) {
-			// Write provided high-res preview to disk so we can downscale it
-			const sourcePath = join(workDir, 'source-hd');
-			if (existingHighres instanceof File) {
-				const buf = Buffer.from(await existingHighres.arrayBuffer());
-				const ext = existingHighres.name?.split('.').pop() || 'avif';
-				const fullSource = `${sourcePath}.${ext}`;
-				await writeFile(fullSource, buf);
-				console.log('[youtubePreview] Codifico AVIF SD da preview HD caricata...');
-				await downscaleAnimatedAvif(fullSource, lowPath, LOW_WIDTH);
-			} else {
-				await writeFile(`${sourcePath}.avif`, existingHighres);
-				await downscaleAnimatedAvif(`${sourcePath}.avif`, lowPath, LOW_WIDTH);
-			}
-			const lowBuffer = await readFile(lowPath);
-			result.lowres = new File([lowBuffer], 'preview-sd.avif', { type: 'image/avif' });
-			return result;
 		}
 
 		if (needsLow) {
-			// Prefer downscaling the HD AVIF we just made (or re-encode from clip)
-			if (result.highres) {
-				console.log('[youtubePreview] Codifico AVIF SD da HD...');
-				await downscaleAnimatedAvif(highPath, lowPath, LOW_WIDTH);
-			} else {
-				if (!youtubeUrl || !isYoutubeUrl(youtubeUrl)) {
-					throw new Error('URL YouTube valido richiesto per generare la preview SD');
+			try {
+				if (clipDownloaded) {
+					// Encode SD from the same source clip instead of shrinking the
+					// freshly encoded HD AVIF, avoiding a second lossy generation.
+					console.log('[youtubePreview] Codifico AVIF SD dalla clip sorgente...');
+					await encodeAnimatedAvif(clipPath, lowPath, {
+						width: LOW_WIDTH,
+						fps: LOW_FPS,
+						crf: LOW_CRF
+					});
+				} else if (existingHighres) {
+					// Write provided high-res preview to disk so we can downscale it
+					const sourcePath = join(workDir, 'source-hd');
+					/** @type {string} */
+					let fullSource;
+
+					if (existingHighres instanceof File) {
+						const buf = Buffer.from(await existingHighres.arrayBuffer());
+						const ext = existingHighres.name?.split('.').pop() || 'avif';
+						fullSource = `${sourcePath}.${ext}`;
+						await writeFile(fullSource, buf);
+					} else {
+						fullSource = `${sourcePath}.avif`;
+						await writeFile(fullSource, existingHighres);
+					}
+
+					console.log('[youtubePreview] Codifico AVIF SD da preview HD esistente...');
+					await downscaleAnimatedAvif(fullSource, lowPath, LOW_WIDTH);
+				} else {
+					if (!youtubeUrl || !isYoutubeUrl(youtubeUrl)) {
+						throw new Error('URL YouTube valido richiesto per generare la preview SD');
+					}
+					console.log(`[youtubePreview] Scarico clip da YouTube per SD (start=${start}s)...`);
+					await downloadYoutubeClip(youtubeUrl, clipPath, start, workDir);
+					console.log('[youtubePreview] Codifico AVIF SD...');
+					await encodeAnimatedAvif(clipPath, lowPath, {
+						width: LOW_WIDTH,
+						fps: LOW_FPS,
+						crf: LOW_CRF
+					});
 				}
-				console.log(`[youtubePreview] Scarico clip da YouTube per SD (start=${start}s)...`);
-				await downloadYoutubeClip(youtubeUrl, clipPath, start, workDir);
-				console.log('[youtubePreview] Codifico AVIF SD...');
-				await encodeAnimatedAvif(clipPath, lowPath, LOW_WIDTH, 0);
+
+				const lowBuffer = await readFile(lowPath);
+				result.lowres = new File([lowBuffer], 'preview-sd.avif', { type: 'image/avif' });
+			} catch (err) {
+				// A failed SD derivative must not discard a successful HD preview.
+				if (!result.highres) throw err;
+				console.error('[youtubePreview] Generazione SD fallita:', err);
 			}
-			const lowBuffer = await readFile(lowPath);
-			result.lowres = new File([lowBuffer], 'preview-sd.avif', { type: 'image/avif' });
 		}
 
 		return result;

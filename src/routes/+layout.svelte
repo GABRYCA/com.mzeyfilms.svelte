@@ -162,6 +162,10 @@
                                href="https://www.instagram.com/mzeyfilms/" target="_blank" aria-label="Instagram"
                                data-bs-toggle="tooltip" title="Follow me on Instagram"><i class="fab fa-instagram"></i></a>
                         </div>
+                        <div class="col-auto">
+                            <a class="nav-link navbar-icon px-0" href="mailto:{email}" aria-label="Email"
+                               data-bs-toggle="tooltip" title="Send me an email"><i class="fas fa-envelope"></i></a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -174,7 +178,7 @@
 {@render children?.()}
 
 <!-- Footer -->
-<div class="row py-2 py-md-3 mx-auto mt-1 justify-content-center align-items-center theme-main-container theme-shadow rounded-top-3">
+<div class="row py-1 py-md-3 mx-auto mt-1 justify-content-center align-items-center theme-main-container theme-shadow rounded-top-3">
     <!--<div class="col-12 col-md-4 text-center pb-2">
         <div class="row justify-content-center">
             <div class="col-12">
@@ -277,18 +281,21 @@
 
     @media (max-width: 767.98px) {
         .footer-heading {
-            font-size: 0.95rem;
+            font-size: 0.7rem;
             line-height: 1.2;
-            margin-bottom: 0.15rem;
+            margin-bottom: 0.1rem;
+            letter-spacing: 0.08em;
         }
 
         .footer-line {
-            font-size: 0.8rem;
-            line-height: 1.35;
-            margin-bottom: 0.1rem;
+            font-size: 0.72rem;
+            line-height: 1.3;
+            margin-bottom: 0.05rem;
+            font-weight: 400;
         }
 
         .footer-credit {
+            font-size: 0.66rem;
             margin-bottom: 0;
         }
     }

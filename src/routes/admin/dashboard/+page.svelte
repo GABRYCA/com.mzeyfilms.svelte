@@ -20,8 +20,8 @@
         {
             href: '/admin/dashboard/conversion',
             icon: 'fa-wand-magic-sparkles',
-            title: 'Conversione YouTube',
-            description: 'Genera e scarica le anteprime AVIF HD e SD (FUNZIONA SOLO IN LOCALHOST, NON USARE!).',
+            title: 'Conversione video',
+            description: 'Genera e scarica anteprime AVIF HD e SD da YouTube o da un video locale.',
             requiresPocketBase: false
         }
     ];

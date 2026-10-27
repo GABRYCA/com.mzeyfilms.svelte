@@ -61,7 +61,8 @@ Deploy this repository as a Dockerfile application in Coolify. The root
    `https://mzeyfilms.com`. It is baked into SvelteKit's `paths.origin` at build
    time and used for CSRF checks.
 2. Set the runtime environment variables listed below, including
-   `BODY_SIZE_LIMIT=15728640` for 15 MB admin uploads.
+   `BODY_SIZE_LIMIT=536870912` so temporary 512 MiB video uploads reach the app.
+   If Coolify's proxy enforces a smaller request limit, raise it there too.
 3. Expose port `3000`.
 4. Mount a persistent volume at `/app/pb_data` so PocketBase data and uploaded
    files survive redeploys.
@@ -108,7 +109,7 @@ Without it, `/image/...` redirects to the original file.
 | Variable | Purpose |
 | --- | --- |
 | `ORIGIN` | Public URL of the site. Read at build time and baked into `paths.origin` for CSRF checks and prerendering. If omitted, the origin is derived from each request. |
-| `BODY_SIZE_LIMIT` | Maximum request body size. Use `15728640` (15 MB) for uploads. |
+| `BODY_SIZE_LIMIT` | Maximum request body size. Use `536870912` (512 MiB) to allow temporary local-video uploads. |
 | `PRIVATE_LOGIN_USERNAME` / `PRIVATE_LOGIN_PASSWORD` | Site admin credentials. |
 | `PRIVATE_POCKETBASE_EMAIL` / `PRIVATE_POCKETBASE_PASSWORD` | PocketBase superuser used by the server and schema bootstrap. |
 | `POCKETBASE_EMBEDDED` | `true` in the all-in-one image. Set `false` for a separate PocketBase. |
@@ -183,22 +184,35 @@ build's `ORIGIN` does not match the URL in the browser. Rebuild with the correct
 `ORIGIN` (for example `http://localhost:4173`); the build log prints the value
 that was baked in. Changing `.env` without rebuilding has no effect.
 
-## YouTube animated previews
+## Animated AVIF previews
 
-The production image installs `ffmpeg` and `yt-dlp` for automatic YouTube to
-AVIF previews. Datacenter IPs can be blocked by YouTube; see the commented
-`YTDLP_*` variables in `.env.example` when that happens. The app tries non-web
-player clients first and falls back to cookies or a proxy when configured.
+The production image installs `ffmpeg` for both YouTube and local video
+sources, plus `yt-dlp` for YouTube downloads. Datacenter IPs can be blocked by
+YouTube; see the commented `YTDLP_*` variables in `.env.example` when that
+happens. The app tries non-web player clients first and falls back to cookies or
+a proxy when configured.
 
 Video uploads generate the HD and SD previews automatically. The same pipeline
 is available without PocketBase from **Admin → Conversione**
-(`/admin/dashboard/conversion`): paste a YouTube URL, optionally choose the clip
-start in seconds, and start the conversion. The job runs in the background and
-the page polls its progress, then shows animated previews, file sizes, and
-download buttons for both versions.
+(`/admin/dashboard/conversion`). Choose a source:
+
+- **YouTube**: paste a video URL and optionally set the clip start in seconds.
+- **File locale**: pick a video from your computer (MP4, MOV, MKV, WebM, AVI,
+  and similar formats, up to 512 MiB). The file is uploaded to the OS temporary
+  directory only to extract previews and is never saved in PocketBase. The
+  website content still requires a YouTube URL.
+
+The job runs in the background and the page polls its progress, then shows
+animated previews, file sizes, and download buttons for both versions.
+
+The video admin page also accepts an optional local file when adding or editing
+a video: it uses the temporary upload to refresh the AVIF previews, while the
+YouTube URL remains the only source stored and published.
 
 Conversions produce the same files as uploads: HD AVIF at 720px/24 fps and SD
 AVIF at 320px/15 fps. Generated files are kept in the OS temporary directory
-for 24 hours and then deleted; restarting the server also clears stale jobs.
-Downloads and inline previews are served through authenticated endpoints, so
-they are only available to a signed-in admin.
+for 24 hours and then deleted; restarting the server discards the in-memory job
+list, and stale directories are cleaned when the next job starts. Unclaimed
+temporary source uploads expire after 6 hours. Downloads and inline previews
+are served through authenticated endpoints, so they are only available to a
+signed-in admin.

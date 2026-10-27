@@ -4,6 +4,7 @@
     import { refreshAll } from "$app/navigation";
     import { toast } from "@zerodevx/svelte-toast";
     import AdminVideoModern from "#lib/components/AdminVideoModern.svelte";
+    import { formatFileSize, uploadVideoFile, VIDEO_FILE_ACCEPT } from "#lib/utils/uploadVideo.js";
 
     let { data } = $props();
     let videos = $derived(data.videos);
@@ -13,6 +14,12 @@
 
     let newCredits = $state([]);
     let newCreditInput = $state('');
+
+    /** Optional local video, used only to extract the animated AVIF previews. */
+    let sourceVideoFile = $state(null);
+    let sourceVideoInput = $state(null);
+    let sourceUploadProgress = $state(0);
+    let sourceVideoError = $state('');
 
     onMount(() => {
         document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach((element) => {
@@ -47,19 +54,65 @@
         }, intervalMs);
     }
 
+    /**
+     * @param {Event & { currentTarget: HTMLInputElement }} event
+     */
+    function handleSourceVideoChange(event) {
+        const file = event.currentTarget.files?.[0] ?? null;
+        sourceVideoError = '';
+        sourceUploadProgress = 0;
+
+        if (file && file.size > data.maxUploadBytes) {
+            sourceVideoFile = null;
+            sourceVideoError = `Il video supera il limite di ${formatFileSize(data.maxUploadBytes)}.`;
+            event.currentTarget.value = '';
+            return;
+        }
+
+        sourceVideoFile = file;
+    }
+
+    function clearSourceVideo() {
+        sourceVideoFile = null;
+        sourceVideoError = '';
+        sourceUploadProgress = 0;
+        if (sourceVideoInput) sourceVideoInput.value = '';
+    }
+
     async function handleUpload(event) {
         event.preventDefault();
         if (isUploading) return;
 
         isUploading = true;
+        sourceVideoError = '';
         const formEl = event.target;
         const formData = new FormData(formEl);
 
         formData.append('credits', JSON.stringify(newCredits));
 
-        const toastId = toast.push('Caricamento in corso, attendere...', {
-            duration: 600000,
-        });
+        const toastId = toast.push(
+            sourceVideoFile
+                ? 'Caricamento del video locale e aggiunta del film in corso...'
+                : 'Caricamento in corso, attendere...',
+            { duration: 600000 }
+        );
+
+        if (sourceVideoFile) {
+            try {
+                const upload = await uploadVideoFile(sourceVideoFile, (progress) => {
+                    sourceUploadProgress = progress;
+                });
+                formData.append('videoUploadId', upload.id);
+            } catch (err) {
+                toast.pop(toastId);
+                sourceVideoError = err instanceof Error ? err.message : 'Caricamento del video non riuscito.';
+                toast.push(sourceVideoError, {
+                    theme: { '--toastBackground': '#f44336' }
+                });
+                isUploading = false;
+                return;
+            }
+        }
 
         const response = await fetch('?/upload', {
             method: 'POST',
@@ -72,7 +125,7 @@
         await refreshAll();
 
         if (result.type === 'success') {
-            const generating = result.data?.body?.generatingPreviews;
+            const generating = result.data?.generatingPreviews ?? result.data?.body?.generatingPreviews;
             toast.push(
                 generating
                     ? 'Video aggiunto. Generazione anteprime AVIF in corso in background (può richiedere alcuni minuti)...'
@@ -85,11 +138,15 @@
             if (generating) pollForPreviewUpdates();
             formEl.reset();
             newCredits = [];
+            clearSourceVideo();
             showAdvanced = false;
         } else {
-            toast.push(result.data?.body?.message || result.data?.message || 'Errore durante il caricamento', {
-                theme: { '--toastBackground': '#f44336' }
-            });
+            toast.push(
+                result.data?.message || result.data?.body?.message || 'Errore durante il caricamento',
+                {
+                    theme: { '--toastBackground': '#f44336' }
+                }
+            );
         }
 
         isUploading = false;
@@ -110,7 +167,7 @@
             <div>
                 <strong>PocketBase non disponibile.</strong>
                 Non puoi caricare o modificare i film finché il backend non torna online.
-                Puoi comunque usare la <a class="alert-link" href="/admin/dashboard/conversion">conversione YouTube</a>.
+                Puoi comunque usare la <a class="alert-link" href="/admin/dashboard/conversion">conversione video</a>.
             </div>
         </div>
     {/if}
@@ -124,6 +181,7 @@
                 Aggiungi un filmato e configura opzioni avanzate.
                 Se non carichi le anteprime animate, verranno generate automaticamente dal video YouTube
                 (~7 secondi da t=2s di default, HD max 720px / SD max 320px).
+                Puoi anche usare un video locale temporaneo nelle opzioni avanzate per estrarle senza yt-dlp.
             </p>
 
             <form method="post" enctype="multipart/form-data" action="?/upload" onsubmit={handleUpload}>
@@ -150,16 +208,17 @@
                 <div class="mt-3">
                     <button type="button" class="btn btn-sm btn-outline-secondary" onclick={() => showAdvanced = !showAdvanced}>
                         <i class="fa-solid {showAdvanced ? 'fa-chevron-up' : 'fa-chevron-down'} me-1"></i>
-                        Opzioni Avanzate (GIF Previews e Crediti)
+                        Opzioni Avanzate (Anteprime, video locale e crediti)
                     </button>
                 </div>
 
                 {#if showAdvanced}
-                    <div class="row mt-3 p-3 bg-dark bg-opacity-50 border border-secondary border-opacity-20 rounded-3 g-3">
+                    <div class="row mt-3 p-3 bg-dark bg-opacity-50 border border-white border-opacity-10 rounded-3 g-3">
                         <div class="col-12">
                             <p class="small text-secondary mb-0">
                                 <i class="fa-solid fa-wand-magic-sparkles me-1"></i>
-                                Opzionale: lascia vuoto le anteprime per auto-generare AVIF animati da YouTube (richiede ffmpeg + yt-dlp sul server).
+                                Opzionale: lascia vuote le anteprime per generarle automaticamente.
+                                Puoi estrarle da YouTube oppure da un video locale temporaneo.
                             </p>
                         </div>
                         <div class="col-12 col-md-4">
@@ -175,6 +234,47 @@
                                 placeholder="2"
                             >
                             <div class="form-text text-secondary">Default 2s. Accetta anche mm:ss se digiti a mano altrove.</div>
+                        </div>
+                        <div class="col-12 col-md-8">
+                            <label class="form-label small text-white" for="sourceVideoUpload">
+                                Video locale per le anteprime (temporaneo)
+                            </label>
+                            <input
+                                id="sourceVideoUpload"
+                                type="file"
+                                accept={VIDEO_FILE_ACCEPT}
+                                bind:this={sourceVideoInput}
+                                onchange={handleSourceVideoChange}
+                                class="form-control bg-dark text-white border-secondary"
+                                disabled={isUploading}
+                            >
+                            <div class="form-text text-secondary">
+                                Se selezionato, le anteprime AVIF vengono estratte da questo file invece che da YouTube.
+                                Non viene salvato su PocketBase e viene eliminato dopo la conversione.
+                                Max {formatFileSize(data.maxUploadBytes)}.
+                            </div>
+                            {#if sourceVideoFile}
+                                <div class="d-flex flex-wrap align-items-center gap-2 mt-2 small">
+                                    <span class="text-white text-truncate" style="max-width: 100%;">
+                                        <i class="fa-solid fa-file-video me-1"></i>
+                                        {sourceVideoFile.name}
+                                        <span class="text-secondary">({formatFileSize(sourceVideoFile.size)})</span>
+                                    </span>
+                                    <button type="button" class="btn btn-sm btn-link text-warning p-0" onclick={clearSourceVideo} disabled={isUploading}>
+                                        Rimuovi
+                                    </button>
+                                </div>
+                            {/if}
+                            {#if isUploading && sourceVideoFile}
+                                <div class="progress mt-2 bg-black bg-opacity-50" style="height: 6px;" role="progressbar" aria-label="Caricamento video locale" aria-valuemin="0" aria-valuemax="100" aria-valuenow={Math.round(sourceUploadProgress * 100)}>
+                                    <div class="progress-bar bg-success" style="width: {Math.round(sourceUploadProgress * 100)}%"></div>
+                                </div>
+                            {/if}
+                            {#if sourceVideoError}
+                                <div class="alert alert-danger border-danger border-opacity-25 bg-danger bg-opacity-10 text-danger-emphasis py-1 px-2 small mt-2 mb-0" role="alert">
+                                    {sourceVideoError}
+                                </div>
+                            {/if}
                         </div>
                         <div class="col-12 col-md-4">
                             <label class="form-label small text-white" for="animatedhighresUpload">Preview Animata HD (.webp, .avif, .gif)</label>
@@ -222,7 +322,7 @@
                 <p class="text-secondary mb-4">PocketBase è offline: la lista dei film non può essere caricata.</p>
                 <a class="btn btn-primary" href="/admin/dashboard/conversion">
                     <i class="fa-solid fa-wand-magic-sparkles me-1"></i>
-                    Vai alla conversione YouTube
+                    Vai alla conversione video
                 </a>
             </div>
         {:else if !videos || videos.length === 0}
@@ -233,7 +333,7 @@
         {:else}
             {#each videos as video (video.id)}
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex align-items-stretch justify-content-center">
-                    <AdminVideoModern {video} />
+                    <AdminVideoModern {video} maxUploadBytes={data.maxUploadBytes} />
                 </div>
             {/each}
         {/if}

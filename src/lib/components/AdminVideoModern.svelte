@@ -3,8 +3,9 @@
     import { refreshAll } from "$app/navigation";
     import { toast } from "@zerodevx/svelte-toast";
     import { getYoutubeId } from "#lib/utils/utils.js";
+    import { formatFileSize, uploadVideoFile, VIDEO_FILE_ACCEPT } from "#lib/utils/uploadVideo.js";
 
-    let { video } = $props();
+    let { video, maxUploadBytes = 512 * 1024 * 1024 } = $props();
 
     let name = $derived(video.name);
     let url = $derived(video.url);
@@ -12,6 +13,12 @@
 
     let localHighresFile = $state(null);
     let localLowresFile = $state(null);
+
+    /** Optional local video used only to extract the animated previews. */
+    let previewVideoFile = $state(null);
+    let previewVideoInput = $state(null);
+    let previewUploadProgress = $state(0);
+    let previewVideoError = $state('');
 
     let deleteHighres = $state(false);
     let deleteLowres = $state(false);
@@ -26,6 +33,31 @@
     let videoId = $derived(getYoutubeId(url));
     let missingPreviews = $derived(!video.animatedhighresUrl || !video.animatedlowresUrl);
 
+    /**
+     * @param {Event & { currentTarget: HTMLInputElement }} event
+     */
+    function handlePreviewVideoChange(event) {
+        const file = event.currentTarget.files?.[0] ?? null;
+        previewVideoError = '';
+        previewUploadProgress = 0;
+
+        if (file && file.size > maxUploadBytes) {
+            previewVideoFile = null;
+            previewVideoError = `Il video supera il limite di ${formatFileSize(maxUploadBytes)}.`;
+            event.currentTarget.value = '';
+            return;
+        }
+
+        previewVideoFile = file;
+    }
+
+    function clearPreviewVideo() {
+        previewVideoFile = null;
+        previewVideoError = '';
+        previewUploadProgress = 0;
+        if (previewVideoInput) previewVideoInput.value = '';
+    }
+
     function pollForPreviewUpdates() {
         let attempts = 0;
         const maxAttempts = 12;
@@ -39,16 +71,27 @@
     async function generatePreviews(force = false) {
         if (isGenerating) return;
 
+        if (!previewVideoFile && !getYoutubeId(url)) {
+            toast.push('Inserisci un URL YouTube valido oppure seleziona un video locale.', {
+                theme: { '--toastBackground': '#dc3545' }
+            });
+            return;
+        }
+
         if (force) {
             const ok = window.confirm(
-                'Rigenerare le anteprime animate da YouTube?\nLe anteprime esistenti verranno sovrascritte quando la generazione termina.'
+                'Rigenerare le anteprime animate?\nLe anteprime esistenti verranno sovrascritte quando la generazione termina.'
             );
             if (!ok) return;
         }
 
         isGenerating = true;
+        previewVideoError = '';
+        previewUploadProgress = 0;
         const toastId = toast.push(
-            'Generazione anteprime AVIF avviata in background (può richiedere alcuni minuti)...',
+            previewVideoFile
+                ? 'Caricamento del video locale per le anteprime...'
+                : 'Generazione anteprime AVIF avviata in background (può richiedere alcuni minuti)...',
             { duration: 600000 }
         );
 
@@ -56,6 +99,28 @@
         data.append('id', video.id);
         data.append('previewStart', String(previewStart ?? 2));
         if (force) data.append('force', 'true');
+
+        if (previewVideoFile) {
+            try {
+                const upload = await uploadVideoFile(previewVideoFile, (progress) => {
+                    previewUploadProgress = progress;
+                });
+                data.append('videoUploadId', upload.id);
+                toast.pop(toastId);
+                toast.push('Video caricato. Generazione anteprime AVIF in corso...', {
+                    duration: 600000
+                });
+            } catch (err) {
+                toast.pop(toastId);
+                previewVideoError =
+                    err instanceof Error ? err.message : 'Caricamento del video non riuscito.';
+                toast.push(previewVideoError, {
+                    theme: { '--toastBackground': '#dc3545' }
+                });
+                isGenerating = false;
+                return;
+            }
+        }
 
         try {
             const response = await fetch('?/generatePreviews', {
@@ -66,20 +131,25 @@
             toast.pop(toastId);
 
             if (result.type === 'success') {
-                const generating = result.data?.body?.generatingPreviews;
+                const generating = result.data?.generatingPreviews;
                 toast.push(
                     generating
                         ? 'Generazione in corso. Le badge HD/SD si aggiorneranno a breve.'
-                        : (result.data?.body?.message || 'Anteprime già presenti'),
+                        : (result.data?.message || 'Anteprime già presenti'),
                     {
                         theme: { '--toastBackground': '#28a745' },
                         duration: generating ? 10000 : 4000
                     }
                 );
-                if (generating) pollForPreviewUpdates();
+                if (generating) {
+                    pollForPreviewUpdates();
+                }
+                if (previewVideoFile) {
+                    clearPreviewVideo();
+                }
                 await refreshAll();
             } else {
-                toast.push(result.data?.body?.message || 'Errore durante la generazione', {
+                toast.push(result.data?.message || 'Errore durante la generazione', {
                     theme: { '--toastBackground': '#dc3545' }
                 });
             }
@@ -275,7 +345,7 @@
             </div>
 
             <div class="mb-4 text-start">
-                <h6 class="text-secondary small uppercase tracking-wide border-bottom border-secondary border-opacity-10 pb-1 mb-3">Anteprime Animate (GIF/WebP/Avif)</h6>
+                <h6 class="text-secondary small uppercase tracking-wide border-bottom border-white border-opacity-10 pb-1 mb-3">Anteprime Animate (GIF/WebP/AVIF)</h6>
 
                 <div class="mb-3">
                     <label class="form-label small text-secondary" for="previewStart{video.id}">Inizio clip (secondi)</label>
@@ -291,13 +361,55 @@
                     <div class="form-text text-secondary">Default 2s. La preview dura ~7 secondi da questo punto.</div>
                 </div>
 
+                <div class="mb-3">
+                    <label class="form-label small text-secondary" for="previewVideo{video.id}">
+                        Video locale per le anteprime (temporaneo)
+                    </label>
+                    <input
+                        id="previewVideo{video.id}"
+                        type="file"
+                        accept={VIDEO_FILE_ACCEPT}
+                        bind:this={previewVideoInput}
+                        onchange={handlePreviewVideoChange}
+                        class="form-control bg-dark text-white border-secondary"
+                        disabled={isGenerating}
+                    >
+                    <div class="form-text text-secondary">
+                        Opzionale: se selezionato, le anteprime vengono estratte da questo file invece che da YouTube.
+                        Non viene salvato su PocketBase e viene eliminato dopo la conversione.
+                        Max {formatFileSize(maxUploadBytes)}.
+                    </div>
+                    {#if previewVideoFile}
+                        <div class="d-flex flex-wrap align-items-center gap-2 mt-2 small">
+                            <span class="text-white text-truncate" style="max-width: 100%;">
+                                <i class="fa-solid fa-file-video me-1"></i>
+                                {previewVideoFile.name}
+                                <span class="text-secondary">({formatFileSize(previewVideoFile.size)})</span>
+                            </span>
+                            <button type="button" class="btn btn-sm btn-link text-warning p-0" onclick={clearPreviewVideo} disabled={isGenerating}>
+                                Rimuovi
+                            </button>
+                        </div>
+                    {/if}
+                    {#if isGenerating && previewVideoFile}
+                        <div class="progress mt-2 bg-black bg-opacity-50" style="height: 6px;" role="progressbar" aria-label="Caricamento video locale" aria-valuemin="0" aria-valuemax="100" aria-valuenow={Math.round(previewUploadProgress * 100)}>
+                            <div class="progress-bar bg-success" style="width: {Math.round(previewUploadProgress * 100)}%"></div>
+                        </div>
+                    {/if}
+                    {#if previewVideoError}
+                        <div class="alert alert-danger border-danger border-opacity-25 bg-danger bg-opacity-10 text-danger-emphasis py-1 px-2 small mt-2 mb-0" role="alert">
+                            {previewVideoError}
+                        </div>
+                    {/if}
+                </div>
+
                 <div class="d-flex flex-wrap gap-2 mb-3">
                     <button
                         type="button"
                         class="btn btn-sm btn-outline-warning"
                         onclick={() => generatePreviews(false)}
                         disabled={isGenerating || !missingPreviews}
-                        title={missingPreviews ? 'Genera le anteprime mancanti da YouTube' : 'Anteprime già presenti — usa Rigenera'}
+                        title={missingPreviews ? 'Genera le anteprime mancanti' : 'Anteprime già presenti — usa Rigenera'}
                     >
                         {#if isGenerating}
                             <span class="spinner-border spinner-border-sm me-1" role="status"></span>
@@ -311,14 +423,14 @@
                         class="btn btn-sm btn-outline-secondary"
                         onclick={() => generatePreviews(true)}
                         disabled={isGenerating}
-                        title="Rigenera entrambe le anteprime da YouTube"
+                        title="Rigenera entrambe le anteprime"
                     >
                         <i class="fa-solid fa-arrows-rotate me-1"></i>
                         Rigenera
                     </button>
                 </div>
                 <p class="small text-secondary mb-3">
-                    Auto da YouTube: ~7s da t={previewStart}s, HD max 720px, SD max 320px (.avif). Può richiedere alcuni minuti.
+                    Auto da YouTube o video locale: ~7s da t={previewStart}s, HD max 720px, SD max 320px (.avif). Può richiedere alcuni minuti.
                 </p>
 
                 <div class="mb-3">

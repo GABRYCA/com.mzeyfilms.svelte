@@ -1,8 +1,10 @@
 import { randomUUID } from 'node:crypto';
-import { access, mkdtemp, readdir, rm, stat, writeFile } from 'node:fs/promises';
+import { access, copyFile, mkdtemp, readdir, rename, rm, stat, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { extname, join } from 'node:path';
 import { getYoutubeId } from '#lib/utils/utils.js';
+import { slugify } from '#lib/utils/slugify.js';
+import { removeVideoUpload } from '#lib/server/tempUploads.js';
 import {
 	DEFAULT_PREVIEW_START_SECONDS,
 	enqueuePreviewTask,
@@ -32,7 +34,10 @@ const JOB_DIR_PREFIX = 'mzey-conversion-';
  * @property {string} id
  * @property {ConversionJobStatus} status
  * @property {string} stage
+ * @property {'youtube' | 'upload'} sourceType
  * @property {string} youtubeUrl
+ * @property {string} sourceName
+ * @property {string | null} videoPath
  * @property {number} startSeconds
  * @property {number} createdAt
  * @property {number} updatedAt
@@ -126,14 +131,53 @@ function scheduleCleanup() {
 }
 
 /**
+ * Build a readable, filesystem-safe base name for generated AVIF files.
+ *
+ * @param {ConversionJob} job
+ */
+function outputBaseName(job) {
+	const youtubeId = getYoutubeId(job.youtubeUrl);
+	if (youtubeId) return youtubeId;
+
+	const sourceBase = job.sourceName
+		.replace(/\.[^.]+$/, '')
+		.trim()
+		.slice(0, 80);
+	const slug = slugify(sourceBase).slice(0, 60);
+
+	return slug || job.id.slice(0, 8);
+}
+
+/**
+ * Move a claimed temp upload into the job's work directory so the job owns its
+ * lifetime and the upload directory can be deleted immediately.
+ *
+ * @param {import('./tempUploads.js').VideoUpload} upload
+ * @param {string} workDir
+ * @returns {Promise<string>}
+ */
+async function moveUploadIntoWorkDir(upload, workDir) {
+	const target = join(workDir, `source${extname(upload.path)}`);
+
+	try {
+		await rename(upload.path, target);
+	} catch {
+		await copyFile(upload.path, target);
+	}
+
+	await removeVideoUpload(upload);
+
+	return target;
+}
+
+/**
  * @param {ConversionJob} job
  * @param {File} file
  * @param {'hd' | 'sd'} suffix
  * @returns {Promise<ConversionJobFile>}
  */
 async function persistPreviewFile(job, file, suffix) {
-	const videoId = getYoutubeId(job.youtubeUrl) || job.id.slice(0, 8);
-	const name = `mzeyfilms-${videoId}-${suffix}.avif`;
+	const name = `mzeyfilms-${outputBaseName(job)}-${suffix}.avif`;
 	const path = join(job.workDir, name);
 	const buffer = Buffer.from(await file.arrayBuffer());
 
@@ -146,13 +190,16 @@ async function persistPreviewFile(job, file, suffix) {
  * @param {ConversionJob} job
  */
 async function runConversionJob(job) {
+	const fromUpload = job.sourceType === 'upload';
+
 	job.status = 'running';
-	job.stage = 'Scarico la clip da YouTube...';
+	job.stage = fromUpload ? 'Preparo il video caricato...' : 'Scarico la clip da YouTube...';
 	job.updatedAt = Date.now();
 
 	try {
 		const files = await generateAnimatedPreviews({
 			youtubeUrl: job.youtubeUrl,
+			sourcePath: job.videoPath,
 			needsHigh: true,
 			needsLow: true,
 			startSeconds: job.startSeconds,
@@ -185,20 +232,31 @@ async function runConversionJob(job) {
 		job.stage = 'Conversione non riuscita.';
 		job.updatedAt = Date.now();
 		console.error(`[conversionJobs] Job ${job.id} failed:`, err);
+	} finally {
+		// The source video is only needed while encoding. Keeping it for the full
+		// 24-hour job TTL would waste hundreds of megabytes of temp space.
+		if (job.videoPath) {
+			await rm(job.videoPath, { force: true }).catch(() => {});
+			job.videoPath = null;
+		}
 	}
 }
 
 /**
- * Create a job and queue the heavy yt-dlp + AVIF work in the background.
+ * Create a job and queue the heavy ffmpeg/yt-dlp + AVIF work in the background.
  * The shared preview queue keeps only one conversion running at a time.
  *
  * @param {object} options
- * @param {string} options.youtubeUrl
+ * @param {'youtube' | 'upload'} [options.sourceType]
+ * @param {string} [options.youtubeUrl]
+ * @param {import('./tempUploads.js').VideoUpload | null} [options.sourceUpload]
  * @param {number} [options.startSeconds]
  * @returns {Promise<ConversionJob>}
  */
 export async function startConversionJob({
-	youtubeUrl,
+	sourceType,
+	youtubeUrl = '',
+	sourceUpload = null,
 	startSeconds = DEFAULT_PREVIEW_START_SECONDS
 }) {
 	scheduleCleanup();
@@ -206,13 +264,36 @@ export async function startConversionJob({
 	const id = randomUUID();
 	const workDir = await mkdtemp(join(tmpdir(), JOB_DIR_PREFIX));
 	const now = Date.now();
+	const resolvedSourceType = sourceType === 'upload' || sourceUpload ? 'upload' : 'youtube';
+
+	/** @type {string | null} */
+	let videoPath = null;
+
+	try {
+		if (resolvedSourceType === 'upload') {
+			if (!sourceUpload) {
+				throw new Error('Video temporaneo mancante.');
+			}
+
+			videoPath = await moveUploadIntoWorkDir(sourceUpload, workDir);
+		}
+	} catch (error) {
+		await rm(workDir, { recursive: true, force: true }).catch(() => {});
+		if (sourceUpload) {
+			await removeVideoUpload(sourceUpload);
+		}
+		throw error;
+	}
 
 	/** @type {ConversionJob} */
 	const job = {
 		id,
 		status: 'queued',
 		stage: 'In coda: attendo che si liberi il generatore di anteprime...',
-		youtubeUrl,
+		sourceType: resolvedSourceType,
+		youtubeUrl: resolvedSourceType === 'upload' ? '' : youtubeUrl,
+		sourceName: sourceUpload?.name ?? '',
+		videoPath,
 		startSeconds: parsePreviewStartSeconds(startSeconds),
 		createdAt: now,
 		updatedAt: now,
@@ -301,6 +382,9 @@ export function toPublicConversionJob(job) {
 		id: job.id,
 		status: job.status,
 		stage: job.stage,
+		sourceType: job.sourceType,
+		sourceName: job.sourceName,
+		sourceLabel: job.sourceType === 'upload' ? job.sourceName : job.youtubeUrl,
 		youtubeUrl: job.youtubeUrl,
 		startSeconds: job.startSeconds,
 		createdAt: job.createdAt,

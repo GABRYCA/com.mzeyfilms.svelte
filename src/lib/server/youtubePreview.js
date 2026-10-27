@@ -10,6 +10,7 @@ import {
 	YTDLP_EXTRA_ARGS,
 	YTDLP_PROXY
 } from '$app/env/private';
+import { removeVideoUpload } from '#lib/server/tempUploads.js';
 
 const HIGH_WIDTH = 720;
 const LOW_WIDTH = 320;
@@ -76,8 +77,12 @@ export function enqueuePreviewTask(task) {
 /**
  * Fail early with a clear message when the local conversion tools are missing.
  * The production image installs both; `bun run preview` uses the host binaries.
+ *
+ * Local video uploads only need ffmpeg, so yt-dlp is checked lazily.
+ *
+ * @param {{ needsYoutube?: boolean }} [options]
  */
-export async function checkPreviewTools() {
+export async function checkPreviewTools({ needsYoutube = true } = {}) {
 	try {
 		await runCommand('ffmpeg', ['-version'], { timeoutMs: 10_000 });
 	} catch {
@@ -86,7 +91,9 @@ export async function checkPreviewTools() {
 		);
 	}
 
-	await resolveYtDlpBinary();
+	if (needsYoutube) {
+		await resolveYtDlpBinary();
+	}
 }
 
 /**
@@ -577,17 +584,22 @@ async function downloadYoutubeClip(
 /**
  * Generate high-res and/or low-res animated AVIF previews.
  *
+ * Provide either a YouTube URL (downloaded with yt-dlp) or `sourcePath`, a
+ * local video uploaded only for the duration of the conversion.
+ *
  * @param {object} options
  * @param {string} [options.youtubeUrl]
+ * @param {string | null} [options.sourcePath] - local video file to extract from
  * @param {boolean} options.needsHigh
  * @param {boolean} options.needsLow
  * @param {File | Buffer | null} [options.existingHighres] - when only low-res is missing
- * @param {number} [options.startSeconds] - absolute start time in the YouTube video (default 2s)
+ * @param {number} [options.startSeconds] - absolute start time in the video (default 2s)
  * @param {(stage: string) => void} [options.onStage] - progress callback (human readable)
  * @returns {Promise<{ highres?: File, lowres?: File }>}
  */
 export async function generateAnimatedPreviews({
 	youtubeUrl,
+	sourcePath = null,
 	needsHigh,
 	needsLow,
 	existingHighres = null,
@@ -606,42 +618,85 @@ export async function generateAnimatedPreviews({
 	};
 
 	const start = parsePreviewStartSeconds(startSeconds);
+	const localSource = typeof sourcePath === 'string' && sourcePath ? sourcePath : null;
 	const workDir = await mkdtemp(join(tmpdir(), 'mzey-preview-'));
 	const clipPath = join(workDir, 'clip.mp4');
 	const highPath = join(workDir, 'preview-hd.avif');
 	const lowPath = join(workDir, 'preview-sd.avif');
 
+	/**
+	 * Download the YouTube window once, on demand.
+	 *
+	 * @returns {Promise<void>}
+	 */
+	let clipReady = Boolean(localSource);
+	const ensureClip = async () => {
+		if (clipReady) return;
+
+		if (!youtubeUrl || !isYoutubeUrl(youtubeUrl)) {
+			throw new Error('URL YouTube valido richiesto per generare le anteprime');
+		}
+
+		console.log(`[youtubePreview] Scarico clip da YouTube (start=${start}s)...`);
+		reportStage(`Scarico la clip da YouTube (da ${start}s)...`);
+		await downloadYoutubeClip(youtubeUrl, clipPath, start, workDir);
+		clipReady = true;
+	};
+
+	/**
+	 * @param {string} outputPath
+	 * @param {number} width
+	 * @param {number} fps
+	 * @param {number} crf
+	 * @param {string} stage
+	 */
+	const encodeVariant = async (outputPath, width, fps, crf, stage) => {
+		reportStage(stage);
+		await encodeAnimatedAvif(localSource ?? clipPath, outputPath, {
+			width,
+			fps,
+			crf,
+			// YouTube clips already start at `start`; a local upload needs a seek.
+			clipSeekSeconds: localSource ? start : 0
+		});
+	};
+
 	try {
 		/** @type {{ highres?: File, lowres?: File }} */
 		const result = {};
-		let clipDownloaded = false;
 
 		if (needsHigh) {
-			if (!youtubeUrl || !isYoutubeUrl(youtubeUrl)) {
-				throw new Error('URL YouTube valido richiesto per generare la preview HD');
-			}
-
-			console.log(`[youtubePreview] Scarico clip da YouTube (start=${start}s)...`);
-			reportStage(`Scarico la clip da YouTube (da ${start}s)...`);
-			await downloadYoutubeClip(youtubeUrl, clipPath, start, workDir);
-			clipDownloaded = true;
+			await ensureClip();
 
 			console.log('[youtubePreview] Codifico AVIF HD...');
-			reportStage('Codifico la preview AVIF HD (720px)...');
-			// Clip already starts at `start` for section downloads; for stream+ffmpeg
-			// the file also begins at the requested window — always encode from 0.
-			await encodeAnimatedAvif(clipPath, highPath, {
-				width: HIGH_WIDTH,
-				fps: HIGH_FPS,
-				crf: HIGH_CRF
-			});
+			await encodeVariant(
+				highPath,
+				HIGH_WIDTH,
+				HIGH_FPS,
+				HIGH_CRF,
+				localSource
+					? 'Codifico la preview AVIF HD dal video caricato...'
+					: 'Codifico la preview AVIF HD (720px)...'
+			);
+
 			const highBuffer = await readFile(highPath);
 			result.highres = new File([highBuffer], 'preview-hd.avif', { type: 'image/avif' });
 		}
 
 		if (needsLow) {
 			try {
-				if (clipDownloaded) {
+				if (localSource) {
+					// Always encode from the original local source: better than
+					// downscaling a freshly encoded HD preview.
+					console.log('[youtubePreview] Codifico AVIF SD dal video caricato...');
+					await encodeVariant(
+						lowPath,
+						LOW_WIDTH,
+						LOW_FPS,
+						LOW_CRF,
+						'Codifico la preview AVIF SD (320px)...'
+					);
+				} else if (clipReady) {
 					// Encode SD from the same source clip instead of shrinking the
 					// freshly encoded HD AVIF, avoiding a second lossy generation.
 					console.log('[youtubePreview] Codifico AVIF SD dalla clip sorgente...');
@@ -653,17 +708,17 @@ export async function generateAnimatedPreviews({
 					});
 				} else if (existingHighres) {
 					// Write provided high-res preview to disk so we can downscale it
-					const sourcePath = join(workDir, 'source-hd');
+					const sourceFilePath = join(workDir, 'source-hd');
 					/** @type {string} */
 					let fullSource;
 
 					if (existingHighres instanceof File) {
 						const buf = Buffer.from(await existingHighres.arrayBuffer());
 						const ext = existingHighres.name?.split('.').pop() || 'avif';
-						fullSource = `${sourcePath}.${ext}`;
+						fullSource = `${sourceFilePath}.${ext}`;
 						await writeFile(fullSource, buf);
 					} else {
-						fullSource = `${sourcePath}.avif`;
+						fullSource = `${sourceFilePath}.avif`;
 						await writeFile(fullSource, existingHighres);
 					}
 
@@ -671,12 +726,7 @@ export async function generateAnimatedPreviews({
 					reportStage('Ridimensiono la preview HD in AVIF SD (320px)...');
 					await downscaleAnimatedAvif(fullSource, lowPath, LOW_WIDTH);
 				} else {
-					if (!youtubeUrl || !isYoutubeUrl(youtubeUrl)) {
-						throw new Error('URL YouTube valido richiesto per generare la preview SD');
-					}
-					console.log(`[youtubePreview] Scarico clip da YouTube per SD (start=${start}s)...`);
-					reportStage(`Scarico la clip da YouTube (da ${start}s)...`);
-					await downloadYoutubeClip(youtubeUrl, clipPath, start, workDir);
+					await ensureClip();
 					console.log('[youtubePreview] Codifico AVIF SD...');
 					reportStage('Codifico la preview AVIF SD (320px)...');
 					await encodeAnimatedAvif(clipPath, lowPath, {
@@ -722,6 +772,9 @@ export async function attachPreviewsToVideo(pb, videoId, files) {
  * Queue preview generation so only one heavy encode runs at a time.
  * Fire-and-forget safe for the long-running Bun server process.
  *
+ * Temporary uploads are removed when the job finishes, whether it succeeds or
+ * fails.
+ *
  * @param {object} options
  * @param {import('pocketbase').default} options.pb
  * @param {string} options.videoId
@@ -729,6 +782,7 @@ export async function attachPreviewsToVideo(pb, videoId, files) {
  * @param {boolean} options.needsHigh
  * @param {boolean} options.needsLow
  * @param {File | null} [options.existingHighres]
+ * @param {import('./tempUploads.js').VideoUpload | null} [options.sourceUpload]
  * @param {number} [options.startSeconds]
  */
 export function schedulePreviewGeneration(options) {
@@ -739,6 +793,7 @@ export function schedulePreviewGeneration(options) {
 		needsHigh,
 		needsLow,
 		existingHighres = null,
+		sourceUpload = null,
 		startSeconds = DEFAULT_PREVIEW_START_SECONDS
 	} = options;
 
@@ -746,17 +801,25 @@ export function schedulePreviewGeneration(options) {
 
 	return enqueuePreviewTask(async () => {
 		console.log(
-			`[youtubePreview] Avvio generazione anteprime per video ${videoId} (HD=${needsHigh}, SD=${needsLow}, start=${start}s)`
+			`[youtubePreview] Avvio generazione anteprime per video ${videoId} (HD=${needsHigh}, SD=${needsLow}, start=${start}s, origine=${sourceUpload ? 'upload' : 'youtube'})`
 		);
-		const files = await generateAnimatedPreviews({
-			youtubeUrl,
-			needsHigh,
-			needsLow,
-			existingHighres,
-			startSeconds: start
-		});
-		await attachPreviewsToVideo(pb, videoId, files);
-		console.log(`[youtubePreview] Anteprime allegate al video ${videoId}`);
+
+		try {
+			const files = await generateAnimatedPreviews({
+				youtubeUrl,
+				sourcePath: sourceUpload?.path ?? null,
+				needsHigh,
+				needsLow,
+				existingHighres,
+				startSeconds: start
+			});
+			await attachPreviewsToVideo(pb, videoId, files);
+			console.log(`[youtubePreview] Anteprime allegate al video ${videoId}`);
+		} finally {
+			if (sourceUpload) {
+				await removeVideoUpload(sourceUpload);
+			}
+		}
 	}).catch((err) => {
 		console.error(`[youtubePreview] Generazione fallita per video ${videoId}:`, err);
 	});
@@ -773,15 +836,23 @@ export function schedulePreviewGeneration(options) {
  * @param {boolean} options.needsHigh
  * @param {boolean} options.needsLow
  * @param {File | null} [options.existingHighres]
+ * @param {import('./tempUploads.js').VideoUpload | null} [options.sourceUpload]
  * @param {number} [options.startSeconds]
  */
 export async function generateAndAttachPreviews(options) {
-	const files = await generateAnimatedPreviews({
-		youtubeUrl: options.youtubeUrl,
-		needsHigh: options.needsHigh,
-		needsLow: options.needsLow,
-		existingHighres: options.existingHighres ?? null,
-		startSeconds: options.startSeconds ?? DEFAULT_PREVIEW_START_SECONDS
-	});
-	return attachPreviewsToVideo(options.pb, options.videoId, files);
+	try {
+		const files = await generateAnimatedPreviews({
+			youtubeUrl: options.youtubeUrl,
+			sourcePath: options.sourceUpload?.path ?? null,
+			needsHigh: options.needsHigh,
+			needsLow: options.needsLow,
+			existingHighres: options.existingHighres ?? null,
+			startSeconds: options.startSeconds ?? DEFAULT_PREVIEW_START_SECONDS
+		});
+		return attachPreviewsToVideo(options.pb, options.videoId, files);
+	} finally {
+		if (options.sourceUpload) {
+			await removeVideoUpload(options.sourceUpload);
+		}
+	}
 }

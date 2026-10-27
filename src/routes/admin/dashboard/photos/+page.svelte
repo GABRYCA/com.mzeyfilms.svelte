@@ -313,7 +313,7 @@
             <div>
                 <strong>PocketBase non disponibile.</strong>
                 Non puoi caricare o organizzare le foto finché il backend non torna online.
-                Puoi comunque usare la <a class="alert-link" href="/admin/dashboard/conversion">conversione YouTube</a>.
+                Puoi comunque usare la <a class="alert-link" href="/admin/dashboard/conversion">conversione video</a>.
             </div>
         </div>
 
@@ -323,7 +323,7 @@
             <p class="text-secondary mb-4">PocketBase è offline: le cartelle e le immagini non possono essere caricate.</p>
             <a class="btn btn-primary" href="/admin/dashboard/conversion">
                 <i class="fa-solid fa-wand-magic-sparkles me-1"></i>
-                Vai alla conversione YouTube
+                Vai alla conversione video
             </a>
         </div>
     {/if}

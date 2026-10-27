@@ -61,7 +61,8 @@ ENV NODE_ENV=production
 ENV POCKETBASE_EMBEDDED=true
 ENV POCKETBASE_INTERNAL_URL=http://127.0.0.1:8090
 ENV PUBLIC_POCKETBASE_URL=/pb
-# Admin uploads accept files up to 15 MB. adapter-bun defaults to 512K.
-ENV BODY_SIZE_LIMIT=15728640
+# Admin video uploads accept temporary source files up to 512 MiB. adapter-bun
+# defaults to 512K; YouTube-only conversions need a much smaller limit.
+ENV BODY_SIZE_LIMIT=536870912
 
 ENTRYPOINT ["website-entrypoint"]

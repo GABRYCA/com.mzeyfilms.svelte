@@ -61,7 +61,7 @@
             <i class="fa-solid fa-triangle-exclamation mt-1"></i>
             <div>
                 <strong>PocketBase non disponibile.</strong>
-                {data.pocketbaseMessage || 'La dashboard e la conversione YouTube restano utilizzabili; Films e Foto richiedono PocketBase.'}
+                {data.pocketbaseMessage || 'La dashboard e la conversione video restano utilizzabili; Films e Foto richiedono PocketBase.'}
             </div>
         </div>
     {/if}

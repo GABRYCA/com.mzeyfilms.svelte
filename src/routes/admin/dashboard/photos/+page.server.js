@@ -3,7 +3,7 @@ import sharp from 'sharp';
 import {getPocketBasePublicFilesUrl} from '#lib/server/pocketbase.js';
 
 const OFFLINE_MESSAGE =
-    'PocketBase non è disponibile. Riprova quando il backend è online: la conversione YouTube resta utilizzabile.';
+    'PocketBase non è disponibile. Riprova quando il backend è online: la conversione video resta utilizzabile.';
 
 const uploadImage = async (image, folder, pb) => {
 

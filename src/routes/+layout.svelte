@@ -148,7 +148,7 @@
                 <!-- Navbar Title Desktop -->
                 <div class="col-12 col-lg-4 d-none d-lg-block py-4">
                     <a class="text-decoration-none navbar-title-link py-0 hover-lift" href="/">
-                        <p class="navbar-title mb-0 enhanced-text text-glow">MZEYFILMS</p>
+                        <p class="navbar-title mb-0 enhanced-text">MZEYFILMS</p>
                         <!--<p class="navbar-subtitle mb-0 theme-text-secondary">
                             {@html page.data.subtitle}
                         </p>-->
@@ -243,11 +243,9 @@
         transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         margin-bottom: 0 !important;
         will-change: transform;
-        background: rgba(0, 0, 0, 0.82) !important;
-        backdrop-filter: blur(12px) saturate(0.85);
-        border-bottom: 1px solid rgba(197, 203, 212, 0.08);
-        box-shadow: 0 4px 28px rgba(0, 0, 0, 0.55);
-        overflow: hidden;
+        background: #000 !important;
+        border-bottom: 0;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
     }
 
     .navbar-visible {
@@ -302,17 +300,11 @@
     }
 
     .navbar-title {
-        position: relative;
         font-family: "Cabinet Grotesk", sans-serif;
         font-size: 2.1rem;
         font-weight: 500 !important;
         color: var(--metal) !important;
         letter-spacing: 0.14em;
-        text-shadow:
-            0 1px 0 rgba(255, 255, 255, 0.38),
-            0 -1px 0 rgba(0, 0, 0, 0.55),
-            0 0 18px var(--metal-glow-soft),
-            0 4px 14px rgba(0, 0, 0, 0.55) !important;
     }
 
     /*.navbar-subtitle {
@@ -328,115 +320,6 @@
 
     .navbar-title-link:hover .navbar-title {
         color: var(--metal-bright) !important;
-        text-shadow:
-            0 1px 0 rgba(255, 255, 255, 0.5),
-            0 -1px 0 rgba(0, 0, 0, 0.45),
-            0 0 24px var(--metal-glow),
-            0 4px 16px rgba(0, 0, 0, 0.5) !important;
-    }
-
-    /*
-     * Drifting white smoke glowing behind the title for depth.
-     * The pseudo-layers sit behind the text (above the navbar's translucent
-     * background) and softly bloom out around the letters.
-     */
-    .navbar-title::before,
-    .navbar-title::after {
-        content: '';
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        width: 230%;
-        height: 260%;
-        z-index: -1;
-        transform: translate(-50%, -50%);
-        pointer-events: none;
-        border-radius: 50%;
-        will-change: transform, opacity;
-        mix-blend-mode: screen;
-    }
-
-    .navbar-title::before {
-        background:
-            radial-gradient(ellipse 42% 46% at 28% 42%, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 70%),
-            radial-gradient(ellipse 46% 54% at 72% 64%, rgba(232, 238, 244, 0.42) 0%, rgba(232, 238, 244, 0) 70%),
-            radial-gradient(ellipse 50% 40% at 50% 18%, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0) 62%);
-        filter: blur(18px) saturate(1.2);
-        opacity: 0.6;
-        animation: title-smoke-a 9s ease-in-out infinite alternate;
-    }
-
-    .navbar-title::after {
-        background:
-            radial-gradient(ellipse 36% 50% at 56% 28%, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0) 70%),
-            radial-gradient(ellipse 42% 44% at 42% 82%, rgba(228, 235, 242, 0.34) 0%, rgba(228, 235, 242, 0) 70%);
-        filter: blur(10px);
-        opacity: 0.45;
-        animation: title-smoke-b 12s ease-in-out infinite alternate;
-    }
-
-    /* A faint radiant halo right behind the letters for extra pop */
-    .navbar-title-link:hover .navbar-title::before {
-        filter: blur(16px) saturate(1.35);
-        opacity: 0.8;
-        transition: opacity 0.4s ease, filter 0.4s ease;
-    }
-
-    @keyframes title-smoke-a {
-        0% {
-            transform: translate(-50%, -50%) translate3d(-3%, 1%, 0) scale(0.96);
-            opacity: 0.5;
-        }
-        50% {
-            transform: translate(-50%, -50%) translate3d(2%, -2%, 0) scale(1.06);
-            opacity: 0.7;
-        }
-        100% {
-            transform: translate(-50%, -50%) translate3d(-1%, 2%, 0) scale(1.02);
-            opacity: 0.55;
-        }
-    }
-
-    @keyframes title-smoke-b {
-        0% {
-            transform: translate(-50%, -50%) translate3d(2%, -1%, 0) scale(1.05);
-            opacity: 0.4;
-        }
-        60% {
-            transform: translate(-50%, -50%) translate3d(-2%, 2%, 0) scale(0.97);
-            opacity: 0.55;
-        }
-        100% {
-            transform: translate(-50%, -50%) translate3d(1%, -2%, 0) scale(1.04);
-            opacity: 0.45;
-        }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        .navbar-title::before,
-        .navbar-title::after {
-            animation: none !important;
-            opacity: 0.4;
-        }
-    }
-
-    @media (max-width: 991px) {
-        .navbar-title::before,
-        .navbar-title::after {
-            width: 190%;
-            height: 165%;
-            top: 46%;
-        }
-
-        .navbar-title::before {
-            filter: blur(22px) saturate(1.2);
-            opacity: 0.5;
-        }
-
-        .navbar-title::after {
-            filter: blur(12px);
-            opacity: 0.38;
-        }
     }
 
     .nav-link {
@@ -444,12 +327,9 @@
         font-weight: 400 !important;
         letter-spacing: 0.08em;
         position: relative;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: color 0.3s ease, transform 0.3s ease;
         padding: 0.75rem 1rem !important;
         overflow: hidden;
-        text-shadow:
-            0 1px 0 rgba(255, 255, 255, 0.12),
-            0 0 1px rgba(0, 0, 0, 0.4);
     }
 
     .nav-link::before {
@@ -457,37 +337,31 @@
         position: absolute;
         bottom: 0;
         left: 50%;
-        transform: translateX(-50%);
-        width: 0;
+        width: 40px;
         height: 1px;
         background: linear-gradient(90deg, transparent, var(--metal), var(--metal-bright), var(--metal), transparent);
-        transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transform: translateX(-50%) scaleX(0);
+        transform-origin: center;
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         border-radius: 1px;
-        box-shadow: 0 0 8px var(--metal-glow-soft);
     }
 
     .nav-link:hover::before,
     .nav-link.active::before {
-        width: 40px;
+        transform: translateX(-50%) scaleX(1);
     }
 
     .nav-link:hover,
     .nav-link.active {
         color: var(--metal-bright) !important;
         transform: translateY(-2px);
-        text-shadow:
-            0 1px 0 rgba(255, 255, 255, 0.35),
-            0 0 12px var(--metal-glow-soft),
-            0 0 1px rgba(232, 234, 237, 0.5);
     }
 
     :global(.navbar-icon) {
         color: var(--metal-mid) !important;
-        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.12);
     }
     :global(.navbar-icon:hover) {
         color: var(--metal-bright) !important;
-        text-shadow: 0 0 12px var(--metal-glow);
     }
 
     .nav-item {
@@ -496,9 +370,9 @@
     }
 
     .theme-main-container {
-        background: rgba(0, 0, 0, 0.88);
-        border-top: 1px solid rgba(197, 203, 212, 0.08);
-        box-shadow: 0 -2px 24px rgba(0, 0, 0, 0.5);
+        background: #000;
+        border: 0;
+        box-shadow: none;
     }
 
     .navbar-toggler {

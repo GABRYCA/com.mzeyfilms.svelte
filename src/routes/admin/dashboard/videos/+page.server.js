@@ -6,10 +6,15 @@ import {
 	parsePreviewStartSeconds,
 	schedulePreviewGeneration
 } from '#lib/server/youtubePreview.js';
-import {getPocketBasePublicFilesUrl} from '#lib/server/pocketbase.js';
+import {
+	claimVideoUpload,
+	removeVideoUpload,
+	MAX_VIDEO_UPLOAD_BYTES
+} from '#lib/server/tempUploads.js';
+import { getPocketBasePublicFilesUrl } from '#lib/server/pocketbase.js';
 
 const OFFLINE_MESSAGE =
-	'PocketBase non è disponibile. Riprova quando il backend è online: la conversione YouTube resta utilizzabile.';
+	'PocketBase non è disponibile. Riprova quando il backend è online: la conversione video resta utilizzabile.';
 
 export async function load({ locals: { pb } }) {
 	const filesUrl = getPocketBasePublicFilesUrl();
@@ -18,6 +23,7 @@ export async function load({ locals: { pb } }) {
 		return {
 			videos: [],
 			pocketbaseAvailable: false,
+			maxUploadBytes: MAX_VIDEO_UPLOAD_BYTES,
 			title: 'MZEYFILMS - Admin - Videos',
 			description: 'MZEFILMS Admin Videos. Manage your films.',
 			index: false
@@ -42,6 +48,7 @@ export async function load({ locals: { pb } }) {
 	return {
 		videos: videosWithUrls,
 		pocketbaseAvailable: true,
+		maxUploadBytes: MAX_VIDEO_UPLOAD_BYTES,
 		title: 'MZEYFILMS - Admin - Videos',
 		description: 'MZEFILMS Admin Videos. Manage your films.',
 		index: false
@@ -63,6 +70,16 @@ function stripEmptyPreviewFields(formData) {
 	}
 }
 
+/**
+ * @param {FormData} formData
+ */
+function claimFormUpload(formData) {
+	const uploadId = String(formData.get('videoUploadId') ?? '').trim();
+	formData.delete('videoUploadId');
+
+	return { uploadId, upload: uploadId ? claimVideoUpload(uploadId) : null };
+}
+
 export const actions = {
 	upload: async ({ request, locals: { pb } }) => {
 		if (!pb) return fail(503, { message: OFFLINE_MESSAGE });
@@ -71,16 +88,15 @@ export const actions = {
 
 		const name = formData.get('name');
 		const url = String(formData.get('url') || '');
+		const { upload: sourceUpload } = claimFormUpload(formData);
 
 		const existing = await pb.collection('videos').getFullList({
 			filter: `name = "${name}"`
 		});
 
 		if (existing && existing.length > 0) {
-			return {
-				status: 400,
-				body: { message: 'Video already exists' }
-			};
+			if (sourceUpload) await removeVideoUpload(sourceUpload);
+			return fail(409, { message: 'Video already exists' });
 		}
 
 		const highresFile = formData.get('animatedhighres');
@@ -89,7 +105,7 @@ export const actions = {
 		const hasLow = hasUploadedFile(lowresFile);
 		const startSeconds = parsePreviewStartSeconds(formData.get('previewStart'));
 
-		// Not a PocketBase field — only used for auto AVIF generation
+		// Not a PocketBase field — only used for preview generation.
 		formData.delete('previewStart');
 
 		stripEmptyPreviewFields(formData);
@@ -98,43 +114,45 @@ export const actions = {
 			formData.append('credits', '[]');
 		}
 
+		let record;
 		try {
-			const record = await pb.collection('videos').create(formData);
-
-			const needsHigh = !hasHigh;
-			const needsLow = !hasLow;
-			const canAutoGenerate = isYoutubeUrl(url) && (needsHigh || needsLow);
-
-			if (canAutoGenerate) {
-				// Create returns immediately; heavy yt-dlp + AVIF encode runs in background
-				// so reverse-proxy timeouts don't kill the admin form submit.
-				schedulePreviewGeneration({
-					pb,
-					videoId: record.id,
-					youtubeUrl: url,
-					needsHigh,
-					needsLow,
-					existingHighres: hasHigh && highresFile instanceof File ? highresFile : null,
-					startSeconds
-				});
-			}
-
-			return {
-				status: 200,
-				body: {
-					message: canAutoGenerate
-						? 'Video added. Animated previews are generating in the background.'
-						: 'Video added successfully',
-					generatingPreviews: canAutoGenerate
-				}
-			};
+			record = await pb.collection('videos').create(formData);
 		} catch (err) {
 			console.error('Upload error:', err);
-			return {
-				status: 500,
-				body: { message: err.message || 'Error occurred during creation' }
-			};
+			if (sourceUpload) await removeVideoUpload(sourceUpload);
+			return fail(500, {
+				message: err.message || 'Error occurred during creation'
+			});
 		}
+
+		const needsHigh = !hasHigh;
+		const needsLow = !hasLow;
+		const canAutoGenerate =
+			(sourceUpload || isYoutubeUrl(url)) && (needsHigh || needsLow);
+
+		if (canAutoGenerate) {
+			// Create returns immediately; heavy ffmpeg/yt-dlp work runs in the
+			// background so reverse-proxy timeouts don't kill the admin form submit.
+			schedulePreviewGeneration({
+				pb,
+				videoId: record.id,
+				youtubeUrl: url,
+				needsHigh,
+				needsLow,
+				existingHighres: hasHigh && highresFile instanceof File ? highresFile : null,
+				sourceUpload,
+				startSeconds
+			});
+		} else if (sourceUpload) {
+			await removeVideoUpload(sourceUpload);
+		}
+
+		return {
+			message: canAutoGenerate
+				? 'Video added. Animated previews are generating in the background.'
+				: 'Video added successfully',
+			generatingPreviews: canAutoGenerate
+		};
 	},
 
 	update: async ({ request, locals: { pb } }) => {
@@ -159,16 +177,10 @@ export const actions = {
 
 		try {
 			await pb.collection('videos').update(id, formData);
-			return {
-				status: 200,
-				body: { message: 'Video updated successfully' }
-			};
+			return { message: 'Video updated successfully' };
 		} catch (err) {
 			console.error('Update error:', err);
-			return {
-				status: 500,
-				body: { message: err.message || 'Error updating video' }
-			};
+			return fail(500, { message: err.message || 'Error updating video' });
 		}
 	},
 
@@ -181,23 +193,21 @@ export const actions = {
 
 		const formData = await request.formData();
 		const id = String(formData.get('id') || '');
+		const { upload: sourceUpload } = claimFormUpload(formData);
 
 		if (!id) {
-			return {
-				status: 400,
-				body: { message: 'Missing video id' }
-			};
+			if (sourceUpload) await removeVideoUpload(sourceUpload);
+			return fail(400, { message: 'Missing video id' });
 		}
 
 		try {
 			const video = await pb.collection('videos').getOne(id);
 			const url = String(video.url || '');
 
-			if (!isYoutubeUrl(url)) {
-				return {
-					status: 400,
-					body: { message: 'Video does not have a valid YouTube URL' }
-				};
+			if (!sourceUpload && !isYoutubeUrl(url)) {
+				return fail(400, {
+					message: 'Video does not have a valid YouTube URL'
+				});
 			}
 
 			const force = formData.get('force') === 'true';
@@ -208,16 +218,19 @@ export const actions = {
 			const needsLow = force || !video.animatedlowres;
 
 			if (!needsHigh && !needsLow) {
+				if (sourceUpload) await removeVideoUpload(sourceUpload);
 				return {
-					status: 200,
-					body: { message: 'Previews already present', generatingPreviews: false }
+					message: 'Previews already present',
+					generatingPreviews: false
 				};
 			}
 
 			/** @type {File | null} */
 			let existingHighres = null;
-			// When only SD is missing (and not force), downscale the HD already stored in PocketBase
-			if (!needsHigh && needsLow && video.animatedhighres) {
+			// When only SD is missing (and not forced), downscale the HD already
+			// stored in PocketBase — unless a local source video was provided, in
+			// which case encoding SD from the original is better.
+			if (!sourceUpload && !needsHigh && needsLow && video.animatedhighres) {
 				try {
 					const fileUrl = pb.files.getURL(video, video.animatedhighres);
 					const res = await fetch(fileUrl);
@@ -239,22 +252,18 @@ export const actions = {
 				needsHigh,
 				needsLow,
 				existingHighres,
+				sourceUpload,
 				startSeconds
 			});
 
 			return {
-				status: 200,
-				body: {
-					message: 'Preview generation started in the background',
-					generatingPreviews: true
-				}
+				message: 'Preview generation started in the background',
+				generatingPreviews: true
 			};
 		} catch (err) {
+			if (sourceUpload) await removeVideoUpload(sourceUpload);
 			console.error('Generate previews error:', err);
-			return {
-				status: 500,
-				body: { message: err.message || 'Error generating previews' }
-			};
+			return fail(500, { message: err.message || 'Error generating previews' });
 		}
 	},
 
@@ -266,16 +275,10 @@ export const actions = {
 
 		try {
 			await pb.collection('videos').delete(id);
-			return {
-				status: 200,
-				body: { message: 'Video deleted successfully' }
-			};
+			return { message: 'Video deleted successfully' };
 		} catch (err) {
 			console.error('Delete error:', err);
-			return {
-				status: 400,
-				body: { message: 'Unable to delete video' }
-			};
+			return fail(400, { message: 'Unable to delete video' });
 		}
 	}
 };

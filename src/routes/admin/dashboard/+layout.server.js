@@ -18,7 +18,7 @@ export const load = async ({ cookies, locals: { pb } }) => {
 		}
 	} else {
 		pocketbaseMessage =
-			'PocketBase non è raggiungibile. La dashboard e la conversione YouTube restano disponibili; Films e Foto richiedono PocketBase.';
+			'PocketBase non è raggiungibile. La dashboard e la conversione video restano disponibili; Films e Foto richiedono PocketBase.';
 	}
 
 	return {

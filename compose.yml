@@ -10,8 +10,8 @@ services:
       # SvelteKit & Runtime
       NODE_ENV: production
       ORIGIN: ${ORIGIN:-https://mzeyfilms.com}
-      # adapter-bun defaults to 512K; admin uploads need 15 MB.
-      BODY_SIZE_LIMIT: ${BODY_SIZE_LIMIT:-15728640}
+      # adapter-bun defaults to 512K; temporary admin video sources need 512 MiB.
+      BODY_SIZE_LIMIT: ${BODY_SIZE_LIMIT:-536870912}
 
       # Embedded PocketBase Settings
       POCKETBASE_EMBEDDED: "true"
